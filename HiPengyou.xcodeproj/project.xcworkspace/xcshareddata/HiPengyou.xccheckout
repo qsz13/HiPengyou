@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B7C07692-614E-4A7B-B2ED-E961967D85BE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>HiPengyou</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>1AF4F995-7D0F-4AFD-B38A-7E1BB6CD99FA</key>
+		<string>https://github.com/qsz13/HiPengyou.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>HiPengyou.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>1AF4F995-7D0F-4AFD-B38A-7E1BB6CD99FA</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/qsz13/HiPengyou.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>1AF4F995-7D0F-4AFD-B38A-7E1BB6CD99FA</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1AF4F995-7D0F-4AFD-B38A-7E1BB6CD99FA</string>
+			<key>IDESourceControlWCCName</key>
+			<string>HiPengyou</string>
+		</dict>
+	</array>
+</dict>
+</plist>

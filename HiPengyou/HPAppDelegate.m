@@ -7,15 +7,34 @@
 //
 
 #import "HPAppDelegate.h"
-
+#import "HPLoginViewController.h"
+#import "HPMessageViewController.h"
+#import "HPProfileViewController.h"
 @implementation HPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+    
+    self.tabBarController = [[UITabBarController alloc] init];
+    
+    HPMessageViewController *messageViewController = [[HPMessageViewController alloc] init];
+    HPProfileViewController *profileViewController = [[HPProfileViewController alloc] init];
+    UINavigationController *messageNavigationController = [[UINavigationController alloc] initWithRootViewController:messageViewController];
+    UINavigationController *profileNavigationController = [[UINavigationController alloc] initWithRootViewController:profileViewController];
+    
+    self.tabBarController.viewControllers = @[messageNavigationController, profileNavigationController];
+    
+    HPLoginViewController *loginViewController = [[HPLoginViewController alloc] init];
+    
+    
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    self.window.rootViewController = self.tabBarController;
+    
+    [self.tabBarController presentViewController:loginViewController animated:NO completion:nil];
+
     return YES;
 }
 

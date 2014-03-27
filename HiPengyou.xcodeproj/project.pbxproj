@@ -19,6 +19,9 @@
 		35F268A218E27EC100AC55CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688A18E27EC100AC55CD /* UIKit.framework */; };
 		35F268AA18E27EC100AC55CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35F268A818E27EC100AC55CD /* InfoPlist.strings */; };
 		35F268AC18E27EC100AC55CD /* HiPengyouTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F268AB18E27EC100AC55CD /* HiPengyouTests.m */; };
+		35F268B718E29BC200AC55CD /* HPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F268B618E29BC200AC55CD /* HPLoginViewController.m */; };
+		35F268C318E2C14B00AC55CD /* HPMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F268C218E2C14B00AC55CD /* HPMessageViewController.m */; };
+		35F268C618E2C17200AC55CD /* HPProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F268C518E2C17200AC55CD /* HPProfileViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +51,12 @@
 		35F268A718E27EC100AC55CD /* HiPengyouTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HiPengyouTests-Info.plist"; sourceTree = "<group>"; };
 		35F268A918E27EC100AC55CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		35F268AB18E27EC100AC55CD /* HiPengyouTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HiPengyouTests.m; sourceTree = "<group>"; };
+		35F268B518E29BC200AC55CD /* HPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLoginViewController.h; sourceTree = "<group>"; };
+		35F268B618E29BC200AC55CD /* HPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLoginViewController.m; sourceTree = "<group>"; };
+		35F268C118E2C14B00AC55CD /* HPMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPMessageViewController.h; sourceTree = "<group>"; };
+		35F268C218E2C14B00AC55CD /* HPMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPMessageViewController.m; sourceTree = "<group>"; };
+		35F268C418E2C17200AC55CD /* HPProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPProfileViewController.h; sourceTree = "<group>"; };
+		35F268C518E2C17200AC55CD /* HPProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPProfileViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +120,12 @@
 				35F2689618E27EC100AC55CD /* HPAppDelegate.m */,
 				35F2689818E27EC100AC55CD /* Images.xcassets */,
 				35F2688D18E27EC100AC55CD /* Supporting Files */,
+				35F268B518E29BC200AC55CD /* HPLoginViewController.h */,
+				35F268B618E29BC200AC55CD /* HPLoginViewController.m */,
+				35F268C118E2C14B00AC55CD /* HPMessageViewController.h */,
+				35F268C218E2C14B00AC55CD /* HPMessageViewController.m */,
+				35F268C418E2C17200AC55CD /* HPProfileViewController.h */,
+				35F268C518E2C17200AC55CD /* HPProfileViewController.m */,
 			);
 			path = HiPengyou;
 			sourceTree = "<group>";
@@ -240,7 +255,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35F268C318E2C14B00AC55CD /* HPMessageViewController.m in Sources */,
+				35F268C618E2C17200AC55CD /* HPProfileViewController.m in Sources */,
 				35F2689718E27EC100AC55CD /* HPAppDelegate.m in Sources */,
+				35F268B718E29BC200AC55CD /* HPLoginViewController.m in Sources */,
 				35F2689318E27EC100AC55CD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
