@@ -456,6 +456,7 @@
 				35F268B118E27EC100AC55CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		35F268B218E27EC100AC55CD /* Build configuration list for PBXNativeTarget "HiPengyouTests" */ = {
 			isa = XCConfigurationList;
@@ -464,6 +465,7 @@
 				35F268B418E27EC100AC55CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

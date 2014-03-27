@@ -74,8 +74,11 @@
 - (void)initSocialLoginButton
 {
     self.qqLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    //self.qqLoginButton setFrame:CGRectMake(CGFloat x, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>);
-    
+    [self.qqLoginButton setBackgroundImage:[UIImage imageNamed:@"HPLoginQQButton"] forState:UIControlStateNormal];
+    [self.qqLoginButton setFrame:CGRectMake(self.view.frame.size.width/2 - 130,200, 130, 132)];
+    self.qqLoginButton.layer.masksToBounds = YES;
+    [self.qqLoginButton.layer setCornerRadius:130/2];
+    //[self.view addSubview:self.qqLoginButton];
     
     
     self.fbLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -190,15 +193,26 @@
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:postData];
-    NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    [self loginResponse:response];
+   
+}
 
+- (void)loginResponse:(NSData*)response
+{
     NSError *e = nil;
     
-    NSDictionary *d =  [NSJSONSerialization JSONObjectWithData: received options: NSJSONReadingMutableContainers error: &e];
+    NSDictionary *data =  [NSJSONSerialization JSONObjectWithData: response options: NSJSONReadingMutableContainers error: &e];
+    if([[data objectForKey:@"code"] isEqualToString:@"10000"])
+    {
+        NSLog(@"aljbdvlakjsbdvlakjbsdv");
+        [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    }
     
-    NSLog(@"%@",d);
-
+    
+    
 }
+
 
 #pragma mark - Keyboard Dismiss
 
@@ -208,13 +222,16 @@
 
     if(self.keyboardOnScreen)
     {
+        //keyboard is on screen, will dismiss keyboard
         [self.passwordTextField resignFirstResponder];
         [self.usernameTextField resignFirstResponder];
     }
     else
     {
+        //keyboard not on screen
         if([self.view.subviews containsObject:self.loginFrame])
         {
+            //login frame on screen, will dismiss login frame
             [self.loginFrame removeFromSuperview];
         }
     }
@@ -256,7 +273,7 @@
 //
 //-(void)selector:(id)sender
 //{
-//    [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+//
 //}
 //- (void)didReceiveMemoryWarning
 //{
