@@ -235,7 +235,14 @@
     
     NSError *e = nil;
     
-    NSDictionary *d =  [NSJSONSerialization JSONObjectWithData: received options: NSJSONReadingMutableContainers error: &e];
+    NSDictionary *data =  [NSJSONSerialization JSONObjectWithData: response options: NSJSONReadingMutableContainers error: &e];
+    if([[data objectForKey:@"code"] isEqualToString:@"10000"])
+    {
+        NSLog(@"aljbdvlakjsbdvlakjbsdv");
+        [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+    
     
     NSLog(@"%@",d);
     
@@ -244,11 +251,13 @@
     }
 }
 
+
 #pragma mark - Keyboard Dismiss
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if (self.keyboardOnScreen)
     {
+        //keyboard is on screen, will dismiss keyboard
         [self.passwordTextField resignFirstResponder];
         [self.usernameTextField resignFirstResponder];
     }
@@ -256,6 +265,7 @@
     {
         if ([self.view.subviews containsObject:self.loginFrame])
         {
+            //login frame on screen, will dismiss login frame
             [self.loginFrame removeFromSuperview];
             
         }
@@ -337,7 +347,7 @@
 //
 //-(void)selector:(id)sender
 //{
-//    [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+//
 //}
 //- (void)didReceiveMemoryWarning
 //{
