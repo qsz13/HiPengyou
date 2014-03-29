@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 201E96BF18E6D63900F5A907 /* UIView+Resize.m */; };
 		35F2688718E27EC100AC55CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688618E27EC100AC55CD /* Foundation.framework */; };
 		35F2688918E27EC100AC55CD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688818E27EC100AC55CD /* CoreGraphics.framework */; };
 		35F2688B18E27EC100AC55CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688A18E27EC100AC55CD /* UIKit.framework */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		201E96BE18E6D63900F5A907 /* UIView+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Resize.h"; sourceTree = "<group>"; };
+		201E96BF18E6D63900F5A907 /* UIView+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Resize.m"; sourceTree = "<group>"; };
 		35F2688318E27EC100AC55CD /* HiPengyou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiPengyou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35F2688618E27EC100AC55CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		35F2688818E27EC100AC55CD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -83,6 +86,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		201E96BB18E6D56C00F5A907 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				201E96BE18E6D63900F5A907 /* UIView+Resize.h */,
+				201E96BF18E6D63900F5A907 /* UIView+Resize.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		201E96BD18E6D58B00F5A907 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				35F268B518E29BC200AC55CD /* HPLoginViewController.h */,
+				35F268B618E29BC200AC55CD /* HPLoginViewController.m */,
+				35F268C118E2C14B00AC55CD /* HPMessageViewController.h */,
+				35F268C218E2C14B00AC55CD /* HPMessageViewController.m */,
+				35F268C418E2C17200AC55CD /* HPProfileViewController.h */,
+				35F268C518E2C17200AC55CD /* HPProfileViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		35F2687A18E27EC100AC55CD = {
 			isa = PBXGroup;
 			children = (
@@ -116,16 +141,12 @@
 		35F2688C18E27EC100AC55CD /* HiPengyou */ = {
 			isa = PBXGroup;
 			children = (
+				201E96BB18E6D56C00F5A907 /* Categories */,
+				201E96BD18E6D58B00F5A907 /* ViewControllers */,
+				35F2688D18E27EC100AC55CD /* Supporting Files */,
 				35F2689518E27EC100AC55CD /* HPAppDelegate.h */,
 				35F2689618E27EC100AC55CD /* HPAppDelegate.m */,
 				35F2689818E27EC100AC55CD /* Images.xcassets */,
-				35F2688D18E27EC100AC55CD /* Supporting Files */,
-				35F268B518E29BC200AC55CD /* HPLoginViewController.h */,
-				35F268B618E29BC200AC55CD /* HPLoginViewController.m */,
-				35F268C118E2C14B00AC55CD /* HPMessageViewController.h */,
-				35F268C218E2C14B00AC55CD /* HPMessageViewController.m */,
-				35F268C418E2C17200AC55CD /* HPProfileViewController.h */,
-				35F268C518E2C17200AC55CD /* HPProfileViewController.m */,
 			);
 			path = HiPengyou;
 			sourceTree = "<group>";
@@ -255,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */,
 				35F268C318E2C14B00AC55CD /* HPMessageViewController.m in Sources */,
 				35F268C618E2C17200AC55CD /* HPProfileViewController.m in Sources */,
 				35F2689718E27EC100AC55CD /* HPAppDelegate.m in Sources */,
@@ -379,6 +401,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPengyou/HiPengyou-Prefix.pch";
 				INFOPLIST_FILE = "HiPengyou/HiPengyou-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -392,6 +415,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPengyou/HiPengyou-Prefix.pch";
 				INFOPLIST_FILE = "HiPengyou/HiPengyou-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -456,6 +480,7 @@
 				35F268B118E27EC100AC55CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		35F268B218E27EC100AC55CD /* Build configuration list for PBXNativeTarget "HiPengyouTests" */ = {
 			isa = XCConfigurationList;
@@ -464,6 +489,7 @@
 				35F268B418E27EC100AC55CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

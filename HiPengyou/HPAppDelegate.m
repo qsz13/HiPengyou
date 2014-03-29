@@ -15,8 +15,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+
     self.tabBarController = [[UITabBarController alloc] init];
+    [self.tabBarController.view setBackgroundColor:[UIColor clearColor]];
     
     HPMessageViewController *messageViewController = [[HPMessageViewController alloc] init];
     HPProfileViewController *profileViewController = [[HPProfileViewController alloc] init];
@@ -26,10 +27,12 @@
     self.tabBarController.viewControllers = @[messageNavigationController, profileNavigationController];
     
     HPLoginViewController *loginViewController = [[HPLoginViewController alloc] init];
-    
-    
-    
-    self.window.backgroundColor = [UIColor whiteColor];
+
+    // Set window background color
+    [self.window setBackgroundColor:[UIColor colorWithRed:49.0f / 225.0f
+                                                    green:188.0f / 255.0f
+                                                     blue:234.0f / 255.0f
+                                                    alpha:1]];
     [self.window makeKeyAndVisible];
     self.window.rootViewController = self.tabBarController;
     
