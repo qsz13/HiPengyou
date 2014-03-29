@@ -231,8 +231,12 @@
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:postData];
-    NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    
+    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    [self loginResponse:response];
+}
+
+- (void)loginResponse:(NSData*)response
+{
     NSError *e = nil;
     
     NSDictionary *data =  [NSJSONSerialization JSONObjectWithData: response options: NSJSONReadingMutableContainers error: &e];
@@ -240,14 +244,6 @@
     {
         NSLog(@"aljbdvlakjsbdvlakjbsdv");
         [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-    }
-    
-    
-    
-    NSLog(@"%@",d);
-    
-    if ([[d objectForKey:@"code"] isEqualToString:@"10000"]) {
-        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
