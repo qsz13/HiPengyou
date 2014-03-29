@@ -42,11 +42,10 @@
 #pragma mark - UI Method
 -(void)initView
 {
-//    [self.view setBackgroundColor:[UIColor colorWithRed:49.0f / 225.0f
-//                                                  green:188.0f / 255.0f
-//                                                   blue:234.0f / 255.0f
-//                                                  alpha:1]];
-    [self.view setBackgroundColor:[UIColor clearColor]];
+    [self.view setBackgroundColor:[UIColor colorWithRed:49.0f / 225.0f
+                                                  green:188.0f / 255.0f
+                                                   blue:234.0f / 255.0f
+                                                  alpha:1]];
 }
 
 -(void)initLogo
@@ -61,22 +60,35 @@
 
 - (void)initLabel
 {
-    // CGSize size = CGSizeMake(200, 50);
     self.socialAccountLabel = [[UILabel alloc] init];
-    [self.socialAccountLabel setFrame:CGRectMake(0, self.view.frame.size.height * 0.3, 200, 30)];
-    [self.socialAccountLabel setFont:[UIFont systemFontOfSize:13]];
-    [self.socialAccountLabel setText:@"Login with social account"];
     
-    self.socialAccountLabel.numberOfLines = 0;
+    // Autoresize
+    [self.socialAccountLabel resetSize:CGSizeMake(200, 30)];
+    self.socialAccountLabel.numberOfLines = 1;
+    [self.socialAccountLabel setText:@"Login with social account"];
     [self.socialAccountLabel sizeToFit];
-    [self.socialAccountLabel setFrame:CGRectMake((self.view.frame.size.width - self.socialAccountLabel.frame.size.width) / 2, self.view.frame.size.height * 0.3, 200, 30)];
+    
+    // Set style
+    [self.socialAccountLabel setFont:[UIFont systemFontOfSize:13]];
     [self.socialAccountLabel setTextColor:[UIColor whiteColor]];
+    [self.socialAccountLabel setTextAlignment:NSTextAlignmentCenter];
+    
+    // Reset origin
+    [self.socialAccountLabel resetOrigin:CGPointMake(([self.view getWidth] - [self.socialAccountLabel getWidth]) / 2, [self.view getHeight] * 0.3)];
+    [self.socialAccountLabel setFrame:CGRectMake((self.view.frame.size.width - self.socialAccountLabel.frame.size.width) / 2, self.view.frame.size.height * 0.3, 200, 30)];
+    
+    // Add to subview
     [self.view addSubview: self.socialAccountLabel];
     
 }
 
 - (void)initSocialLoginButton
 {
+    UIView *socialLoginButtonView = [[UIView alloc] init];
+    [socialLoginButtonView resetSize:CGSizeMake(65 * 2 + 25, 66)];
+    [socialLoginButtonView resetCenter:CGPointMake([self.socialAccountLabel getCenterX], [self.socialAccountLabel getCenterY] + 66 / 2 + 15)];
+    
+    // Set button type
     self.qqLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.fbLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
@@ -85,12 +97,16 @@
     [self.fbLoginButton setBackgroundImage:[UIImage imageNamed:@"HPLoginFacebookButton"] forState:UIControlStateNormal];
     
     // Set social button frame
-    [self.qqLoginButton setFrame:CGRectMake(self.socialAccountLabel.frame.origin.x - 40, self.socialAccountLabel.frame.origin.y + 50, 65, 66)];
-    [self.fbLoginButton setFrame:CGRectMake(self.socialAccountLabel.frame.origin.x + 40, self.socialAccountLabel.frame.origin.y + 50, 65, 66)];
+    [self.qqLoginButton setFrame:CGRectMake(0, 0, 65, 66)];
+    [self.fbLoginButton setFrame:CGRectMake([self.qqLoginButton getOriginX] + [self.qqLoginButton getWidth] + 25, 0, 65, 66)];
     
-    // Add to subviews
-    [self.view addSubview:self.qqLoginButton];
-    [self.view addSubview:self.fbLoginButton];
+    
+    // Add to social login button view
+    [socialLoginButtonView addSubview:self.qqLoginButton];
+    [socialLoginButtonView addSubview:self.fbLoginButton];
+    
+    // Add to subvim
+    [self.view addSubview:socialLoginButtonView];
 }
 
 - (void)initLoginFrame
@@ -112,7 +128,7 @@
                                                 self.loginFrame.frame.size.height * 0.11,
                                                 self.loginFrame.frame.size.width * 0.9,
                                                 self.loginFrame.frame.size.height * 0.26)];
-    [self.usernameTextField setClearButtonMode:UITextFieldViewModeAlways];
+    [self.usernameTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [self.usernameTextField setClearsOnBeginEditing:YES];
     [self.usernameTextField setReturnKeyType:UIReturnKeyNext];
     [self.usernameTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
@@ -135,7 +151,7 @@
                                                 self.usernameTextField.frame.size.height + self.loginFrame.frame.size.height * 0.11 * 2,
                                                 self.loginFrame.frame.size.width * 0.9,
                                                 self.loginFrame.frame.size.height * 0.26)];
-    [self.passwordTextField setClearButtonMode:UITextFieldViewModeAlways];
+    [self.passwordTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [self.passwordTextField setClearsOnBeginEditing:YES];
     [self.passwordTextField setReturnKeyType:UIReturnKeyGo];
     self.passwordTextField.tag = self.usernameTextField.tag + 1;
@@ -150,7 +166,7 @@
     [self.passwordTextField setFont:[UIFont fontWithName:@"HelveticaNeue" size:13]];
     [self.loginFrame addSubview: self.passwordTextField];
     
-    // add observer for keyboard
+    // Add observer for keyboard
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidShow:)
                                                  name:UIKeyboardDidShowNotification
@@ -200,8 +216,16 @@
         // Get view that contains login button and register button
         UIView *buttonView = self.loginButton.superview;
         [self.loginFrame setFrame:CGRectMake([buttonView getCenterX] - 211 / 2, [buttonView getOriginY] - 110, 211, 110)];
+        self.loginFrame.alpha = 0;
         
         [self.view addSubview: self.loginFrame];
+        
+        // Animation
+        NSTimeInterval animationDuration = 0.30f;
+        [UIView beginAnimations:@"LoginFrameFadeIn" context:nil];
+        [UIView setAnimationDuration:animationDuration];
+        self.loginFrame.alpha = 1;
+        [UIView commitAnimations];
     }
     else
     {
@@ -223,7 +247,7 @@
     NSString *password = self.passwordTextField.text;
     
     NSData *postData = [[NSString stringWithFormat:@"name=%@&pass=%@",username,password] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:url];
@@ -235,14 +259,18 @@
     [self loginResponse:response];
 }
 
-- (void)loginResponse:(NSData*)response
+- (void)loginResponse:(NSData *)response
 {
+    // TODO
+    // no network, error, fix it
+    
     NSError *e = nil;
     
-    NSDictionary *data =  [NSJSONSerialization JSONObjectWithData: response options: NSJSONReadingMutableContainers error: &e];
+    NSDictionary *data =  [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableContainers error:&e];
     if([[data objectForKey:@"code"] isEqualToString:@"10000"])
     {
-        NSLog(@"aljbdvlakjsbdvlakjbsdv");
+        NSLog(@"Login success!");
+        NSLog(@"%@", data);
         [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
@@ -253,7 +281,7 @@
 {
     if (self.keyboardOnScreen)
     {
-        //keyboard is on screen, will dismiss keyboard
+        // Keyboard is on screen, will dismiss keyboard
         [self.passwordTextField resignFirstResponder];
         [self.usernameTextField resignFirstResponder];
     }
@@ -261,11 +289,27 @@
     {
         if ([self.view.subviews containsObject:self.loginFrame])
         {
-            //login frame on screen, will dismiss login frame
-            [self.loginFrame removeFromSuperview];
+            // Login frame on screen, will dismiss login frame
+            // Animation
+            NSTimeInterval animationDuration = 0.30f;
+            [UIView beginAnimations:@"LoginFrameFadeOut" context:nil];
+            [UIView setAnimationDuration:animationDuration];
+            [UIView setAnimationDelegate:self];
+            [UIView setAnimationDidStopSelector:@selector(removeLoginFrameFromSuperview)];
+            self.loginFrame.alpha = 0;
+            [UIView commitAnimations];
             
+            // Clean text field
+            [self.usernameTextField setText:@""];
+            [self.passwordTextField setText:@""];
+            
+//            [self.loginFrame removeFromSuperview];
         }
     }
+}
+
+- (void)removeLoginFrameFromSuperview {
+    [self.loginFrame removeFromSuperview];
 }
 
 - (void)keyboardDidShow:(NSNotification *)notification
@@ -284,6 +328,8 @@
     [UIView setAnimationDuration:animationDuration];
     [buttonView resetOriginY:targetY];
     [self.loginFrame resetOriginY:targetY - [self.loginFrame getHeight]];
+    self.socialAccountLabel.alpha = 0;
+    self.qqLoginButton.superview.alpha = 0;
     [UIView commitAnimations];
 }
 
@@ -299,6 +345,8 @@
     [UIView setAnimationDuration:animationDuration];
     [buttonView resetOriginY:[self.view getHeight] * 0.7];
     [self.loginFrame resetOriginY:[buttonView getOriginY] - [self.loginFrame getHeight]];
+    self.socialAccountLabel.alpha = 1;
+    self.qqLoginButton.superview.alpha = 1;
     [UIView commitAnimations];
 }
 
