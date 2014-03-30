@@ -10,6 +10,7 @@
 #import "HPLoginViewController.h"
 #import "HPMessageViewController.h"
 #import "HPProfileViewController.h"
+#import "HPRootTabBarController.h"
 
 @implementation HPAppDelegate
 
@@ -17,7 +18,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    self.tabBarController = [[UITabBarController alloc] init];
+    self.tabBarController = [[HPRootTabBarController alloc] init];
     [self.tabBarController.view setBackgroundColor:[UIColor clearColor]];
     
     HPMessageViewController *messageViewController = [[HPMessageViewController alloc] init];
@@ -36,8 +37,13 @@
                                                     alpha:1]];
     [self.window makeKeyAndVisible];
     self.window.rootViewController = self.tabBarController;
+    NSLog(@"!!!!");
+     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if(![userDefaults boolForKey:@"isLoggedIn"]){
+        NSLog(@"not log");
+        [self.tabBarController presentViewController:loginViewController animated:NO completion:nil];
+    }
     
-    [self.tabBarController presentViewController:loginViewController animated:NO completion:nil];
 
     return YES;
 }

@@ -8,6 +8,7 @@
 
 #import "HPLoginViewController.h"
 #import "UIView+Resize.h"
+#import "HPLoginType.h"
 
 @interface HPLoginViewController ()
 
@@ -41,7 +42,10 @@
     [self initButton];
     [self initLoginFrame];
     [self initTencent];
+    
 }
+
+
 
 #pragma mark - UI Method
 -(void)initView
@@ -259,6 +263,40 @@
 
 
 #pragma mark - Login
+
+// init Tencent OAuth
+- (void)initTencent
+{
+    NSString *appid = @"100529471";
+    self.tencentOAuth = [[TencentOAuth alloc]initWithAppId:appid andDelegate:self];
+}
+
+//save login infomation to user default
+- (void)saveLoginState:(LoginType)loginType loginData:(id)loginData
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:YES forKey:@"isLoggedIn"];
+    if(loginType == hiAccount)
+    {
+        NSDictionary *hiAccountLoginData = (NSDictionary *)loginData;
+        [userDefaults setObject:hiAccountLoginData[@"id"] forKey:@"id"];
+    }
+    else if(loginType == qq)
+    {
+        TencentOAuth *qqOAuth = (TencentOAuth*)loginData;
+        [userDefaults setObject:[qqOAuth accessToken] forKey:@"qqAccessToken"];
+        [userDefaults setObject:[qqOAuth openId] forKey:@"qqOpenId"];
+        [userDefaults setObject:[qqOAuth expirationDate] forKey:@"qqExpirationDate"];
+    }
+    else if(loginType == facebook)
+    {
+        
+    }
+    [userDefaults synchronize];
+    
+}
+
+//hi account login request
 - (void)loginRequest
 {
     NSURL *url = [[NSURL alloc] initWithString:@"http://quickycard.com:8001/index/login"];
@@ -297,31 +335,43 @@
         
 
         [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            
+            //connection successed
             if([data length] > 0 && connectionError == nil)
             {
                 NSError *e = nil;
                 
                 NSDictionary *dataDict =  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-                
+                //login successed
                 if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
                 {
+                    NSDictionary *hiAccountLoginData = @{
+                                                         @"id":[dataDict objectForKey:@"id"],
+                                                         @"sid":[dataDict objectForKey:@"sid"],
+
+                                                         };
+                    [self saveLoginState:hiAccount loginData:hiAccountLoginData];
+                    //dismiss login view
                     [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
                 }
+                //login failed
                 else if([[dataDict objectForKey:@"code"] isEqualToString:@"14011"])
                 {
                     self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"seems like your username/password is incorrect." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [self.loginFailedAlertView show];
                 }
             }
+            //connection failed
             else if (connectionError != nil)
             {
                 self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [self.loginFailedAlertView show];
                 
             }
+            //unknow error
             else
             {
                 self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [self.loginFailedAlertView show];
             }
             
 
@@ -332,6 +382,41 @@
     
 }
 
+//qq did login
+- (void)tencentDidLogin
+{
+    [self saveLoginState:qq loginData:self.tencentOAuth];
+    
+    //
+    [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    
+    NSLog(@"login");
+    
+}
+
+//qq did not login
+- (void)tencentDidNotLogin:(BOOL)cancelled
+{
+    if(cancelled == YES)
+    {
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"login failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.loginFailedAlertView show];
+    }
+    else
+    {
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"login cancelled." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.loginFailedAlertView show];
+    }
+    
+}
+
+//qq network error
+- (void)tencentDidNotNetWork
+{
+    self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [self.loginFailedAlertView show];
+}
 
 #pragma mark - Keyboard Dismiss
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -364,7 +449,8 @@
     }
 }
 
-- (void)removeLoginFrameFromSuperview {
+- (void)removeLoginFrameFromSuperview
+{
     [self.loginFrame removeFromSuperview];
 }
 
@@ -421,51 +507,9 @@
     return NO;
 }
 
-- (void)initTencent
-{
-    NSString *appid = @"100529471";
-    self.tencentOAuth = [[TencentOAuth alloc]initWithAppId:appid andDelegate:self];
-    
-}
-/**
- * 登录成功后的回调
- */
-- (void)tencentDidLogin
-{
-    NSLog(@"login");
-    
-}
-
-/**
- * 登录失败后的回调
- * \param cancelled 代表用户是否主动退出登录
- */
-- (void)tencentDidNotLogin:(BOOL)cancelled
-{
-     NSLog(@"sdfhj");
-}
-
-/**
- * 登录时网络有问题的回调
- */
-- (void)tencentDidNotNetWork
-{
-     NSLog(@"alksdfhj");
-}
 
 
-//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-//{
-//    float height = 216.0;
-//    CGRect frame = self.view.frame;
-//    frame.size = CGSizeMake(frame.size.width, frame.size.height - height);
-//    [UIView beginAnimations:@"Curl"context:nil];//动画开始
-//    [UIView setAnimationDuration:0.30];
-//    [UIView setAnimationDelegate:self];
-//    [self.view setFrame:frame];
-//    [UIView commitAnimations];
-//    return YES;
-//}
+
 
 
 

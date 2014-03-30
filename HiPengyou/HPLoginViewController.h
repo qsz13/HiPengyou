@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <TencentOpenAPI/TencentOAuth.h>
+
 @interface HPLoginViewController : UIViewController<UITextFieldDelegate, UIAlertViewDelegate, TencentSessionDelegate>
+
 
 @end
