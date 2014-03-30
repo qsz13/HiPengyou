@@ -42,10 +42,7 @@
     [self initButton];
     [self initLoginFrame];
     [self initTencent];
-    
 }
-
-
 
 #pragma mark - UI Method
 -(void)initView
@@ -263,15 +260,14 @@
 
 
 #pragma mark - Login
-
-// init Tencent OAuth
+// Init Tencent OAuth
 - (void)initTencent
 {
     NSString *appid = @"100529471";
     self.tencentOAuth = [[TencentOAuth alloc]initWithAppId:appid andDelegate:self];
 }
 
-//save login infomation to user default
+// Save login infomation to user default
 - (void)saveLoginState:(LoginType)loginType loginData:(id)loginData
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -296,7 +292,7 @@
     
 }
 
-//hi account login request
+// HiAccount login request
 - (void)loginRequest
 {
     NSURL *url = [[NSURL alloc] initWithString:@"http://quickycard.com:8001/index/login"];
@@ -306,83 +302,99 @@
     
     if([username isEqualToString:@""])
     {
-        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"please fill in you username." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.."
+                                                              message:@"please fill in you username."
+                                                             delegate:self
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
         [self.loginFailedAlertView show];
     }
     else if([password isEqualToString:@""])
     {
-        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"please fill in you password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.."
+                                                              message:@"please fill in you password."
+                                                             delegate:self
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
         [self.loginFailedAlertView show];
-
     }
     else if([password isEqualToString:@""] && [password isEqualToString:@""])
     {
-        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"please fill in you username and password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.."
+                                                              message:@"please fill in you username and password."
+                                                             delegate:self
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
         [self.loginFailedAlertView show];
-
     }
     else
     {
         NSData *postData = [[NSString stringWithFormat:@"name=%@&pass=%@",username,password] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
         NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
-        
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:url];
         [request setHTTPMethod:@"POST"];
         [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
         [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:postData];
-        
 
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            //connection successed
-            if([data length] > 0 && connectionError == nil)
-            {
-                NSError *e = nil;
-                
-                NSDictionary *dataDict =  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-                //login successed
-                if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
-                {
-                    NSDictionary *hiAccountLoginData = @{
-                                                         @"id":[dataDict objectForKey:@"id"],
-                                                         @"sid":[dataDict objectForKey:@"sid"],
-
-                                                         };
-                    [self saveLoginState:hiAccount loginData:hiAccountLoginData];
-                    //dismiss login view
-                    [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-                }
-                //login failed
-                else if([[dataDict objectForKey:@"code"] isEqualToString:@"14011"])
-                {
-                    self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"seems like your username/password is incorrect." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                    [self.loginFailedAlertView show];
-                }
-            }
-            //connection failed
-            else if (connectionError != nil)
-            {
-                self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [self.loginFailedAlertView show];
-                
-            }
-            //unknow error
-            else
-            {
-                self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [self.loginFailedAlertView show];
-            }
-            
-
-        }];
-
-
+        [NSURLConnection sendAsynchronousRequest:request
+                                           queue:[NSOperationQueue mainQueue]
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                                    //connection successed
+                                    if([data length] > 0 && connectionError == nil)
+                                    {
+                                        NSError *e = nil;
+                                        NSDictionary *dataDict =  [NSJSONSerialization JSONObjectWithData:data
+                                                                                                  options:NSJSONReadingMutableContainers error:&e];
+                                        //login successed
+                                        if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+                                        {
+                                            NSDictionary *hiAccountLoginData = @{
+                                                                                 @"id": [dataDict objectForKey:@"id"],
+                                                                                 @"sid": [dataDict objectForKey:@"sid"],
+                                                                                 };
+                                            [self saveLoginState:hiAccount loginData:hiAccountLoginData];
+                                            //dismiss login view
+                                            [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+                                        }
+                                        //login failed
+                                        else if([[dataDict objectForKey:@"code"] isEqualToString:@"14011"])
+                                        {
+                                            self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.."
+                                                                                                  message:@"seems like your username/password is incorrect."
+                                                                                                 delegate:self
+                                                                                        cancelButtonTitle:@"OK"
+                                                                                        otherButtonTitles:nil];
+                                            [self.loginFailedAlertView show];
+                                        }
+                                    }
+                                    //connection failed
+                                    else if (connectionError != nil)
+                                    {
+                                        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.."
+                                                                                              message:@"connection error."
+                                                                                             delegate:self
+                                                                                    cancelButtonTitle:@"OK"
+                                                                                    otherButtonTitles:nil];
+                                        [self.loginFailedAlertView show];
+                                        
+                                    }
+                                    //unknow error
+                                    else
+                                    {
+                                        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.."
+                                                                                              message:@"something wrong..."
+                                                                                             delegate:self
+                                                                                    cancelButtonTitle:@"OK"
+                                                                                    otherButtonTitles:nil];
+                                        [self.loginFailedAlertView show];
+                                    }
+                                }];
     }
-    
 }
 
-//qq did login
+// QQ did login
 - (void)tencentDidLogin
 {
     [self saveLoginState:qq loginData:self.tencentOAuth];
@@ -390,12 +402,10 @@
     //
     [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
     
-    
     NSLog(@"login");
-    
 }
 
-//qq did not login
+// QQ did not login
 - (void)tencentDidNotLogin:(BOOL)cancelled
 {
     if(cancelled == YES)
@@ -411,7 +421,7 @@
     
 }
 
-//qq network error
+// QQ network error
 - (void)tencentDidNotNetWork
 {
     self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
