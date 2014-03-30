@@ -81,7 +81,7 @@
     [self.socialAccountLabel setTextColor:[UIColor whiteColor]];
     [self.socialAccountLabel setTextAlignment:NSTextAlignmentCenter];
     [self.socialAccountLabel setBackgroundColor:[UIColor clearColor]];
-    NSLog(@"%f,%f",[self.view getHeight],[self.view getWidth]);
+    
     // Reset origin
     if(([self.view getHeight] / [self.view getWidth]) < 1.6f)
     {
@@ -274,12 +274,13 @@
 //save login infomation to user default
 - (void)saveLoginState:(LoginType)loginType loginData:(id)loginData
 {
+
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:YES forKey:@"isLoggedIn"];
     if(loginType == hiAccount)
     {
         NSDictionary *hiAccountLoginData = (NSDictionary *)loginData;
-        [userDefaults setObject:hiAccountLoginData[@"id"] forKey:@"id"];
+        //[userDefaults setObject:hiAccountLoginData[@"id"] forKey:@"id"];
     }
     else if(loginType == qq)
     {
@@ -339,14 +340,15 @@
             if([data length] > 0 && connectionError == nil)
             {
                 NSError *e = nil;
-                
-                NSDictionary *dataDict =  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+                NSLog(@"login success");
+                NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+                NSDictionary *userDict = [[dataDict objectForKey:@"result"] objectForKey:@"Customer"];
                 //login successed
                 if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
                 {
                     NSDictionary *hiAccountLoginData = @{
-                                                         @"id":[dataDict objectForKey:@"id"],
-                                                         @"sid":[dataDict objectForKey:@"sid"],
+                                                         @"id":[userDict objectForKey:@"id"],
+                                                         @"sid":[userDict objectForKey:@"sid"],
 
                                                          };
                     [self saveLoginState:hiAccount loginData:hiAccountLoginData];
@@ -386,12 +388,8 @@
 - (void)tencentDidLogin
 {
     [self saveLoginState:qq loginData:self.tencentOAuth];
-    
-    //
+
     [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-    
-    
-    NSLog(@"login");
     
 }
 
