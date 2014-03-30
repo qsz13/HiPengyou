@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <TencentOpenAPI/TencentOAuth.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface HPLoginViewController : UIViewController<UITextFieldDelegate, UIAlertViewDelegate, TencentSessionDelegate>
 
