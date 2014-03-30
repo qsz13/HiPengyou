@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 201E96BF18E6D63900F5A907 /* UIView+Resize.m */; };
+		354E1AB818E7C6DD007F2DF4 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AB718E7C6DD007F2DF4 /* TencentOpenAPI.framework */; };
+		354E1ABA18E7C79D007F2DF4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AB918E7C79D007F2DF4 /* Security.framework */; };
+		354E1ABC18E7C7A9007F2DF4 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */; };
+		354E1ABE18E7C7B4007F2DF4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */; };
+		354E1AC018E7C7CB007F2DF4 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABF18E7C7CB007F2DF4 /* libsqlite3.dylib */; };
+		354E1AC218E7C7D3007F2DF4 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AC118E7C7D3007F2DF4 /* CoreTelephony.framework */; };
+		354E1AC418E7C7DE007F2DF4 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AC318E7C7DE007F2DF4 /* libstdc++.dylib */; };
+		354E1AC618E7C7E6007F2DF4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AC518E7C7E6007F2DF4 /* libz.dylib */; };
+		354E1AC818E7C825007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 354E1AC718E7C825007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */; };
+		357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 357D7D8D18E70F53002A3166 /* HiPengyou.xcdatamodeld */; };
 		35F2688718E27EC100AC55CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688618E27EC100AC55CD /* Foundation.framework */; };
 		35F2688918E27EC100AC55CD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688818E27EC100AC55CD /* CoreGraphics.framework */; };
 		35F2688B18E27EC100AC55CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688A18E27EC100AC55CD /* UIKit.framework */; };
@@ -38,6 +48,16 @@
 /* Begin PBXFileReference section */
 		201E96BE18E6D63900F5A907 /* UIView+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Resize.h"; sourceTree = "<group>"; };
 		201E96BF18E6D63900F5A907 /* UIView+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Resize.m"; sourceTree = "<group>"; };
+		354E1AB718E7C6DD007F2DF4 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = HiPengyou/TencentOpenAPI.framework; sourceTree = "<group>"; };
+		354E1AB918E7C79D007F2DF4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		354E1ABF18E7C7CB007F2DF4 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		354E1AC118E7C7D3007F2DF4 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		354E1AC318E7C7DE007F2DF4 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		354E1AC518E7C7E6007F2DF4 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		354E1AC718E7C825007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		357D7D8E18E70F53002A3166 /* HiPengyou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HiPengyou.xcdatamodel; sourceTree = "<group>"; };
 		35F2688318E27EC100AC55CD /* HiPengyou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiPengyou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35F2688618E27EC100AC55CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		35F2688818E27EC100AC55CD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -67,7 +87,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				354E1AC618E7C7E6007F2DF4 /* libz.dylib in Frameworks */,
+				354E1AC418E7C7DE007F2DF4 /* libstdc++.dylib in Frameworks */,
+				354E1AC218E7C7D3007F2DF4 /* CoreTelephony.framework in Frameworks */,
+				354E1AC018E7C7CB007F2DF4 /* libsqlite3.dylib in Frameworks */,
+				354E1ABE18E7C7B4007F2DF4 /* SystemConfiguration.framework in Frameworks */,
+				354E1ABC18E7C7A9007F2DF4 /* libiconv.dylib in Frameworks */,
+				354E1ABA18E7C79D007F2DF4 /* Security.framework in Frameworks */,
 				35F2688918E27EC100AC55CD /* CoreGraphics.framework in Frameworks */,
+				354E1AB818E7C6DD007F2DF4 /* TencentOpenAPI.framework in Frameworks */,
 				35F2688B18E27EC100AC55CD /* UIKit.framework in Frameworks */,
 				35F2688718E27EC100AC55CD /* Foundation.framework in Frameworks */,
 			);
@@ -108,6 +136,22 @@
 			name = ViewControllers;
 			sourceTree = "<group>";
 		};
+		354E1AC918E7CC8A007F2DF4 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				354E1AC718E7C825007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
+		357D7D8C18E70E7F002A3166 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				357D7D8D18E70F53002A3166 /* HiPengyou.xcdatamodeld */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
 		35F2687A18E27EC100AC55CD = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +174,14 @@
 		35F2688518E27EC100AC55CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				354E1AC518E7C7E6007F2DF4 /* libz.dylib */,
+				354E1AC318E7C7DE007F2DF4 /* libstdc++.dylib */,
+				354E1AC118E7C7D3007F2DF4 /* CoreTelephony.framework */,
+				354E1ABF18E7C7CB007F2DF4 /* libsqlite3.dylib */,
+				354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */,
+				354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */,
+				354E1AB918E7C79D007F2DF4 /* Security.framework */,
+				354E1AB718E7C6DD007F2DF4 /* TencentOpenAPI.framework */,
 				35F2688618E27EC100AC55CD /* Foundation.framework */,
 				35F2688818E27EC100AC55CD /* CoreGraphics.framework */,
 				35F2688A18E27EC100AC55CD /* UIKit.framework */,
@@ -141,12 +193,14 @@
 		35F2688C18E27EC100AC55CD /* HiPengyou */ = {
 			isa = PBXGroup;
 			children = (
+				357D7D8C18E70E7F002A3166 /* CoreData */,
 				201E96BB18E6D56C00F5A907 /* Categories */,
 				201E96BD18E6D58B00F5A907 /* ViewControllers */,
 				35F2688D18E27EC100AC55CD /* Supporting Files */,
+				354E1AC918E7CC8A007F2DF4 /* Resource */,
+				35F2689818E27EC100AC55CD /* Images.xcassets */,
 				35F2689518E27EC100AC55CD /* HPAppDelegate.h */,
 				35F2689618E27EC100AC55CD /* HPAppDelegate.m */,
-				35F2689818E27EC100AC55CD /* Images.xcassets */,
 			);
 			path = HiPengyou;
 			sourceTree = "<group>";
@@ -256,6 +310,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				354E1AC818E7C825007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				35F2689118E27EC100AC55CD /* InfoPlist.strings in Resources */,
 				35F2689918E27EC100AC55CD /* Images.xcassets in Resources */,
 			);
@@ -278,6 +333,7 @@
 			files = (
 				201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */,
 				35F268C318E2C14B00AC55CD /* HPMessageViewController.m in Sources */,
+				357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */,
 				35F268C618E2C17200AC55CD /* HPProfileViewController.m in Sources */,
 				35F2689718E27EC100AC55CD /* HPAppDelegate.m in Sources */,
 				35F268B718E29BC200AC55CD /* HPLoginViewController.m in Sources */,
@@ -398,11 +454,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hongming Zhu (H5SJ56Z88P)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HiPengyou",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPengyou/HiPengyou-Prefix.pch";
 				INFOPLIST_FILE = "HiPengyou/HiPengyou-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "-fobjc-arc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5981D3E2-14DD-419A-A6C1-D48C88B12E28";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -412,11 +475,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hongming Zhu (H5SJ56Z88P)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HiPengyou",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPengyou/HiPengyou-Prefix.pch";
 				INFOPLIST_FILE = "HiPengyou/HiPengyou-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "-fobjc-arc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5981D3E2-14DD-419A-A6C1-D48C88B12E28";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -492,6 +562,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		357D7D8D18E70F53002A3166 /* HiPengyou.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				357D7D8E18E70F53002A3166 /* HiPengyou.xcdatamodel */,
+			);
+			currentVersion = 357D7D8E18E70F53002A3166 /* HiPengyou.xcdatamodel */;
+			path = HiPengyou.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 35F2687B18E27EC100AC55CD /* Project object */;
 }

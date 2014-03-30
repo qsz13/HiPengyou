@@ -20,7 +20,10 @@
 @property (strong, atomic) UIButton *qqLoginButton;
 @property (strong, atomic) UIButton *fbLoginButton;
 @property (strong, atomic) UILabel *socialAccountLabel;
-
+@property (strong, atomic) UIAlertView *loginFailedAlertView;
+@property (strong, atomic) UIView *socialLoginButtonView;
+@property (strong, atomic) TencentOAuth *tencentOAuth;
+@property (strong, atomic) NSArray *qqPermission;
 @property BOOL keyboardOnScreen;
 
 @end
@@ -37,6 +40,7 @@
     [self initSocialLoginButton];
     [self initButton];
     [self initLoginFrame];
+    [self initTencent];
 }
 
 #pragma mark - UI Method
@@ -72,10 +76,18 @@
     [self.socialAccountLabel setFont:[UIFont systemFontOfSize:13]];
     [self.socialAccountLabel setTextColor:[UIColor whiteColor]];
     [self.socialAccountLabel setTextAlignment:NSTextAlignmentCenter];
-    
+    [self.socialAccountLabel setBackgroundColor:[UIColor clearColor]];
+    NSLog(@"%f,%f",[self.view getHeight],[self.view getWidth]);
     // Reset origin
-    [self.socialAccountLabel resetOrigin:CGPointMake(([self.view getWidth] - [self.socialAccountLabel getWidth]) / 2, [self.view getHeight] * 0.3)];
-    [self.socialAccountLabel setFrame:CGRectMake((self.view.frame.size.width - self.socialAccountLabel.frame.size.width) / 2, self.view.frame.size.height * 0.3, 200, 30)];
+    if(([self.view getHeight] / [self.view getWidth]) < 1.6f)
+    {
+        [self.socialAccountLabel resetOrigin:CGPointMake(([self.view getWidth] - [self.socialAccountLabel getWidth]) / 2, [self.view getHeight] * 0.3-20)];
+    }
+    else
+    {
+        [self.socialAccountLabel resetOrigin:CGPointMake(([self.view getWidth] - [self.socialAccountLabel getWidth]) / 2, [self.view getHeight] * 0.3)];
+    }
+
     
     // Add to subview
     [self.view addSubview: self.socialAccountLabel];
@@ -84,9 +96,9 @@
 
 - (void)initSocialLoginButton
 {
-    UIView *socialLoginButtonView = [[UIView alloc] init];
-    [socialLoginButtonView resetSize:CGSizeMake(65 * 2 + 25, 66)];
-    [socialLoginButtonView resetCenter:CGPointMake([self.socialAccountLabel getCenterX], [self.socialAccountLabel getCenterY] + 66 / 2 + 15)];
+    self.socialLoginButtonView = [[UIView alloc] init];
+    [self.socialLoginButtonView resetSize:CGSizeMake(65 * 2 + 25, 66)];
+    [self.socialLoginButtonView resetCenter:CGPointMake([self.socialAccountLabel getCenterX], [self.socialAccountLabel getCenterY] + 66 / 2 + 15)];
     
     // Set button type
     self.qqLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -100,19 +112,20 @@
     [self.qqLoginButton setFrame:CGRectMake(0, 0, 65, 66)];
     [self.fbLoginButton setFrame:CGRectMake([self.qqLoginButton getOriginX] + [self.qqLoginButton getWidth] + 25, 0, 65, 66)];
     
+    // Add target to button
+    [self.qqLoginButton addTarget:self action:@selector(didClickQQLoginButton) forControlEvents:UIControlEventTouchUpInside];
     
     // Add to social login button view
-    [socialLoginButtonView addSubview:self.qqLoginButton];
-    [socialLoginButtonView addSubview:self.fbLoginButton];
+    [self.socialLoginButtonView addSubview:self.qqLoginButton];
+    [self.socialLoginButtonView addSubview:self.fbLoginButton];
     
-    // Add to subvim
-    [self.view addSubview:socialLoginButtonView];
+    // Add to subview
+    [self.view addSubview:self.socialLoginButtonView];
 }
 
 - (void)initLoginFrame
 {
     self.loginFrame = [[UIView alloc] init];
-//    [self.loginFrame setFrame:CGRectMake(self.view.frame.size.width * 0.35 / 2, self.view.frame.size.height * 0.5, 211, 110)];
     
     // Get view that contains login button and register button
     UIView *buttonView = self.loginButton.superview;
@@ -238,6 +251,13 @@
     
 }
 
+- (void)didClickQQLoginButton
+{
+    self.qqPermission = @[kOPEN_PERMISSION_GET_USER_INFO];
+    [self.tencentOAuth authorize:self.qqPermission inSafari:NO];
+}
+
+
 #pragma mark - Login
 - (void)loginRequest
 {
@@ -246,33 +266,70 @@
     NSString *username = self.usernameTextField.text;
     NSString *password = self.passwordTextField.text;
     
-    NSData *postData = [[NSString stringWithFormat:@"name=%@&pass=%@",username,password] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postData];
-    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    [self loginResponse:response];
-}
-
-- (void)loginResponse:(NSData *)response
-{
-    // TODO
-    // no network, error, fix it
-    
-    NSError *e = nil;
-    
-    NSDictionary *data =  [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableContainers error:&e];
-    if([[data objectForKey:@"code"] isEqualToString:@"10000"])
+    if([username isEqualToString:@""])
     {
-        NSLog(@"Login success!");
-        NSLog(@"%@", data);
-        [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"please fill in you username." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.loginFailedAlertView show];
     }
+    else if([password isEqualToString:@""])
+    {
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"please fill in you password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.loginFailedAlertView show];
+
+    }
+    else if([password isEqualToString:@""] && [password isEqualToString:@""])
+    {
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"please fill in you username and password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.loginFailedAlertView show];
+
+    }
+    else
+    {
+        NSData *postData = [[NSString stringWithFormat:@"name=%@&pass=%@",username,password] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:postData];
+        
+
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            
+            if([data length] > 0 && connectionError == nil)
+            {
+                NSError *e = nil;
+                
+                NSDictionary *dataDict =  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+                
+                if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+                {
+                    [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+                }
+                else if([[dataDict objectForKey:@"code"] isEqualToString:@"14011"])
+                {
+                    self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"seems like your username/password is incorrect." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [self.loginFailedAlertView show];
+                }
+            }
+            else if (connectionError != nil)
+            {
+                self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                
+            }
+            else
+            {
+                self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            }
+            
+
+        }];
+
+
+    }
+    
 }
 
 
@@ -303,7 +360,6 @@
             [self.usernameTextField setText:@""];
             [self.passwordTextField setText:@""];
             
-//            [self.loginFrame removeFromSuperview];
         }
     }
 }
@@ -329,7 +385,7 @@
     [buttonView resetOriginY:targetY];
     [self.loginFrame resetOriginY:targetY - [self.loginFrame getHeight]];
     self.socialAccountLabel.alpha = 0;
-    self.qqLoginButton.superview.alpha = 0;
+    self.socialLoginButtonView.alpha = 0;
     [UIView commitAnimations];
 }
 
@@ -346,7 +402,7 @@
     [buttonView resetOriginY:[self.view getHeight] * 0.7];
     [self.loginFrame resetOriginY:[buttonView getOriginY] - [self.loginFrame getHeight]];
     self.socialAccountLabel.alpha = 1;
-    self.qqLoginButton.superview.alpha = 1;
+    self.socialLoginButtonView.alpha = 1;
     [UIView commitAnimations];
 }
 
@@ -365,6 +421,37 @@
     return NO;
 }
 
+- (void)initTencent
+{
+    NSString *appid = @"100529471";
+    self.tencentOAuth = [[TencentOAuth alloc]initWithAppId:appid andDelegate:self];
+    
+}
+/**
+ * 登录成功后的回调
+ */
+- (void)tencentDidLogin
+{
+    NSLog(@"login");
+    
+}
+
+/**
+ * 登录失败后的回调
+ * \param cancelled 代表用户是否主动退出登录
+ */
+- (void)tencentDidNotLogin:(BOOL)cancelled
+{
+     NSLog(@"sdfhj");
+}
+
+/**
+ * 登录时网络有问题的回调
+ */
+- (void)tencentDidNotNetWork
+{
+     NSLog(@"alksdfhj");
+}
 
 
 //- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
@@ -384,15 +471,6 @@
 
 
 
-
-
-
-
-//
-//-(void)selector:(id)sender
-//{
-//
-//}
 //- (void)didReceiveMemoryWarning
 //{
 //    [super didReceiveMemoryWarning];

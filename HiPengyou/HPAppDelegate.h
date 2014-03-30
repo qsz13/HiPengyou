@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <TencentOpenAPI/TencentOAuth.h>
 
 @interface HPAppDelegate : UIResponder <UIApplicationDelegate>
 
