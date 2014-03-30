@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 201E96BF18E6D63900F5A907 /* UIView+Resize.m */; };
+		20295BD218E80794001CDAEB /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20295BD118E80794001CDAEB /* FacebookSDK.framework */; };
 		354E1ABA18E7C79D007F2DF4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AB918E7C79D007F2DF4 /* Security.framework */; };
 		354E1ABC18E7C7A9007F2DF4 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */; };
 		354E1ABE18E7C7B4007F2DF4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */; };
@@ -17,7 +18,6 @@
 		354E1AC618E7C7E6007F2DF4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AC518E7C7E6007F2DF4 /* libz.dylib */; };
 		354E1AD018E7EC78007F2DF4 /* HPRootTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354E1ACF18E7EC78007F2DF4 /* HPRootTabBarController.m */; };
 		354E1AD418E7F77D007F2DF4 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AD318E7F77D007F2DF4 /* TencentOpenAPI.framework */; };
-		354E1AD618E7F7C0007F2DF4 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AD518E7F7C0007F2DF4 /* FacebookSDK.framework */; };
 		354E1AD818E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 354E1AD718E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 357D7D8D18E70F53002A3166 /* HiPengyou.xcdatamodeld */; };
 		35F2688718E27EC100AC55CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688618E27EC100AC55CD /* Foundation.framework */; };
@@ -50,6 +50,7 @@
 /* Begin PBXFileReference section */
 		201E96BE18E6D63900F5A907 /* UIView+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Resize.h"; sourceTree = "<group>"; };
 		201E96BF18E6D63900F5A907 /* UIView+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Resize.m"; sourceTree = "<group>"; };
+		20295BD118E80794001CDAEB /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = HiPengyou/External/FacebookSDK.framework; sourceTree = "<group>"; };
 		354E1AB918E7C79D007F2DF4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -93,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				354E1AD618E7F7C0007F2DF4 /* FacebookSDK.framework in Frameworks */,
+				20295BD218E80794001CDAEB /* FacebookSDK.framework in Frameworks */,
 				354E1AD418E7F77D007F2DF4 /* TencentOpenAPI.framework in Frameworks */,
 				354E1AC618E7C7E6007F2DF4 /* libz.dylib in Frameworks */,
 				354E1AC418E7C7DE007F2DF4 /* libstdc++.dylib in Frameworks */,
@@ -184,6 +185,7 @@
 		35F2688518E27EC100AC55CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				20295BD118E80794001CDAEB /* FacebookSDK.framework */,
 				354E1AD518E7F7C0007F2DF4 /* FacebookSDK.framework */,
 				354E1AD318E7F77D007F2DF4 /* TencentOpenAPI.framework */,
 				354E1AC518E7C7E6007F2DF4 /* libz.dylib */,
@@ -471,6 +473,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/HiPengyou",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/HiPengyou/External",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPengyou/HiPengyou-Prefix.pch";
@@ -496,6 +499,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/HiPengyou",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/HiPengyou/External",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPengyou/HiPengyou-Prefix.pch";
