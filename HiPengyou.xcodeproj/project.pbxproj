@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 201E96BF18E6D63900F5A907 /* UIView+Resize.m */; };
-		354E1AB818E7C6DD007F2DF4 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AB718E7C6DD007F2DF4 /* TencentOpenAPI.framework */; };
 		354E1ABA18E7C79D007F2DF4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AB918E7C79D007F2DF4 /* Security.framework */; };
 		354E1ABC18E7C7A9007F2DF4 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */; };
 		354E1ABE18E7C7B4007F2DF4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */; };
@@ -16,8 +15,10 @@
 		354E1AC218E7C7D3007F2DF4 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AC118E7C7D3007F2DF4 /* CoreTelephony.framework */; };
 		354E1AC418E7C7DE007F2DF4 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AC318E7C7DE007F2DF4 /* libstdc++.dylib */; };
 		354E1AC618E7C7E6007F2DF4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AC518E7C7E6007F2DF4 /* libz.dylib */; };
-		354E1AC818E7C825007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 354E1AC718E7C825007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		354E1AD018E7EC78007F2DF4 /* HPRootTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354E1ACF18E7EC78007F2DF4 /* HPRootTabBarController.m */; };
+		354E1AD418E7F77D007F2DF4 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AD318E7F77D007F2DF4 /* TencentOpenAPI.framework */; };
+		354E1AD618E7F7C0007F2DF4 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AD518E7F7C0007F2DF4 /* FacebookSDK.framework */; };
+		354E1AD818E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 354E1AD718E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 357D7D8D18E70F53002A3166 /* HiPengyou.xcdatamodeld */; };
 		35F2688718E27EC100AC55CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688618E27EC100AC55CD /* Foundation.framework */; };
 		35F2688918E27EC100AC55CD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688818E27EC100AC55CD /* CoreGraphics.framework */; };
@@ -49,7 +50,6 @@
 /* Begin PBXFileReference section */
 		201E96BE18E6D63900F5A907 /* UIView+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Resize.h"; sourceTree = "<group>"; };
 		201E96BF18E6D63900F5A907 /* UIView+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Resize.m"; sourceTree = "<group>"; };
-		354E1AB718E7C6DD007F2DF4 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = HiPengyou/TencentOpenAPI.framework; sourceTree = "<group>"; };
 		354E1AB918E7C79D007F2DF4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -57,10 +57,12 @@
 		354E1AC118E7C7D3007F2DF4 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		354E1AC318E7C7DE007F2DF4 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		354E1AC518E7C7E6007F2DF4 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		354E1AC718E7C825007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		354E1ACA18E7E2BB007F2DF4 /* HPLoginType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPLoginType.h; sourceTree = "<group>"; };
 		354E1ACE18E7EC78007F2DF4 /* HPRootTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRootTabBarController.h; sourceTree = "<group>"; };
 		354E1ACF18E7EC78007F2DF4 /* HPRootTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRootTabBarController.m; sourceTree = "<group>"; };
+		354E1AD318E7F77D007F2DF4 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = HiPengyou/external/TencentOpenAPI.framework; sourceTree = "<group>"; };
+		354E1AD518E7F7C0007F2DF4 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = HiPengyou/external/FacebookSDK.framework; sourceTree = "<group>"; };
+		354E1AD718E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = external/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		357D7D8E18E70F53002A3166 /* HiPengyou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HiPengyou.xcdatamodel; sourceTree = "<group>"; };
 		35F2688318E27EC100AC55CD /* HiPengyou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiPengyou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35F2688618E27EC100AC55CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -91,6 +93,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				354E1AD618E7F7C0007F2DF4 /* FacebookSDK.framework in Frameworks */,
+				354E1AD418E7F77D007F2DF4 /* TencentOpenAPI.framework in Frameworks */,
 				354E1AC618E7C7E6007F2DF4 /* libz.dylib in Frameworks */,
 				354E1AC418E7C7DE007F2DF4 /* libstdc++.dylib in Frameworks */,
 				354E1AC218E7C7D3007F2DF4 /* CoreTelephony.framework in Frameworks */,
@@ -99,7 +103,6 @@
 				354E1ABC18E7C7A9007F2DF4 /* libiconv.dylib in Frameworks */,
 				354E1ABA18E7C79D007F2DF4 /* Security.framework in Frameworks */,
 				35F2688918E27EC100AC55CD /* CoreGraphics.framework in Frameworks */,
-				354E1AB818E7C6DD007F2DF4 /* TencentOpenAPI.framework in Frameworks */,
 				35F2688B18E27EC100AC55CD /* UIKit.framework in Frameworks */,
 				35F2688718E27EC100AC55CD /* Foundation.framework in Frameworks */,
 			);
@@ -146,7 +149,7 @@
 		354E1AC918E7CC8A007F2DF4 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				354E1AC718E7C825007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */,
+				354E1AD718E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -181,6 +184,8 @@
 		35F2688518E27EC100AC55CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				354E1AD518E7F7C0007F2DF4 /* FacebookSDK.framework */,
+				354E1AD318E7F77D007F2DF4 /* TencentOpenAPI.framework */,
 				354E1AC518E7C7E6007F2DF4 /* libz.dylib */,
 				354E1AC318E7C7DE007F2DF4 /* libstdc++.dylib */,
 				354E1AC118E7C7D3007F2DF4 /* CoreTelephony.framework */,
@@ -188,7 +193,6 @@
 				354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */,
 				354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */,
 				354E1AB918E7C79D007F2DF4 /* Security.framework */,
-				354E1AB718E7C6DD007F2DF4 /* TencentOpenAPI.framework */,
 				35F2688618E27EC100AC55CD /* Foundation.framework */,
 				35F2688818E27EC100AC55CD /* CoreGraphics.framework */,
 				35F2688A18E27EC100AC55CD /* UIKit.framework */,
@@ -317,7 +321,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				354E1AC818E7C825007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				354E1AD818E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				35F2689118E27EC100AC55CD /* InfoPlist.strings in Resources */,
 				35F2689918E27EC100AC55CD /* Images.xcassets in Resources */,
 			);
@@ -466,12 +470,17 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HiPengyou",
+					/Users/danielqiu/Documents/FacebookSDK,
+					"$(PROJECT_DIR)/HiPengyou/external",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPengyou/HiPengyou-Prefix.pch";
 				INFOPLIST_FILE = "HiPengyou/HiPengyou-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_LDFLAGS = "-fobjc-arc";
+				OTHER_LDFLAGS = (
+					"-fobjc-arc",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5981D3E2-14DD-419A-A6C1-D48C88B12E28";
 				WRAPPER_EXTENSION = app;
@@ -487,12 +496,17 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HiPengyou",
+					/Users/danielqiu/Documents/FacebookSDK,
+					"$(PROJECT_DIR)/HiPengyou/external",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HiPengyou/HiPengyou-Prefix.pch";
 				INFOPLIST_FILE = "HiPengyou/HiPengyou-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_LDFLAGS = "-fobjc-arc";
+				OTHER_LDFLAGS = (
+					"-fobjc-arc",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5981D3E2-14DD-419A-A6C1-D48C88B12E28";
 				WRAPPER_EXTENSION = app;
