@@ -9,19 +9,22 @@
 #import "HPHomeViewController.h"
 #import "HPMessageViewController.h"
 #import "HPProfileViewController.h"
-#import "HPSeekoutCardViewController.h"
+#import "HPSeekoutCardView.h"
 #import "UIView+Resize.h"
 @interface HPHomeViewController ()
 
-@property (strong, atomic) UILabel *greetingLabel;
+
 @property (strong, atomic) NSString *username;
+@property (strong, atomic) UIButton *categoryButton;
 @property (strong, atomic) UIButton *messageButton;
 @property (strong, atomic) UIButton *profileButton;
+@property (strong, atomic) UIButton *addSeekoutButton;
 @property (strong, atomic) HPMessageViewController *messageViewController;
 @property (strong, atomic) HPProfileViewController *profileViewController;
-@property (strong, atomic) HPSeekoutCardViewController *seekoutCardViewController;
-@property (strong, atomic) UIButton *addSeekoutButon;
-@property (strong, atomic) UIPageViewController *pageViewController;
+@property (strong, atomic) UIScrollView *seekoutScrollView;
+@property (strong, atomic) NSMutableArray *seekoutCardsArray;
+@property (strong, atomic) UIImageView *test;
+@property (strong, atomic) UIImageView *test2;
 
 @end
 
@@ -34,10 +37,9 @@
     [self initData];
     [self initView];
     [self initNaviBar];
-    [self initLabel];
+    [self initSeekoutScrollView];
+    [self initSeekoutCards];
     [self initButton];
-    
-    
 }
 
 - (void)initData
@@ -49,21 +51,22 @@
 
 - (void)initView
 {
-    [self.view setBackgroundColor:[UIColor colorWithRed:240.0f / 255.0f
-                                                  green:240.0f / 255.0f
-                                                   blue:235.0f / 255.0f
+    [self.view setBackgroundColor:[UIColor colorWithRed:230.0f / 255.0f
+                                                  green:230.0f / 255.0f
+                                                   blue:230.0f / 255.0f
                                                   alpha:1]];
-    [self initSeekoutPageViewController];
-    [self initSeekoutCardViewController];
-}
 
-- (void)initSeekoutPageViewController
-{
-    self.pageViewController = [[UIPageViewController alloc] init];
-    self.pageViewController.delegate = self;
-    self.pageViewController.dataSource = self;
+    if([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)])
+    {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
+    [self initSeekoutCardViewController];
+    
     
 }
+
+
 - (void)initSeekoutCardViewController
 {
     
@@ -74,55 +77,64 @@
     self.navigationController.navigationBarHidden = YES;
 }
 
-- (void)initLabel
-{
-    self.greetingLabel = [[UILabel alloc] init];
-    
-    // Autoresize
-    [self.greetingLabel resetSize:CGSizeMake(200, 30)];
-    self.greetingLabel.numberOfLines = 1;
-    [self.greetingLabel setText: [NSString stringWithFormat:@"Hi,%@", self.username]];
-    [self.greetingLabel sizeToFit];
-    
-    // Set style
-    [self.greetingLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:15]];
-    [self.greetingLabel setTextColor:[UIColor colorWithRed:148.0f / 255.0f
-                                                     green:148.0f / 255.0f
-                                                      blue:148.0f / 255.0f
-                                                     alpha:1]];
-    [self.greetingLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.greetingLabel setBackgroundColor:[UIColor clearColor]];
-    
-    //set position
-    [self.greetingLabel resetOrigin:CGPointMake(10, 34)];
-    
-    //add subview
-    [self.view addSubview:self.greetingLabel];
-   
-    
-}
+
 
 - (void)initButton
 {
-    self.messageButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.messageButton setTitle:@"message" forState:UIControlStateNormal];
-    [self.messageButton setFrame: CGRectMake([self.view getWidth]-140, 34, 70, 30)];
+    self.categoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.categoryButton setImage:[UIImage imageNamed:@"HPCategoriesButton"] forState:UIControlStateNormal];
+    [self.categoryButton setFrame:CGRectMake(7, 28, 31, 31)];
+    [self.view addSubview:self.categoryButton];
+    
+    self.messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.messageButton setImage:[UIImage imageNamed:@"HPMessageButton"] forState:UIControlStateNormal];
+    [self.messageButton setFrame: CGRectMake(470/2, 28, 31, 31)];
     [self.messageButton addTarget:self action:@selector(didClickMessageButton) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.messageButton];
-
     
-    self.profileButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.profileButton setTitle:@"profile" forState:UIControlStateNormal];
-    [self.profileButton setFrame: CGRectMake([self.view getWidth]-70, 34, 70, 30)];
+    self.profileButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.profileButton setImage:[UIImage imageNamed:@"HPProfileButton"] forState:UIControlStateNormal];
+    [self.profileButton setFrame: CGRectMake(553/2, 28, 32, 32)];
     [self.profileButton addTarget:self action:@selector(didClickProfileButton) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.profileButton];
     
-    self.addSeekoutButon = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.addSeekoutButon setTitle:@"add" forState:UIControlStateNormal];
-    [self.addSeekoutButon setFrame: CGRectMake(160, 400, 30, 30)];
-    [self.view addSubview:self.addSeekoutButon];
+    self.addSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.addSeekoutButton setImage:[UIImage imageNamed:@"HPAddSeekoutButton"] forState:UIControlStateNormal];
+
+    [self.addSeekoutButton setFrame: CGRectMake(([self.view getWidth]-43)/2, [self.seekoutScrollView getOriginY]+[self.seekoutScrollView getHeight]+25, 43, 43)];
+    NSLog(@"%f",[self.seekoutScrollView getOriginY]+[self.seekoutScrollView getHeight]);
+    [self.view addSubview:self.addSeekoutButton];
+}
+
+
+- (void)initSeekoutScrollView
+{
+
+    [self.seekoutScrollView setBounces:NO];
+    self.seekoutScrollView = [[UIScrollView alloc] init];
+//    [self.seekoutScrollView setBackgroundColor:[UIColor blackColor]];
+    [self.seekoutScrollView setFrame:CGRectMake(0,168/2, [self.view getWidth],[self.view getHeight]-168)];
+    [self.view addSubview:self.seekoutScrollView];
     
-    [self.view addSubview: self.addSeekoutButon];
+
+    self.test = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HPAddSeekoutButton"]];
+    [self.test setFrame:CGRectMake(0, 0, 30, 30)];
+//     [self.seekoutScrollView addSubview: self.test];
+    
+    self.test2 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HPAddSeekoutButton"]];
+    [self.test2 setFrame:CGRectMake(310, 0, 30, 30)];
+    
+    [self.seekoutScrollView setContentSize:CGSizeMake(600, [self.seekoutScrollView getHeight])];
+    
+//    [self.seekoutScrollView addSubview: self.test2];
+
+}
+
+- (void)initSeekoutCards
+{
+    self.seekoutCardsArray = [[NSMutableArray alloc]init];
+    HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake(48/2+16/2, 0, 512/2, [self.seekoutScrollView getHeight])];
+    [self.seekoutScrollView addSubview:seekoutCardView];
 }
 
 - (void)didClickMessageButton
@@ -139,16 +151,5 @@
     [self.navigationController pushViewController:self.profileViewController animated:YES];
 }
 
-
-//- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
-//{
-//    
-//}
-//
-//
-//- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
-//{
-//    
-//}
 
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPHomeViewController : UIViewController<UIPageViewControllerDataSource, UIPageViewControllerDelegate>
+@interface HPHomeViewController : UIViewController
 
 @end
