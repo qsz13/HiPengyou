@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum LoginType : NSInteger {
-        qq,
-        facebook,
-        hiAccount
-
-} LoginType;
+typedef enum LoginType {
+    HPLoginTypeQQ = 0,
+    HPLoginTypeFacebook = 1,
+    HPLoginTypeHiAccount = 2,
+} HPLoginType;
 

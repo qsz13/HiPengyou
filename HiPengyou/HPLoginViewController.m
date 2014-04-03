@@ -299,24 +299,24 @@
 }
 
 // Save login infomation to user default
-- (void)saveLoginState:(LoginType)loginType loginData:(id)loginData
+- (void)saveLoginState:(HPLoginType)loginType loginData:(id)loginData
 {
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:YES forKey:@"isLoggedIn"];
-    if(loginType == hiAccount)
+    if(loginType == HPLoginTypeHiAccount)
     {
         NSDictionary *hiAccountLoginData = (NSDictionary *)loginData;
         [userDefaults setObject:hiAccountLoginData[@"id"] forKey:@"id"];
     }
-    else if(loginType == qq)
+    else if(loginType == HPLoginTypeQQ)
     {
         TencentOAuth *qqOAuth = (TencentOAuth*)loginData;
         [userDefaults setObject:[qqOAuth accessToken] forKey:@"qqAccessToken"];
         [userDefaults setObject:[qqOAuth openId] forKey:@"qqOpenId"];
         [userDefaults setObject:[qqOAuth expirationDate] forKey:@"qqExpirationDate"];
     }
-    else if(loginType == facebook)
+    else if(loginType == HPLoginTypeFacebook)
     {
         
     }
@@ -373,24 +373,26 @@
         [NSURLConnection sendAsynchronousRequest:request
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                                    //connection successed
+                                    // Connection successed
                                     if([data length] > 0 && connectionError == nil)
                                     {
                                         NSError *e = nil;
                                         NSDictionary *dataDict =  [NSJSONSerialization JSONObjectWithData:data
                                                                                                   options:NSJSONReadingMutableContainers error:&e];
-                                        //login successed
+                                        NSDictionary *userDict = [[dataDict objectForKey:@"result"] objectForKey:@"Customer"];
+                                        // Login successed
                                         if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
                                         {
                                             NSDictionary *hiAccountLoginData = @{
-                                                                                 @"id": [dataDict objectForKey:@"id"],
-                                                                                 @"sid": [dataDict objectForKey:@"sid"],
+                                                                                 @"id": [userDict objectForKey:@"id"],
+                                                                                 @"sid": [userDict objectForKey:@"sid"],
                                                                                  };
-                                            [self saveLoginState:hiAccount loginData:hiAccountLoginData];
-                                            //dismiss login view
+                                            [self saveLoginState:HPLoginTypeHiAccount
+                                                       loginData:hiAccountLoginData];
+                                            // Dismiss login view
                                             [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
                                         }
-                                        //login failed
+                                        // Login failed
                                         else if([[dataDict objectForKey:@"code"] isEqualToString:@"14011"])
                                         {
                                             self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.."
@@ -401,7 +403,7 @@
                                             [self.loginFailedAlertView show];
                                         }
                                     }
-                                    //connection failed
+                                    // Connection failed
                                     else if (connectionError != nil)
                                     {
                                         self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.."
@@ -412,7 +414,7 @@
                                         [self.loginFailedAlertView show];
                                         
                                     }
-                                    //unknow error
+                                    // Unknow error
                                     else
                                     {
                                         self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.."
@@ -429,7 +431,7 @@
 // QQ did login
 - (void)tencentDidLogin
 {
-    [self saveLoginState:qq loginData:self.tencentOAuth];
+    [self saveLoginState:HPLoginTypeQQ loginData:self.tencentOAuth];
 
     [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
     
@@ -449,7 +451,6 @@
         self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"login cancelled." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.loginFailedAlertView show];
     }
-    
 }
 
 // QQ network error

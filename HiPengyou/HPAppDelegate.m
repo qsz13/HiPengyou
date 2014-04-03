@@ -16,7 +16,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     self.tabBarController = [[HPRootTabBarController alloc] init];
@@ -56,9 +55,9 @@
 
     
     
-     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if(![userDefaults boolForKey:@"isLoggedIn"]){
-        NSLog(@"not log");
+        NSLog(@"Not login!");
         [self.tabBarController presentViewController:loginViewController animated:NO completion:nil];
     }
     
@@ -187,12 +186,16 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    return [TencentOAuth HandleOpenURL:url]||[FBSession.activeSession handleOpenURL:url];
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation{
+    return [TencentOAuth HandleOpenURL:url] || [FBSession.activeSession handleOpenURL:url];
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
-    return [TencentOAuth HandleOpenURL:url]||[FBSession.activeSession handleOpenURL:url];
+- (BOOL)application:(UIApplication *)application
+      handleOpenURL:(NSURL *)url{
+    return [TencentOAuth HandleOpenURL:url] || [FBSession.activeSession handleOpenURL:url];
 }
 
 @end
