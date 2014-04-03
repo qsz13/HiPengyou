@@ -9,43 +9,44 @@
 #import "HPProfileViewController.h"
 
 @interface HPProfileViewController ()
-
+@property (strong, atomic) UIButton *backButton;
 @end
 
 @implementation HPProfileViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self initView];
+    [self initButton];
     
-    [self.view setBackgroundColor:[UIColor clearColor]];
+
 }
 
-- (void)didReceiveMemoryWarning
+- (void)initView
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self.view setBackgroundColor:[UIColor colorWithRed:240.0f / 255.0f
+                                                  green:240.0f / 255.0f
+                                                   blue:235.0f / 255.0f
+                                                  alpha:1]];
+
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)initButton
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    self.backButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.backButton setFrame:CGRectMake( 20, 34 , 50, 30)];
+    [self.backButton setTitle:@"back" forState:UIControlStateNormal];
+    [self.backButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backButton];
 }
-*/
+
+- (void)didClickBackButton
+{
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
 
 @end

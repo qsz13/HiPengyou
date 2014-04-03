@@ -44,7 +44,6 @@
     [self initButton];
     [self initLoginFrame];
     [self initTencent];
-    
 }
 
 
@@ -52,7 +51,7 @@
 #pragma mark - UI Method
 -(void)initView
 {
-    [self.view setBackgroundColor:[UIColor colorWithRed:49.0f / 225.0f
+    [self.view setBackgroundColor:[UIColor colorWithRed:49.0f / 255.0f
                                                   green:188.0f / 255.0f
                                                    blue:234.0f / 255.0f
                                                   alpha:1]];
@@ -260,7 +259,7 @@
 
 - (void)didClickQQLoginButton
 {
-    self.qqPermission = @[kOPEN_PERMISSION_GET_USER_INFO];
+    self.qqPermission = @[kOPEN_PERMISSION_GET_SIMPLE_USER_INFO];
     [self.tencentOAuth authorize:self.qqPermission inSafari:NO];
 }
 
@@ -303,27 +302,40 @@
 }
 
 //save login infomation to user default
-- (void)saveLoginState:(LoginType)loginType loginData:(id)loginData
+- (void)saveLoginState:(LoginType)loginType userData:(id)userData OAuth:(id)OAuth
 {
-
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:YES forKey:@"isLoggedIn"];
+    NSString *username;
     if(loginType == hiAccount)
     {
-        NSDictionary *hiAccountLoginData = (NSDictionary *)loginData;
-        [userDefaults setObject:hiAccountLoginData[@"id"] forKey:@"id"];
+        NSDictionary *hiAccountUserData = (NSDictionary *)userData;
+        [userDefaults setObject:hiAccountUserData[@"id"] forKey:@"id"];
+
+        username = hiAccountUserData[@"username"];
     }
     else if(loginType == qq)
     {
-        TencentOAuth *qqOAuth = (TencentOAuth*)loginData;
+        TencentOAuth *qqOAuth = (TencentOAuth*)OAuth;
+
         [userDefaults setObject:[qqOAuth accessToken] forKey:@"qqAccessToken"];
         [userDefaults setObject:[qqOAuth openId] forKey:@"qqOpenId"];
         [userDefaults setObject:[qqOAuth expirationDate] forKey:@"qqExpirationDate"];
+        
+        NSError *e = nil;
+        NSData *qqUserData = [(NSString*)userData dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:qqUserData options:NSJSONReadingMutableContainers error:&e];
+        username = [dataDict objectForKey:@"nickname"];
+
     }
     else if(loginType == facebook)
     {
         
     }
+    
+    [userDefaults setObject:username forKey:@"username"];
+    
     [userDefaults synchronize];
     
 }
@@ -380,9 +392,9 @@
                     NSDictionary *hiAccountLoginData = @{
                                                          @"id":[userDict objectForKey:@"id"],
                                                          @"sid":[userDict objectForKey:@"sid"],
-
+                                                         @"username":[userDict objectForKey:@"name"],
                                                          };
-                    [self saveLoginState:hiAccount loginData:hiAccountLoginData];
+                    [self saveLoginState:hiAccount userData:hiAccountLoginData OAuth:nil];
                     //dismiss login view
                     [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
                 }
@@ -419,10 +431,33 @@
 //qq did login
 - (void)tencentDidLogin
 {
-    [self saveLoginState:qq loginData:self.tencentOAuth];
+    BOOL isOAuthOK = [self.tencentOAuth getUserInfo];
+    if(isOAuthOK)
+    {
+        //waiting view
+    }
+    else
+    {
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"authorization expired." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.loginFailedAlertView show];
+    }
 
-    [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-    
+}
+
+- (void) getUserInfoResponse:(APIResponse *)response
+{
+    NSLog(@"%@",response.message);
+    NSString *userData = response.message;
+    if(response.retCode == 0)
+    {
+        [self saveLoginState:qq userData:userData OAuth:nil];
+        [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"authorization failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.loginFailedAlertView show];
+    }
 }
 
 //qq did not login

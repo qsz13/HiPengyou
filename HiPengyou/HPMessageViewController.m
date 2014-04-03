@@ -10,41 +10,45 @@
 
 @interface HPMessageViewController ()
 
+@property (strong, atomic) UIButton *backButton;
+
 @end
 
 @implementation HPMessageViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self.view setBackgroundColor:[UIColor clearColor]];
+    [self initView];
+    [self initButton];
+    
 }
 
-- (void)didReceiveMemoryWarning
+- (void)initButton
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.backButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.backButton setFrame:CGRectMake( 20, 34 , 50, 30)];
+    [self.backButton setTitle:@"back" forState:UIControlStateNormal];
+    [self.backButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backButton];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)initView
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    [self.view setBackgroundColor:[UIColor colorWithRed:240.0f / 255.0f
+                                                  green:240.0f / 255.0f
+                                                   blue:235.0f / 255.0f
+                                                  alpha:1]];
 }
-*/
+
+- (void)didClickBackButton
+{
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
 
 @end
