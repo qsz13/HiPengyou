@@ -112,21 +112,15 @@
 
     [self.seekoutScrollView setBounces:NO];
     self.seekoutScrollView = [[UIScrollView alloc] init];
-//    [self.seekoutScrollView setBackgroundColor:[UIColor blackColor]];
+
     [self.seekoutScrollView setFrame:CGRectMake(0,168/2, [self.view getWidth],[self.view getHeight]-168)];
-    [self.view addSubview:self.seekoutScrollView];
+
     
 
-    self.test = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HPAddSeekoutButton"]];
-    [self.test setFrame:CGRectMake(0, 0, 30, 30)];
-//     [self.seekoutScrollView addSubview: self.test];
-    
-    self.test2 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HPAddSeekoutButton"]];
-    [self.test2 setFrame:CGRectMake(310, 0, 30, 30)];
     
     [self.seekoutScrollView setContentSize:CGSizeMake(600, [self.seekoutScrollView getHeight])];
-    
-//    [self.seekoutScrollView addSubview: self.test2];
+    [self.seekoutScrollView setShowsVerticalScrollIndicator:NO];
+    [self.view addSubview:self.seekoutScrollView];
 
 }
 
