@@ -343,7 +343,7 @@
 //hi account login request
 - (void)loginRequest
 {
-    NSURL *url = [[NSURL alloc] initWithString:@"http://quickycard.com:8001/index/login"];
+    NSURL *url = [[NSURL alloc] initWithString:@"http://timadidas.vicp.cc:15730/index/login"];
     
     NSString *username = self.usernameTextField.text;
     NSString *password = self.passwordTextField.text;
@@ -385,7 +385,7 @@
                 NSError *e = nil;
                 NSLog(@"login success");
                 NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-                NSDictionary *userDict = [[dataDict objectForKey:@"result"] objectForKey:@"Customer"];
+                NSDictionary *userDict = [[dataDict objectForKey:@"result"] objectForKey:@"user"];
                 //login successed
                 if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
                 {
