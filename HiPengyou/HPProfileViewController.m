@@ -7,6 +7,7 @@
 //
 
 #import "HPProfileViewController.h"
+#import "UIView+Resize.h"
 
 @interface HPProfileViewController ()
 @property (strong, atomic) UIButton *backButton;

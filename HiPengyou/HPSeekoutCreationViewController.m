@@ -7,10 +7,18 @@
 //
 
 #import "HPSeekoutCreationViewController.h"
+#import "UIView+Resize.h"
 
 @interface HPSeekoutCreationViewController ()
 
 @property (strong, atomic) UIButton *backButton;
+@property (strong, atomic) UITextView *seekoutDetailTextView;
+@property (strong, atomic) UIButton *seekoutTypeButton;
+@property (strong, atomic) UIButton *seekoutLanguageButton;
+@property (strong, atomic) UIButton *seekoutLocationButton;
+@property (strong, atomic) UIImageView *seekoutTypeIcon;
+@property (strong, atomic) UIImageView *seekoutLanguageIcon;
+@property (strong, atomic) UIImageView *seekoutLocationIcon;
 
 @end
 
@@ -23,6 +31,7 @@
     [super viewDidLoad];
     [self initView];
     [self initNaviBar];
+    [self initButton];
 }
 
 - (void)initView
@@ -37,6 +46,23 @@
 - (void)initNaviBar
 {
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    
+    
+}
+
+- (void)initButton
+{
+    
+    self.seekoutTypeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.seekoutTypeButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutInfoButtonBgImage"] forState:UIControlStateNormal];
+    [self.seekoutTypeButton resetSize:CGSizeMake(300, 42)];
+    [self.seekoutTypeIcon setCenter:CGPointMake(CGFloat x, <#CGFloat y#>)];
+    
+    self.seekoutTypeIcon = [[UIImageView alloc]init];
+    [self.seekoutTypeIcon setImage:[UIImage imageNamed:@"HPSeekoutInfoCategoriesButtonIcon"]];
+    [self.seekoutTypeIcon resetSize:CGSizeMake(24, 24)];
+    [self.seekoutTypeIcon setCenter:CGPointMake(<#CGFloat x#>, <#CGFloat y#>)];
     
     
     
