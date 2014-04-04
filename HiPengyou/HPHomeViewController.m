@@ -45,10 +45,13 @@
 - (void)initData
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    self.username = [userDefaults objectForKey:@"username"];
+    self.username = [userDefaults objectForKey:@"sid"];
+    NSLog(@"%@", self.username);
     
 }
 
+
+#pragma mark - UI init
 - (void)initView
 {
     [self.view setBackgroundColor:[UIColor colorWithRed:230.0f / 255.0f
@@ -131,6 +134,8 @@
     [self.seekoutScrollView addSubview:seekoutCardView];
 }
 
+#pragma mark - button event
+
 - (void)didClickMessageButton
 {
     self.messageViewController = [[HPMessageViewController alloc] init];
@@ -144,6 +149,10 @@
 
     [self.navigationController pushViewController:self.profileViewController animated:YES];
 }
+
+
+#pragma mark - request
+
 
 
 @end

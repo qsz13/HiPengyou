@@ -11,13 +11,15 @@
 
 @interface HPSeekoutCardView : UIView
 
-@property (strong, atomic) UIButton *replyButton;
-@property (strong, atomic) UIImageView *seekoutTypeImageView;
-@property (strong, atomic) UILabel *seekAuthorName;
-@property (strong, atomic) UILabel *seekoutTime;
-@property (strong, atomic) UIImageView *seekAuthorFace;
-@property (strong, atomic) UIView *seekoutContentView;
-@property (strong, atomic) UILabel *seekoutContentLabel;
+@property (strong, atomic) NSString *seekoutAuthorName;
+
+@property (strong, atomic) UIImage *seekoutAuthorFace;
+
+
+
+@property (strong, atomic) NSString *seekoutTime;
+
+@property (strong, atomic) NSString *seekoutContent;
 
 @property HPSeekoutType seekoutType;
 
