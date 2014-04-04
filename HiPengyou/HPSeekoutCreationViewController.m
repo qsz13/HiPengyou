@@ -57,12 +57,12 @@
     self.seekoutTypeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.seekoutTypeButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutInfoButtonBgImage"] forState:UIControlStateNormal];
     [self.seekoutTypeButton resetSize:CGSizeMake(300, 42)];
-    [self.seekoutTypeIcon setCenter:CGPointMake(CGFloat x, <#CGFloat y#>)];
+//    [self.seekoutTypeIcon setCenter:CGPointMake(CGFloat x, <#CGFloat y#>)];
     
     self.seekoutTypeIcon = [[UIImageView alloc]init];
     [self.seekoutTypeIcon setImage:[UIImage imageNamed:@"HPSeekoutInfoCategoriesButtonIcon"]];
     [self.seekoutTypeIcon resetSize:CGSizeMake(24, 24)];
-    [self.seekoutTypeIcon setCenter:CGPointMake(<#CGFloat x#>, <#CGFloat y#>)];
+//    [self.seekoutTypeIcon setCenter:CGPointMake(<#CGFloat x#>, <#CGFloat y#>)];
     
     
     
