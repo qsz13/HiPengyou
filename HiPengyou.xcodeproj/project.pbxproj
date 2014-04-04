@@ -67,6 +67,7 @@
 		354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPHomeViewController.m; sourceTree = "<group>"; };
 		354E1AE418E85850007F2DF4 /* HPSeekoutCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCreationViewController.h; sourceTree = "<group>"; };
 		354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCreationViewController.m; sourceTree = "<group>"; };
+		3564A20918EE65C0000760D2 /* HPSeekoutType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPSeekoutType.h; sourceTree = "<group>"; };
 		35684EE418ED714100E9AE7A /* HPSeekoutCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCardView.h; sourceTree = "<group>"; };
 		35684EE518ED714100E9AE7A /* HPSeekoutCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCardView.m; sourceTree = "<group>"; };
 		357D7D8E18E70F53002A3166 /* HiPengyou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HiPengyou.xcdatamodel; sourceTree = "<group>"; };
@@ -152,6 +153,7 @@
 				354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */,
 				35684EE418ED714100E9AE7A /* HPSeekoutCardView.h */,
 				35684EE518ED714100E9AE7A /* HPSeekoutCardView.m */,
+				3564A20918EE65C0000760D2 /* HPSeekoutType.h */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";

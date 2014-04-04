@@ -15,7 +15,11 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self initBackground];
+        [self initLabel];
+        [self initImageView];
+        [self initContentView];
         [self initButton];
+
     }
     return self;
 }
@@ -26,6 +30,26 @@
                                                        green:244.0f / 255.0f
                                                         blue:244.0f / 255.0f
                                                        alpha:1]];
+}
+
+- (void)initLabel
+{
+    
+}
+
+- (void)initImageView
+{
+    self.seekoutTypeImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"HPSeekoutTypePeopleImage"]];
+    [self.seekoutTypeImageView setFrame:CGRectMake(20, 0, 29, 41)];
+    [self addSubview:self.seekoutTypeImageView];
+    
+    
+    
+}
+
+- (void)initContentView
+{
+    
 }
 
 -(void)initButton
