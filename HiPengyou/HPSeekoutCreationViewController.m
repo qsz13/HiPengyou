@@ -10,6 +10,8 @@
 
 @interface HPSeekoutCreationViewController ()
 
+@property (strong, atomic) UIButton *backButton;
+
 @end
 
 @implementation HPSeekoutCreationViewController
@@ -19,7 +21,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self initView];
+    [self initNaviBar];
+}
+
+- (void)initView
+{
+    [self.view setBackgroundColor:[UIColor colorWithRed:230.0f / 255.0f
+                                                  green:230.0f / 255.0f
+                                                   blue:230.0f / 255.0f
+                                                  alpha:1]];
+    
+}
+
+- (void)initNaviBar
+{
+    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    
+    
 }
 
 

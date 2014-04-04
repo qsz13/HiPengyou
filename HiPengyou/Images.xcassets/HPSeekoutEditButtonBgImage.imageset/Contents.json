@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "HPProfileButton.png"
+      "filename" : "HPSeekoutEditButtonBgImage.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "HPProfileButton@2x.png"
+      "filename" : "HPSeekoutEditButtonBgImage@2x.png"
     }
   ],
   "info" : {

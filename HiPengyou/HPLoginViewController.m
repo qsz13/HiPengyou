@@ -312,7 +312,7 @@
     {
         NSDictionary *hiAccountUserData = (NSDictionary *)userData;
         [userDefaults setObject:hiAccountUserData[@"id"] forKey:@"id"];
-
+        [userDefaults setObject:hiAccountUserData[@"sid"] forKey:@"sid"];
         username = hiAccountUserData[@"username"];
     }
     else if(loginType == qq)
@@ -383,7 +383,6 @@
             if([data length] > 0 && connectionError == nil)
             {
                 NSError *e = nil;
-                NSLog(@"login success");
                 NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
                 NSDictionary *userDict = [[dataDict objectForKey:@"result"] objectForKey:@"user"];
                 //login successed

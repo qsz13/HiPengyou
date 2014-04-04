@@ -9,22 +9,23 @@
 #import "HPHomeViewController.h"
 #import "HPMessageViewController.h"
 #import "HPProfileViewController.h"
+#import "HPSeekoutCreationViewController.h"
 #import "HPSeekoutCardView.h"
 #import "UIView+Resize.h"
 @interface HPHomeViewController ()
 
 
-@property (strong, atomic) NSString *username;
+@property (strong, atomic) NSString *sid;
 @property (strong, atomic) UIButton *categoryButton;
 @property (strong, atomic) UIButton *messageButton;
 @property (strong, atomic) UIButton *profileButton;
 @property (strong, atomic) UIButton *addSeekoutButton;
 @property (strong, atomic) HPMessageViewController *messageViewController;
 @property (strong, atomic) HPProfileViewController *profileViewController;
+@property (strong, atomic) HPSeekoutCreationViewController *seekoutCreationViewController;
 @property (strong, atomic) UIScrollView *seekoutScrollView;
 @property (strong, atomic) NSMutableArray *seekoutCardsArray;
-@property (strong, atomic) UIImageView *test;
-@property (strong, atomic) UIImageView *test2;
+@property (strong, atomic) UIAlertView *connectionFaiedAlertView;
 
 @end
 
@@ -45,8 +46,8 @@
 - (void)initData
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    self.username = [userDefaults objectForKey:@"sid"];
-    NSLog(@"%@", self.username);
+    self.sid = [userDefaults objectForKey:@"sid"];
+    NSLog(@"%@", self.sid);
     
 }
 
@@ -64,16 +65,10 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
     
-    [self initSeekoutCardViewController];
     
     
 }
 
-
-- (void)initSeekoutCardViewController
-{
-    
-}
 
 - (void)initNaviBar
 {
@@ -103,9 +98,9 @@
     
     self.addSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.addSeekoutButton setImage:[UIImage imageNamed:@"HPAddSeekoutButton"] forState:UIControlStateNormal];
-
     [self.addSeekoutButton setFrame: CGRectMake(([self.view getWidth]-43)/2, [self.seekoutScrollView getOriginY]+[self.seekoutScrollView getHeight]+25, 43, 43)];
-    NSLog(@"%f",[self.seekoutScrollView getOriginY]+[self.seekoutScrollView getHeight]);
+    [self.addSeekoutButton addTarget:self action:@selector(didClickAddSeekoutButton) forControlEvents:UIControlEventTouchUpInside];
+
     [self.view addSubview:self.addSeekoutButton];
 }
 
@@ -121,17 +116,19 @@
     
 
     
-    [self.seekoutScrollView setContentSize:CGSizeMake(600, [self.seekoutScrollView getHeight])];
+    [self.seekoutScrollView setContentSize:CGSizeMake([self.seekoutScrollView getWidth], [self.seekoutScrollView getHeight])];
     [self.seekoutScrollView setShowsVerticalScrollIndicator:NO];
     [self.view addSubview:self.seekoutScrollView];
-
+    
 }
 
 - (void)initSeekoutCards
 {
     self.seekoutCardsArray = [[NSMutableArray alloc]init];
-    HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake(48/2+16/2, 0, 512/2, [self.seekoutScrollView getHeight])];
-    [self.seekoutScrollView addSubview:seekoutCardView];
+    for(int i = 0 ; i < 3; i++)
+    {
+        [self addSeekoutCard];
+    }
 }
 
 #pragma mark - button event
@@ -150,8 +147,87 @@
     [self.navigationController pushViewController:self.profileViewController animated:YES];
 }
 
+- (void)didClickAddSeekoutButton
+{
+    self.seekoutCreationViewController = [[HPSeekoutCreationViewController alloc] init];
+    [self.navigationController pushViewController:self.seekoutCreationViewController animated:YES];
+}
+
 
 #pragma mark - request
+- (void)requestForNewSeekout
+{
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://timadidas.vicp.cc:15730/seekout/seekoutList?sid=%@", self.sid]];
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    
+
+
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        //connection successed
+        if([data length] > 0 && connectionError == nil)
+        {
+            NSError *e = nil;
+            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+            NSDictionary *userDict = [[dataDict objectForKey:@"result"] objectForKey:@"user"];
+            //login successed
+            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+            {
+                
+            }
+            //login failed
+            else if([[dataDict objectForKey:@"code"] isEqualToString:@"14011"])
+            {
+                //no more new seekout
+            }
+        }
+        //connection failed
+        else if (connectionError != nil)
+        {
+            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.connectionFaiedAlertView show];
+            
+        }
+        //unknow error
+        else
+        {
+            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.connectionFaiedAlertView show];
+        }
+        
+        
+    }];
+    
+    //callback
+}
+
+
+#pragma mark - add card
+- (void)addSeekoutCard
+{
+    if([self.seekoutCardsArray count])
+    {
+        HPSeekoutCardView *lastSeekoutCardView = [self.seekoutCardsArray lastObject];
+        HPSeekoutCardView *newSeekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake([lastSeekoutCardView getOriginX] + [lastSeekoutCardView getWidth] + 10, 0, 512/2, [self.seekoutScrollView getHeight])];
+        
+        [self.seekoutCardsArray addObject:newSeekoutCardView];
+        [self.seekoutScrollView setContentSize:CGSizeMake(self.seekoutScrollView.contentSize.width + [newSeekoutCardView getWidth] + 10, [self.seekoutScrollView getHeight])];
+        NSLog(@"%f",[self.seekoutScrollView getWidth]);
+        [self.seekoutScrollView addSubview:newSeekoutCardView];
+    }
+    else
+    {
+        HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake(48/2+16/2, 0, 512/2, [self.seekoutScrollView getHeight])];
+        [self.seekoutCardsArray addObject:seekoutCardView];
+        [self.seekoutScrollView setContentSize:CGSizeMake([seekoutCardView getWidth]+48+16, [self.seekoutScrollView getWidth])];
+
+        [self.seekoutScrollView addSubview:seekoutCardView];
+    }
+    
+    
+}
+
+
 
 
 

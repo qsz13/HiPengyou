@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "HPRegisterButton.png"
+      "filename" : "HPSeekoutPostButton.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "HPRegisterButton@2x.png"
+      "filename" : "HPSeekoutPostButton@2x.png"
     }
   ],
   "info" : {
