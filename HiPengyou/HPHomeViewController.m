@@ -145,7 +145,7 @@
     self.seekoutTableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
     [self.seekoutTableView resetOrigin:CGPointMake(0, [self.seekoutTableView getHeight] + 168 / 2)];
     self.seekoutTableView.showsVerticalScrollIndicator = NO;
-    self.seekoutTableView.rowHeight = 512.0f / 2;
+    self.seekoutTableView.rowHeight = 512.0f / 2 + 20; // 20 is for the seperate space
     self.seekoutTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // Set Delegate
@@ -230,7 +230,7 @@
                     [seekout setType:[[s objectForKey:@"type"] integerValue]];
                     
                     [self.seekoutArray addObject: seekout];
-                    [self addSeekoutCard:seekout];
+//                    [self addSeekoutCard:seekout];
                 }
                 
                     [self.seekoutTableView reloadData];
@@ -268,29 +268,29 @@
 #pragma mark - Add Card
 
 
-- (void)addSeekoutCard:(HPSeekout*)seekout
-{
-    if ([self.seekoutCardsArray count])
-    {
-        HPSeekoutCardView *lastSeekoutCardView = [self.seekoutCardsArray lastObject];
-        HPSeekoutCardView *newSeekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake([lastSeekoutCardView getOriginX] + [lastSeekoutCardView getWidth] + 10, 0, 512/2, [self.seekoutScrollView getHeight])];
-        [newSeekoutCardView loadData:seekout];
-        
-        [self.seekoutCardsArray addObject:newSeekoutCardView];
-        [self.seekoutScrollView setContentSize:CGSizeMake(self.seekoutScrollView.contentSize.width + [newSeekoutCardView getWidth] + 10, [self.seekoutScrollView getHeight])];
-        NSLog(@"%f",[self.seekoutScrollView getWidth]);
-        [self.seekoutScrollView addSubview:newSeekoutCardView];
-
-    }
-    else
-    {
-        HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake(48/2+16/2, 0, 512/2, [self.seekoutScrollView getHeight])];
-        [self.seekoutCardsArray addObject:seekoutCardView];
-        [self.seekoutScrollView setContentSize:CGSizeMake([seekoutCardView getWidth]+48+16, [self.seekoutScrollView getWidth])];
-
-        [self.seekoutScrollView addSubview:seekoutCardView];
-    }
-}
+//- (void)addSeekoutCard:(HPSeekout*)seekout
+//{
+//    if ([self.seekoutCardsArray count])
+//    {
+//        HPSeekoutCardView *lastSeekoutCardView = [self.seekoutCardsArray lastObject];
+//
+//        HPSeekoutCardView *newSeekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake([lastSeekoutCardView getOriginX] + [lastSeekoutCardView getWidth] + 10, 0, 512/2, [self.seekoutScrollView getHeight])];
+//        [newSeekoutCardView loadData:seekout];
+//        [self.seekoutCardsArray addObject:newSeekoutCardView];
+//        [self.seekoutScrollView setContentSize:CGSizeMake(self.seekoutScrollView.contentSize.width + [newSeekoutCardView getWidth] + 10, [self.seekoutScrollView getHeight])];
+//        NSLog(@"%f",[self.seekoutScrollView getWidth]);
+//        [self.seekoutScrollView addSubview:newSeekoutCardView];
+//
+//    }
+//    else
+//    {
+//        HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake(48/2+16/2, 0, 512/2, [self.seekoutScrollView getHeight])];
+//        [self.seekoutCardsArray addObject:seekoutCardView];
+//        [self.seekoutScrollView setContentSize:CGSizeMake([seekoutCardView getWidth]+48+16, [self.seekoutScrollView getWidth])];
+//
+//        [self.seekoutScrollView addSubview:seekoutCardView];
+//    }
+//}
 
 
 
