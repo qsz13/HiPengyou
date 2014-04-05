@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MJRefresh.h"
 
-@interface HPHomeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface HPHomeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, MJRefreshBaseViewDelegate>
 
 @end
