@@ -19,18 +19,18 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-//    self.tabBarController = [[HPRootTabBarController alloc] init];
-//    [self.tabBarController.view setBackgroundColor:[UIColor clearColor]];
+
+
     
-//    HPMessageViewController *messageViewController = [[HPMessageViewController alloc] init];
-//    HPProfileViewController *profileViewController = [[HPProfileViewController alloc] init];
-    HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
-//    UINavigationController *messageNavigationController = [[UINavigationController alloc] initWithRootViewController:messageViewController];
-//    UINavigationController *profileNavigationController = [[UINavigationController alloc] initWithRootViewController:profileViewController];
-     self.homeNavigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
-    //self.tabBarController.viewControllers = @[messageNavigationController, profileNavigationController];
     
     HPLoginViewController *loginViewController = [[HPLoginViewController alloc] init];
+    
+    
+    
+
+     self.navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    
 
     // Set window background color
     [self.window setBackgroundColor:[UIColor colorWithRed:49.0f / 255.0f
@@ -38,7 +38,7 @@
                                                      blue:234.0f / 255.0f
                                                     alpha:1]];
     [self.window makeKeyAndVisible];
-    self.window.rootViewController = self.homeNavigationController;
+    self.window.rootViewController = self.navigationController;
     
     // Whenever a person opens the app, check for a cached session
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
@@ -57,10 +57,17 @@
 
     
     
-     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if(![userDefaults boolForKey:@"isLoggedIn"]){
-        [self.homeNavigationController presentViewController:loginViewController animated:NO completion:nil];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if([userDefaults objectForKey:@"isLoggedIn"])
+    {
+        HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
+        [self.navigationController pushViewController:homeViewController animated:NO];
     }
+//    if(![userDefaults boolForKey:@"isLoggedIn"])
+//    {
+//    
+//        [self.navigationController pushViewController:homeViewController animated:NO];
+//    }
     
     
     

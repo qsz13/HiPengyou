@@ -26,7 +26,7 @@
 @property (strong, atomic) HPMessageViewController *messageViewController;
 @property (strong, atomic) HPProfileViewController *profileViewController;
 @property (strong, atomic) HPSeekoutCreationViewController *seekoutCreationViewController;
-@property (strong, atomic) UIScrollView *seekoutScrollView;
+//@property (strong, atomic) UIScrollView *seekoutScrollView;
 @property (strong, atomic) NSMutableArray *seekoutCardsArray;
 @property (strong, atomic) UIAlertView *connectionFaiedAlertView;
 @property (strong, atomic) NSMutableArray *seekoutArray;
@@ -44,7 +44,6 @@
     [super viewDidLoad];
     [self initData];
     [self initView];
-    [self initNaviBar];
 //    [self initSeekoutScrollView];
     [self initSeekoutTableView];
     [self initSeekoutCards];
@@ -78,10 +77,6 @@
 }
 
 
-- (void)initNaviBar
-{
-    self.navigationController.navigationBarHidden = YES;
-}
 
 
 
@@ -113,22 +108,22 @@
     [self.view addSubview:self.addSeekoutButton];
 }
 
-
-- (void)initSeekoutScrollView
-{
-
-    [self.seekoutScrollView setBounces:NO];
-    self.seekoutScrollView = [[UIScrollView alloc] init];
-
-    [self.seekoutScrollView setFrame:CGRectMake(0,168/2, [self.view getWidth],[self.view getHeight]-168)];
-
-    
-
-    
-    [self.seekoutScrollView setContentSize:CGSizeMake([self.seekoutScrollView getWidth], [self.seekoutScrollView getHeight])];
-    [self.seekoutScrollView setShowsVerticalScrollIndicator:NO];
-    [self.view addSubview:self.seekoutScrollView];
-}
+//
+//- (void)initSeekoutScrollView
+//{
+//
+//    [self.seekoutScrollView setBounces:NO];
+//    self.seekoutScrollView = [[UIScrollView alloc] init];
+//
+//    [self.seekoutScrollView setFrame:CGRectMake(0,168/2, [self.view getWidth],[self.view getHeight]-168)];
+//
+//    
+//
+//    
+//    [self.seekoutScrollView setContentSize:CGSizeMake([self.seekoutScrollView getWidth], [self.seekoutScrollView getHeight])];
+//    [self.seekoutScrollView setShowsVerticalScrollIndicator:NO];
+//    [self.view addSubview:self.seekoutScrollView];
+//}
 
 // TODO - 横向
 - (void)initSeekoutTableView
@@ -221,6 +216,8 @@
                     [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
                     [seekout setState:[s objectForKey:@"seekoutstatu"]];
                     [seekout setType:[[s objectForKey:@"type"] integerValue]];
+                    [seekout setTime:[s objectForKey:@"uptime"]];
+
                     
                     [self.seekoutArray addObject: seekout];
 //                    [self addSeekoutCard:seekout];
@@ -380,5 +377,7 @@
     // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
     [refreshView endRefreshing];
 }
+
+
 
 @end
