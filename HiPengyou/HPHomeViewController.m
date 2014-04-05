@@ -228,6 +228,8 @@
                     [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
                     [seekout setState:[s objectForKey:@"seekoutstatu"]];
                     [seekout setType:[[s objectForKey:@"type"] integerValue]];
+                    [seekout setTime:[s objectForKey:@"time"]];
+
                     
                     [self.seekoutArray addObject: seekout];
 //                    [self addSeekoutCard:seekout];

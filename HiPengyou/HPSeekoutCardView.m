@@ -30,7 +30,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self initBackground];
-        
+
 
     }
     return self;
@@ -61,7 +61,7 @@
     
     self.seekoutTimeLabel = [[UILabel alloc]init];
     [self.seekoutTimeLabel setText:self.seekoutTime];
-//    [self.seekoutTimeLabel setText:@"01 Mar 04:25pm"];
+    [self.seekoutTimeLabel setText:@"01 Mar 04:25pm"];
     [self.seekoutTimeLabel resetSize:CGSizeMake(200, 30)];
     self.seekoutTimeLabel.numberOfLines = 1;
 
@@ -152,7 +152,7 @@
     
     
     [self initLabel];
-   // [self initImageView];
+    [self initImageView];
     [self initContentView];
     [self initButton];
 }

@@ -22,7 +22,6 @@
 		354E1AD818E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 354E1AD718E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		354E1AE118E840C2007F2DF4 /* HPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */; };
 		354E1AE618E85850007F2DF4 /* HPSeekoutCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */; };
-		35684EE618ED714100E9AE7A /* HPSeekoutCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35684EE518ED714100E9AE7A /* HPSeekoutCardView.m */; };
 		357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 357D7D8D18E70F53002A3166 /* HiPengyou.xcdatamodeld */; };
 		35C1022A18EFEAA900A6EA29 /* HPProfileSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */; };
 		35F2688718E27EC100AC55CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688618E27EC100AC55CD /* Foundation.framework */; };
@@ -75,8 +74,8 @@
 		354E1AE418E85850007F2DF4 /* HPSeekoutCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCreationViewController.h; sourceTree = "<group>"; };
 		354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCreationViewController.m; sourceTree = "<group>"; };
 		3564A20918EE65C0000760D2 /* HPSeekoutType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HPSeekoutType.h; path = "/Users/danielqiu/Workspace/HiPengyou/HiPengyou-iOS/HiPengyou/HPSeekoutType.h"; sourceTree = "<absolute>"; };
-		35684EE418ED714100E9AE7A /* HPSeekoutCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCardView.h; sourceTree = "<group>"; };
-		35684EE518ED714100E9AE7A /* HPSeekoutCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCardView.m; sourceTree = "<group>"; };
+		35684EE418ED714100E9AE7A /* HPSeekoutCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HPSeekoutCardView.h; path = "/Users/danielqiu/Workspace/HiPengyou/HiPengyou-iOS/HiPengyou/HPSeekoutCardView.h"; sourceTree = "<absolute>"; };
+		35684EE518ED714100E9AE7A /* HPSeekoutCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HPSeekoutCardView.m; path = "/Users/danielqiu/Workspace/HiPengyou/HiPengyou-iOS/HiPengyou/HPSeekoutCardView.m"; sourceTree = "<absolute>"; };
 		357D7D8E18E70F53002A3166 /* HiPengyou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HiPengyou.xcdatamodel; sourceTree = "<group>"; };
 		35C1022818EFEAA900A6EA29 /* HPProfileSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPProfileSettingViewController.h; sourceTree = "<group>"; };
 		35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPProfileSettingViewController.m; sourceTree = "<group>"; };
@@ -159,8 +158,6 @@
 				354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */,
 				354E1AE418E85850007F2DF4 /* HPSeekoutCreationViewController.h */,
 				354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */,
-				35684EE418ED714100E9AE7A /* HPSeekoutCardView.h */,
-				35684EE518ED714100E9AE7A /* HPSeekoutCardView.m */,
 				35C1022818EFEAA900A6EA29 /* HPProfileSettingViewController.h */,
 				35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */,
 			);
@@ -398,7 +395,6 @@
 				35F2689718E27EC100AC55CD /* HPAppDelegate.m in Sources */,
 				203234FC18EEAED800385725 /* HPSeekoutTableViewCell.m in Sources */,
 				354E1AE118E840C2007F2DF4 /* HPHomeViewController.m in Sources */,
-				35684EE618ED714100E9AE7A /* HPSeekoutCardView.m in Sources */,
 				35C1022A18EFEAA900A6EA29 /* HPProfileSettingViewController.m in Sources */,
 				35F268B718E29BC200AC55CD /* HPLoginViewController.m in Sources */,
 				3529060818EFB69D004D73EA /* HPSeekout.m in Sources */,
