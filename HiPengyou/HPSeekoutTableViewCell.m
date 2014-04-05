@@ -40,6 +40,8 @@
     // Configure the view for the selected state
 }
 
+
+#pragma mark - UI init
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier
               frame:(CGRect)frame
@@ -80,5 +82,6 @@
     }
     return self;
 }
+
 
 @end

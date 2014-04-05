@@ -14,6 +14,7 @@
 #import "HPSeekout.h"
 #import "UIView+Resize.h"
 #import "HPSeekoutTableViewCell.h"
+#import "HPSeekoutTableView.h"
 
 @interface HPHomeViewController ()
 
@@ -31,7 +32,7 @@
 @property (strong, atomic) NSMutableArray *seekoutArray;
 
 // TODO
-@property (strong, atomic) UITableView *seekoutTableView;
+@property (strong, atomic) HPSeekoutTableView *seekoutTableView;
 
 @end
 
@@ -128,35 +129,25 @@
 - (void)initSeekoutTableView
 {
     // Init With Frame
-    self.seekoutTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,
+    self.seekoutTableView = [[HPSeekoutTableView alloc] initWithFrame:CGRectMake(0,
                                                                           0,
                                                                           [self.view getHeight] - 168,
                                                                           [self.view getWidth])
                                                          style:UITableViewStylePlain];
     
-    // Set Style
-    self.seekoutTableView.backgroundColor = [UIColor clearColor];
-    self.seekoutTableView.layer.anchorPoint = CGPointMake(0, 0);
-    self.seekoutTableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
-    [self.seekoutTableView resetOrigin:CGPointMake(0, [self.seekoutTableView getHeight] + 168 / 2)];
-    self.seekoutTableView.showsVerticalScrollIndicator = NO;
-    self.seekoutTableView.rowHeight = 512.0f / 2 + 20; // 20 is for the seperate space
-    self.seekoutTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    self.seekoutTableView.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
-    
     // Set Delegate
     self.seekoutTableView.delegate = self;
     self.seekoutTableView.dataSource = self;
     
+    // Header and Footer Delegate
+    self.seekoutTableView.header.delegate = self;
+    self.seekoutTableView.footer.delegate = self;
+    
+    [self addHeader];
+    [self addFooter];
+    
     // Add to Subview
     [self.view addSubview:self.seekoutTableView];
-    
-//    NSLog(@"%f, %f, %f, %f",
-//          self.seekoutTableView.frame.origin.x,
-//          self.seekoutTableView.frame.origin.y,
-//          self.seekoutTableView.frame.size.width,
-//          self.seekoutTableView.frame.size.height);
 }
 
 - (void)initSeekoutCards
@@ -318,6 +309,74 @@
     return cell;
 }
 
+// TODO
+#pragma mark - Seekout Table View
+- (void)addHeader
+{
+    // 3.集成刷新控件
+    // 3.1.下拉刷新
+    MJRefreshHeaderView *header = [MJRefreshHeaderView header];
+    header.scrollView = self.seekoutTableView;
+    header.delegate = self;
+    // 自动刷新
+    [header beginRefreshing];
+    self.seekoutTableView.header = header;
+}
+
+- (void)addFooter
+{
+    // 3.2.上拉加载更多
+    MJRefreshFooterView *footer = [MJRefreshFooterView footer];
+    footer.scrollView = self.seekoutTableView;
+    footer.delegate = self;
+    self.seekoutTableView.footer = footer;
+}
+
+// TODO
+#pragma mark - MJRefreshBaseView Delegate
+- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+{
+    NSLog(@"%@----开始进入刷新状态", refreshView.class);
+    
+    // 1.添加假数据
+    
+    
+    // 2.2秒后刷新表格UI
+    [self performSelector:@selector(doneWithView:) withObject:refreshView afterDelay:2.0];
+}
+
+- (void)refreshViewEndRefreshing:(MJRefreshBaseView *)refreshView
+{
+    NSLog(@"%@----刷新完毕", refreshView.class);
+}
+
+- (void)refreshView:(MJRefreshBaseView *)refreshView stateChange:(MJRefreshState)state
+{
+    switch (state) {
+        case MJRefreshStateNormal:
+            NSLog(@"%@----切换到：普通状态", refreshView.class);
+            break;
+            
+        case MJRefreshStatePulling:
+            NSLog(@"%@----切换到：松开即可刷新的状态", refreshView.class);
+            break;
+            
+        case MJRefreshStateRefreshing:
+            NSLog(@"%@----切换到：正在刷新状态", refreshView.class);
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)doneWithView:(MJRefreshBaseView *)refreshView
+{
+    // 刷新表格
+    [self.seekoutTableView reloadData];
+    
+    // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+    [refreshView endRefreshing];
+}
 
 
 

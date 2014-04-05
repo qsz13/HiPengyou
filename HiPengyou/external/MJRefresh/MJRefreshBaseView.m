@@ -9,7 +9,7 @@
 #import "MJRefreshBaseView.h"
 #import "MJRefreshConst.h"
 
-@interface  MJRefreshBaseView()
+@interface MJRefreshBaseView()
 {
     BOOL _hasInitInset;
 }
