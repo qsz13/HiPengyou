@@ -7,6 +7,7 @@
 //
 
 #import "HPLoginViewController.h"
+#import "HPHomeViewController.h"
 #import "UIView+Resize.h"
 #import "HPLoginType.h"
 #import "HPAppDelegate.h"
@@ -37,6 +38,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self initNaviBar];
+
     [self initView];
     [self initLogo];
     [self initLabel];
@@ -46,9 +49,18 @@
     [self initTencent];
 }
 
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
 
 #pragma mark - UI Method
+
+- (void)initNaviBar
+{
+    self.navigationController.navigationBarHidden = YES;
+}
+
 -(void)initView
 {
     [self.view setBackgroundColor:[UIColor colorWithRed:49.0f / 255.0f
@@ -367,7 +379,7 @@
     }
     else
     {
-        NSData *postData = [[NSString stringWithFormat:@"name=%@&pass=%@",username,password] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSData *postData = [[NSString stringWithFormat:@"name=%@&pass=%@&connecttype=%d&",username,password,0] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
         NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -395,7 +407,9 @@
                                                          };
                     [self saveLoginState:hiAccount userData:hiAccountLoginData OAuth:nil];
                     //dismiss login view
-                    [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+//                    [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+                    HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
+                    [self.navigationController pushViewController:homeViewController animated:YES];
                 }
                 //login failed
                 else if([[dataDict objectForKey:@"code"] isEqualToString:@"14011"])
@@ -414,6 +428,7 @@
             //unknow error
             else
             {
+                NSLog(@"%@",data);
                 self.loginFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [self.loginFailedAlertView show];
             }
