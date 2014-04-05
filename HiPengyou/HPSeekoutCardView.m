@@ -61,7 +61,7 @@
     
     self.seekoutTimeLabel = [[UILabel alloc] init];
     [self.seekoutTimeLabel setText:self.seekoutTime];
-    [self.seekoutTimeLabel setText:@"01 Mar 04:25pm"];
+//    [self.seekoutTimeLabel setText:@"01 Mar 04:25pm"];
     [self.seekoutTimeLabel resetSize:CGSizeMake(200, 30)];
     self.seekoutTimeLabel.numberOfLines = 1;
 

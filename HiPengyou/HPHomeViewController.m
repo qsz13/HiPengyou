@@ -148,6 +148,8 @@
     self.seekoutTableView.rowHeight = 512.0f / 2 + 20; // 20 is for the seperate space
     self.seekoutTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    self.seekoutTableView.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
+    
     // Set Delegate
     self.seekoutTableView.delegate = self;
     self.seekoutTableView.dataSource = self;
@@ -228,7 +230,7 @@
                     [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
                     [seekout setState:[s objectForKey:@"seekoutstatu"]];
                     [seekout setType:[[s objectForKey:@"type"] integerValue]];
-                    [seekout setTime:[s objectForKey:@"time"]];
+                    [seekout setTime:[s objectForKey:@"uptime"]];
 
                     
                     [self.seekoutArray addObject: seekout];
@@ -320,6 +322,8 @@
     
     return cell;
 }
+
+
 
 
 @end
