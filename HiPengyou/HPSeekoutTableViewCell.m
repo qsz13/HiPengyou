@@ -39,34 +39,41 @@
     // Configure the view for the selected state
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // TODO
-    }
-    return self;
-}
-
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier
               frame:(CGRect)frame
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     self.frame = frame;
-//    [self resetWidthByOffset:80];
+    [self resetWidthByOffset:20];
     
-    NSLog(@"%f, %f, %f, %f", [self getOriginX], [self getOriginY], [self getWidth], [self getHeight]);
+    NSLog(@"Seekout Table View Cell: %f, %f, %f, %f",
+          [self getOriginX],
+          [self getOriginY],
+          [self getWidth],
+          [self getHeight]);
+    NSLog(@"Seekout Table View Cell Content View: %f, %f, %f, %f",
+          [self.contentView getOriginX],
+          [self.contentView getOriginY],
+          [self.contentView getWidth],
+          [self.contentView getHeight]);
     
     if (self) {
         HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:frame];
+        [seekoutCardView resetOriginXByOffset:10];
         
         // Clear Background Color
         self.contentView.backgroundColor = [UIColor clearColor];
         self.backgroundColor = [UIColor clearColor];
         
+        // Bg View
+        UIView *bgView = [[UIView alloc] initWithFrame:frame];
+        [bgView resetWidthByOffset:20];
+        bgView.backgroundColor = [UIColor clearColor];
+        
         // Add Seekout Card View To Content View
-        [self.contentView addSubview:seekoutCardView];
+        [bgView addSubview:seekoutCardView];
+        [self.contentView addSubview:bgView];
     }
     return self;
 }

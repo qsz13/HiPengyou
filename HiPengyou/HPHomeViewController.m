@@ -143,7 +143,7 @@
     self.seekoutTableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
     [self.seekoutTableView resetOrigin:CGPointMake(0, [self.seekoutTableView getHeight] + 168 / 2)];
     self.seekoutTableView.showsVerticalScrollIndicator = NO;
-    self.seekoutTableView.rowHeight = 512.0f / 2;
+    self.seekoutTableView.rowHeight = 512.0f / 2 + 20; // 20 is for the seperate space
     self.seekoutTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // Set Delegate
@@ -246,7 +246,7 @@
     if ([self.seekoutCardsArray count])
     {
         HPSeekoutCardView *lastSeekoutCardView = [self.seekoutCardsArray lastObject];
-        HPSeekoutCardView *newSeekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake([lastSeekoutCardView getOriginX] + [lastSeekoutCardView getWidth] + 10, 0, 512/2, [self.seekoutScrollView getHeight])];
+        HPSeekoutCardView *newSeekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake([lastSeekoutCardView getOriginX] + [lastSeekoutCardView getWidth] + 10, 0, 512 / 2, [self.seekoutScrollView getHeight])];
         
         [self.seekoutCardsArray addObject:newSeekoutCardView];
         [self.seekoutScrollView setContentSize:CGSizeMake(self.seekoutScrollView.contentSize.width + [newSeekoutCardView getWidth] + 10, [self.seekoutScrollView getHeight])];

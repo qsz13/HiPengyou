@@ -212,7 +212,7 @@
     self.registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.registerButton setTitle:@"I am new here" forState:UIControlStateNormal];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.registerButton setBackgroundImage:[UIImage imageNamed:@"HPRegisterButton"] forState:(UIControlStateNormal)];
+    [self.registerButton setBackgroundImage:[UIImage imageNamed:@"HPLoginButton"] forState:(UIControlStateNormal)];
     [self.registerButton setFrame:CGRectMake(self.loginButton.frame.origin.x, self.loginButton.frame.origin.y + self.loginButton.frame.size.height + 10, 212, 38)];
     [self.registerButton addTarget:self
                             action:@selector(didClickRegisterButton)
