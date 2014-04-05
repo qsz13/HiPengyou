@@ -7,6 +7,7 @@
 //
 
 #import "HPLoginViewController.h"
+#import "HPRegisterViewController.h"
 #import "HPHomeViewController.h"
 #import "UIView+Resize.h"
 #import "HPLoginType.h"
@@ -266,6 +267,9 @@
 
 - (void)didClickRegisterButton
 {
+    HPRegisterViewController * registerViewController = [[HPRegisterViewController alloc]init];
+    [self.navigationController pushViewController:registerViewController animated:YES];
+    
     
 }
 

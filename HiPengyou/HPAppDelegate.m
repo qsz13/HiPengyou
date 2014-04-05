@@ -11,6 +11,7 @@
 #import "HPMessageViewController.h"
 #import "HPProfileViewController.h"
 #import "HPHomeViewController.h"
+#import "HPRegisterViewController.h"
 
 @implementation HPAppDelegate
 
