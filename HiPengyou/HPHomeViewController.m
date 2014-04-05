@@ -12,8 +12,9 @@
 #import "HPSeekoutCreationViewController.h"
 #import "HPSeekoutCardView.h"
 #import "UIView+Resize.h"
-@interface HPHomeViewController ()
+#import "HPSeekoutTableViewCell.h"
 
+@interface HPHomeViewController ()
 
 @property (strong, atomic) NSString *sid;
 @property (strong, atomic) UIButton *categoryButton;
@@ -27,6 +28,9 @@
 @property (strong, atomic) NSMutableArray *seekoutCardsArray;
 @property (strong, atomic) UIAlertView *connectionFaiedAlertView;
 
+// TODO
+@property (strong, atomic) UITableView *seekoutTableView;
+
 @end
 
 
@@ -38,7 +42,8 @@
     [self initData];
     [self initView];
     [self initNaviBar];
-    [self initSeekoutScrollView];
+//    [self initSeekoutScrollView];
+    [self initSeekoutTableView];
     [self initSeekoutCards];
     [self initButton];
 }
@@ -60,7 +65,7 @@
                                                    blue:230.0f / 255.0f
                                                   alpha:1]];
 
-    if([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)])
+    if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)])
     {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
@@ -98,7 +103,8 @@
     
     self.addSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.addSeekoutButton setImage:[UIImage imageNamed:@"HPAddSeekoutButton"] forState:UIControlStateNormal];
-    [self.addSeekoutButton setFrame: CGRectMake(([self.view getWidth]-43)/2, [self.seekoutScrollView getOriginY]+[self.seekoutScrollView getHeight]+25, 43, 43)];
+//    [self.addSeekoutButton setFrame: CGRectMake(([self.view getWidth]-43)/2, [self.seekoutScrollView getOriginY]+[self.seekoutScrollView getHeight]+25, 43, 43)];
+    [self.addSeekoutButton setFrame: CGRectMake(([self.view getWidth] - 43) / 2, [self.seekoutTableView getOriginY] + [self.seekoutTableView getHeight] + 25, 43, 43)];
     [self.addSeekoutButton addTarget:self action:@selector(didClickAddSeekoutButton) forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubview:self.addSeekoutButton];
@@ -119,19 +125,51 @@
     [self.seekoutScrollView setContentSize:CGSizeMake([self.seekoutScrollView getWidth], [self.seekoutScrollView getHeight])];
     [self.seekoutScrollView setShowsVerticalScrollIndicator:NO];
     [self.view addSubview:self.seekoutScrollView];
+}
+
+// TODO - 横向
+- (void)initSeekoutTableView
+{
+    // Init With Frame
+    self.seekoutTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,
+                                                                          0,
+                                                                          [self.view getHeight] - 168,
+                                                                          [self.view getWidth])
+                                                         style:UITableViewStylePlain];
     
+    // Set Style
+    self.seekoutTableView.backgroundColor = [UIColor clearColor];
+    self.seekoutTableView.layer.anchorPoint = CGPointMake(0, 0);
+    self.seekoutTableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
+    [self.seekoutTableView resetOrigin:CGPointMake(0, [self.seekoutTableView getHeight] + 168 / 2)];
+    self.seekoutTableView.showsVerticalScrollIndicator = NO;
+    self.seekoutTableView.rowHeight = 512.0f / 2;
+    self.seekoutTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    // Set Delegate
+    self.seekoutTableView.delegate = self;
+    self.seekoutTableView.dataSource = self;
+    
+    // Add to Subview
+    [self.view addSubview:self.seekoutTableView];
+    
+    NSLog(@"%f, %f, %f, %f",
+          self.seekoutTableView.frame.origin.x,
+          self.seekoutTableView.frame.origin.y,
+          self.seekoutTableView.frame.size.width,
+          self.seekoutTableView.frame.size.height);
 }
 
 - (void)initSeekoutCards
 {
-    self.seekoutCardsArray = [[NSMutableArray alloc]init];
+    self.seekoutCardsArray = [[NSMutableArray alloc] init];
     for(int i = 0 ; i < 3; i++)
     {
         [self addSeekoutCard];
     }
 }
 
-#pragma mark - button event
+#pragma mark - Button Event
 
 - (void)didClickMessageButton
 {
@@ -154,7 +192,7 @@
 }
 
 
-#pragma mark - request
+#pragma mark - Request
 - (void)requestForNewSeekout
 {
     NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://timadidas.vicp.cc:15730/seekout/seekoutList?sid=%@", self.sid]];
@@ -202,10 +240,10 @@
 }
 
 
-#pragma mark - add card
+#pragma mark - Add Card
 - (void)addSeekoutCard
 {
-    if([self.seekoutCardsArray count])
+    if ([self.seekoutCardsArray count])
     {
         HPSeekoutCardView *lastSeekoutCardView = [self.seekoutCardsArray lastObject];
         HPSeekoutCardView *newSeekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake([lastSeekoutCardView getOriginX] + [lastSeekoutCardView getWidth] + 10, 0, 512/2, [self.seekoutScrollView getHeight])];
@@ -223,12 +261,30 @@
 
         [self.seekoutScrollView addSubview:seekoutCardView];
     }
-    
-    
 }
 
+#pragma mark - UITableView DataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
 
-
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    HPSeekoutTableViewCell *cell = [[HPSeekoutTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                 reuseIdentifier:@"seekout"
+                                                                           frame:CGRectMake(0,
+                                                                                            0,
+                                                                                            512 / 2,
+                                                                                            [tableView getHeight])];
+    // Set Style
+    cell.transform = CGAffineTransformMakeRotation(M_PI / 2);
+    cell.userInteractionEnabled = NO;
+    
+    // TODO
+    
+    return cell;
+}
 
 
 @end
