@@ -36,7 +36,7 @@
 
 - (void)initButton
 {
-    self.backButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.backButton setFrame:CGRectMake( 20, 34 , 50, 30)];
     [self.backButton setTitle:@"back" forState:UIControlStateNormal];
     [self.backButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
