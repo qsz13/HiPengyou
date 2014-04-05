@@ -62,8 +62,8 @@
     
     if (self) {
         HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:frame];
-        [seekoutCardView loadData:seekout];
         [seekoutCardView resetOriginXByOffset:10];
+        [seekoutCardView loadData:seekout];
 
         // Clear Background Color
         self.contentView.backgroundColor = [UIColor clearColor];

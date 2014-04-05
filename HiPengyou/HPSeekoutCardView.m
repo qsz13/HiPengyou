@@ -48,8 +48,8 @@
 - (void)initLabel
 {
     self.seekoutAuthorNameLabel = [[UILabel alloc] init];
-    [self.seekoutAuthorNameLabel setText:self.seekoutAuthorName];
     [self.seekoutAuthorNameLabel resetSize:CGSizeMake(500, 30)];
+    [self.seekoutAuthorNameLabel setText:self.seekoutAuthorName];
 //    [self.seekoutAuthorNameLabel setText:@"Tina Chou"];
     self.seekoutAuthorNameLabel.numberOfLines = 0;
     [self.seekoutAuthorNameLabel setTextColor:[UIColor colorWithRed:171.0f/255.0f green:104.0f/255.0f blue:102.0f/255.0f alpha:1]];
@@ -59,7 +59,7 @@
     [self.seekoutAuthorNameLabel setCenter:CGPointMake([self getWidth]/2, [self getHeight]*0.1)];
     [self addSubview:self.seekoutAuthorNameLabel];
     
-    self.seekoutTimeLabel = [[UILabel alloc]init];
+    self.seekoutTimeLabel = [[UILabel alloc] init];
     [self.seekoutTimeLabel setText:self.seekoutTime];
     [self.seekoutTimeLabel setText:@"01 Mar 04:25pm"];
     [self.seekoutTimeLabel resetSize:CGSizeMake(200, 30)];
@@ -97,15 +97,21 @@
    
     [self addSubview:self.seekoutAuthorFaceImageView];
     
+//    NSLog(@"seekoutAuthorFaceImageView: %f, %f, %f, %f",
+//          [self.seekoutAuthorFaceImageView getOriginX],
+//          [self.seekoutAuthorFaceImageView getOriginY],
+//          [self.seekoutAuthorFaceImageView getWidth],
+//          [self.seekoutAuthorFaceImageView getHeight]);
+    
 }
 
 - (void)initContentView
 {
-    self.seekoutContentView = [[UIView alloc]init];
+    self.seekoutContentView = [[UIView alloc] init];
     [self.seekoutContentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"HPSeekoutContentBgImage"]]];
     [self.seekoutContentView setFrame:CGRectMake(27, [self.seekoutAuthorFaceImageView getOriginY]+[self.seekoutAuthorFaceImageView getHeight]+5, 208, 117)];
     
-    self.seekoutContentLabel = [[UILabel alloc]init];
+    self.seekoutContentLabel = [[UILabel alloc] init];
     [self.seekoutContentLabel setBackgroundColor:[UIColor clearColor]];
     [self.seekoutContentLabel resetSize:CGSizeMake([self.seekoutContentView getWidth]-2*10, [self.seekoutContentView getHeight])];
     self.seekoutContentLabel.numberOfLines = 4;
