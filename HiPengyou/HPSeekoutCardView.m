@@ -9,6 +9,7 @@
 #import "HPSeekoutCardView.h"
 #import "UIView+Resize.h"
 
+
 @interface HPSeekoutCardView ()
 
 @property (strong, atomic) UIButton *replyButton;
@@ -29,10 +30,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self initBackground];
-        [self initLabel];
-        [self initImageView];
-        [self initContentView];
-        [self initButton];
+        
 
     }
     return self;
@@ -46,12 +44,13 @@
                                                        alpha:1]];
 }
 
+
 - (void)initLabel
 {
     self.seekoutAuthorNameLabel = [[UILabel alloc] init];
     [self.seekoutAuthorNameLabel setText:self.seekoutAuthorName];
     [self.seekoutAuthorNameLabel resetSize:CGSizeMake(500, 30)];
-    [self.seekoutAuthorNameLabel setText:@"Tina Chou"];
+//    [self.seekoutAuthorNameLabel setText:@"Tina Chou"];
     self.seekoutAuthorNameLabel.numberOfLines = 0;
     [self.seekoutAuthorNameLabel setTextColor:[UIColor colorWithRed:171.0f/255.0f green:104.0f/255.0f blue:102.0f/255.0f alpha:1]];
     [self.seekoutAuthorNameLabel setBackgroundColor:[UIColor clearColor]];
@@ -62,7 +61,7 @@
     
     self.seekoutTimeLabel = [[UILabel alloc]init];
     [self.seekoutTimeLabel setText:self.seekoutTime];
-    [self.seekoutTimeLabel setText:@"01 Mar 04:25pm"];
+//    [self.seekoutTimeLabel setText:@"01 Mar 04:25pm"];
     [self.seekoutTimeLabel resetSize:CGSizeMake(200, 30)];
     self.seekoutTimeLabel.numberOfLines = 1;
 
@@ -111,7 +110,7 @@
     [self.seekoutContentLabel resetSize:CGSizeMake([self.seekoutContentView getWidth]-2*10, [self.seekoutContentView getHeight])];
     self.seekoutContentLabel.numberOfLines = 4;
     [self.seekoutContentLabel setText:self.seekoutContent];
-    [self.seekoutContentLabel setText:@"kasfasl;dfjknckashdfkljhsdflkjahsdlfkjahsldkfjhalksjdfhlaksjdfhal;skfjnc;alksdjncalkdjfncalkdjsfcnaldjkfanfjklncfjalkfdsjcnladksjfcnladskjf"];
+//    [self.seekoutContentLabel setText:@"kasfasl;dfjknckashdfkljhsdflkjahsdlfkjahsldkfjhalksjdfhlaksjdfhal;skfjnc;alksdjncalkdjfncalkdjsfcnaldjkfanfjklncfjalkfdsjcnladksjfcnladskjf"];
     [self.seekoutContentLabel setTextColor:[UIColor colorWithRed:144.0f/255.0f green:150.0f/255.0f blue:157.0f/255.0f alpha:1]];
     [self.seekoutContentLabel setFont:[UIFont systemFontOfSize:16]];
     [self.seekoutContentLabel sizeToFit];
@@ -122,7 +121,7 @@
     
 }
 
--(void)initButton
+- (void)initButton
 {
     self.replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.replyButton setBackgroundImage:[UIImage imageNamed:@"HPReplyButton"] forState:UIControlStateNormal];
@@ -142,6 +141,20 @@
     
 }
 
-
+- (void)loadData:(HPSeekout*)seekout
+{
+    self.seekoutAuthorName = seekout.author;
+    self.seekoutContent = seekout.content;
+    self.seekoutTime = seekout.time;
+    
+    
+    
+    
+    
+    [self initLabel];
+   // [self initImageView];
+    [self initContentView];
+    [self initButton];
+}
 
 @end

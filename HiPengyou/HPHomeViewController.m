@@ -28,6 +28,7 @@
 @property (strong, atomic) UIScrollView *seekoutScrollView;
 @property (strong, atomic) NSMutableArray *seekoutCardsArray;
 @property (strong, atomic) UIAlertView *connectionFaiedAlertView;
+@property (strong, atomic) NSMutableArray *seekoutArray;
 
 // TODO
 @property (strong, atomic) UITableView *seekoutTableView;
@@ -154,19 +155,21 @@
     // Add to Subview
     [self.view addSubview:self.seekoutTableView];
     
-    NSLog(@"%f, %f, %f, %f",
-          self.seekoutTableView.frame.origin.x,
-          self.seekoutTableView.frame.origin.y,
-          self.seekoutTableView.frame.size.width,
-          self.seekoutTableView.frame.size.height);
+//    NSLog(@"%f, %f, %f, %f",
+//          self.seekoutTableView.frame.origin.x,
+//          self.seekoutTableView.frame.origin.y,
+//          self.seekoutTableView.frame.size.width,
+//          self.seekoutTableView.frame.size.height);
 }
 
 - (void)initSeekoutCards
 {
+    self.seekoutArray = [[NSMutableArray alloc] init];
+    
     self.seekoutCardsArray = [[NSMutableArray alloc] init];
     for(int i = 0 ; i < 3; i++)
     {
-        [self addSeekoutCard];
+        [self requestForNewSeekout];
     }
 }
 
@@ -196,20 +199,22 @@
 #pragma mark - Request
 - (void)requestForNewSeekout
 {
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://timadidas.vicp.cc:15730/seekout/seekoutList?sid=%@", self.sid]];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://timadidas.vicp.cc:15730/seekout/seekoutList?sid=l705r5vb8osh0k0k5q9u3ji75genednm&"]];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     
 
 
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        
+
         //connection successed
         if([data length] > 0 && connectionError == nil)
         {
             NSError *e = nil;
             NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-
-            //login successed
+            NSLog(@"%@",dataDict);
+            //request success
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {
                 NSDictionary *resultDict = [dataDict objectForKey:@"result"];
@@ -217,16 +222,26 @@
                 for (NSDictionary *s in seekoutList)
                 {
                     HPSeekout *seekout = [[HPSeekout alloc]init];
-                    //[seekout setId:[] ];
-//                    NSInteger 
+                    [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
+                    [seekout setContent:[s objectForKey:@"content"]];
+                    [seekout setAuthor:[s objectForKey:@"author"]];
+                    [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
+                    [seekout setState:[s objectForKey:@"seekoutstatu"]];
+                    [seekout setType:[[s objectForKey:@"type"] integerValue]];
                     
+                    [self.seekoutArray addObject: seekout];
+                    [self addSeekoutCard:seekout];
                 }
+                
+                    [self.seekoutTableView reloadData];
+                
+                
                 
             }
             //login failed
-            else if([[dataDict objectForKey:@"code"] isEqualToString:@"14011"])
+            else if([[dataDict objectForKey:@"code"] isEqualToString:@"10001"])
             {
-                //no more new seekout
+                //please login first
             }
         }
         //connection failed
@@ -251,17 +266,21 @@
 
 
 #pragma mark - Add Card
-- (void)addSeekoutCard
+
+
+- (void)addSeekoutCard:(HPSeekout*)seekout
 {
     if ([self.seekoutCardsArray count])
     {
         HPSeekoutCardView *lastSeekoutCardView = [self.seekoutCardsArray lastObject];
         HPSeekoutCardView *newSeekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake([lastSeekoutCardView getOriginX] + [lastSeekoutCardView getWidth] + 10, 0, 512/2, [self.seekoutScrollView getHeight])];
+        [newSeekoutCardView loadData:seekout];
         
         [self.seekoutCardsArray addObject:newSeekoutCardView];
         [self.seekoutScrollView setContentSize:CGSizeMake(self.seekoutScrollView.contentSize.width + [newSeekoutCardView getWidth] + 10, [self.seekoutScrollView getHeight])];
         NSLog(@"%f",[self.seekoutScrollView getWidth]);
         [self.seekoutScrollView addSubview:newSeekoutCardView];
+
     }
     else
     {
@@ -273,20 +292,24 @@
     }
 }
 
+
+
 #pragma mark - UITableView DataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return self.seekoutArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"%@",[self.seekoutArray objectAtIndex:0]);
     HPSeekoutTableViewCell *cell = [[HPSeekoutTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                                  reuseIdentifier:@"seekout"
                                                                            frame:CGRectMake(0,
                                                                                             0,
                                                                                             512 / 2,
-                                                                                            [tableView getHeight])];
+                                                                                            [tableView getHeight])
+                                                                            data:[self.seekoutArray objectAtIndex:0]];
     // Set Style
     cell.transform = CGAffineTransformMakeRotation(M_PI / 2);
     cell.userInteractionEnabled = NO;

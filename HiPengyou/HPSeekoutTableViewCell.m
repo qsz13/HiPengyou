@@ -10,6 +10,7 @@
 #import "HPSeekoutCardView.h"
 #import "UIView+Resize.h"
 
+
 @interface HPSeekoutTableViewCell ()
 
 
@@ -51,6 +52,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier
               frame:(CGRect)frame
+               data:(HPSeekout*)seekout
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     self.frame = frame;
@@ -60,7 +62,7 @@
     
     if (self) {
         HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:frame];
-        
+        [seekoutCardView loadData:seekout];
         // Clear Background Color
         self.contentView.backgroundColor = [UIColor clearColor];
         self.backgroundColor = [UIColor clearColor];

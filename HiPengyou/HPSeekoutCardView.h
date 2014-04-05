@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HPSeekoutType.h"
+#import "HPSeekout.h"
 
 @interface HPSeekoutCardView : UIView
 
@@ -22,5 +23,7 @@
 @property (strong, atomic) NSString *seekoutContent;
 
 @property HPSeekoutType seekoutType;
+
+-(void)loadData:(HPSeekout*)seekout;
 
 @end

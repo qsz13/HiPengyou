@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HPSeekout.h"
 @interface HPSeekoutTableViewCell : UITableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier
-              frame:(CGRect)frame;
+              frame:(CGRect)frame
+               data:(HPSeekout*)seekout;
 
 @end

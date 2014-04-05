@@ -152,14 +152,12 @@
 				35F268C218E2C14B00AC55CD /* HPMessageViewController.m */,
 				35F268C418E2C17200AC55CD /* HPProfileViewController.h */,
 				35F268C518E2C17200AC55CD /* HPProfileViewController.m */,
-				354E1ACA18E7E2BB007F2DF4 /* HPLoginType.h */,
 				354E1ADF18E840C2007F2DF4 /* HPHomeViewController.h */,
 				354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */,
 				354E1AE418E85850007F2DF4 /* HPSeekoutCreationViewController.h */,
 				354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */,
 				35684EE418ED714100E9AE7A /* HPSeekoutCardView.h */,
 				35684EE518ED714100E9AE7A /* HPSeekoutCardView.m */,
-				3564A20918EE65C0000760D2 /* HPSeekoutType.h */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -176,6 +174,8 @@
 		3529060518EFB687004D73EA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3564A20918EE65C0000760D2 /* HPSeekoutType.h */,
+				354E1ACA18E7E2BB007F2DF4 /* HPLoginType.h */,
 				3529060618EFB69D004D73EA /* HPSeekout.h */,
 				3529060718EFB69D004D73EA /* HPSeekout.m */,
 			);
