@@ -11,6 +11,7 @@
 #import "HPProfileViewController.h"
 #import "HPSeekoutCreationViewController.h"
 #import "HPSeekoutCardView.h"
+#import "HPSeekout.h"
 #import "UIView+Resize.h"
 #import "HPSeekoutTableViewCell.h"
 
@@ -207,10 +208,19 @@
         {
             NSError *e = nil;
             NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            NSDictionary *userDict = [[dataDict objectForKey:@"result"] objectForKey:@"user"];
+
             //login successed
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {
+                NSDictionary *resultDict = [dataDict objectForKey:@"result"];
+                NSArray *seekoutList = [resultDict objectForKey:@"Seekout.list"];
+                for (NSDictionary *s in seekoutList)
+                {
+                    HPSeekout *seekout = [[HPSeekout alloc]init];
+                    //[seekout setId:[] ];
+//                    NSInteger 
+                    
+                }
                 
             }
             //login failed

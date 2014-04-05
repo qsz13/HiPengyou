@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 201E96BF18E6D63900F5A907 /* UIView+Resize.m */; };
 		203234FC18EEAED800385725 /* HPSeekoutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 203234FB18EEAED800385725 /* HPSeekoutTableViewCell.m */; };
+		3529060818EFB69D004D73EA /* HPSeekout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3529060718EFB69D004D73EA /* HPSeekout.m */; };
 		354E1ABA18E7C79D007F2DF4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AB918E7C79D007F2DF4 /* Security.framework */; };
 		354E1ABC18E7C7A9007F2DF4 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */; };
 		354E1ABE18E7C7B4007F2DF4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */; };
@@ -55,6 +56,8 @@
 		201E96BF18E6D63900F5A907 /* UIView+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Resize.m"; sourceTree = "<group>"; };
 		203234FA18EEAED800385725 /* HPSeekoutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutTableViewCell.h; sourceTree = "<group>"; };
 		203234FB18EEAED800385725 /* HPSeekoutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutTableViewCell.m; sourceTree = "<group>"; };
+		3529060618EFB69D004D73EA /* HPSeekout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekout.h; sourceTree = "<group>"; };
+		3529060718EFB69D004D73EA /* HPSeekout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekout.m; sourceTree = "<group>"; };
 		354E1AB918E7C79D007F2DF4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -170,6 +173,15 @@
 			name = CustomViews;
 			sourceTree = "<group>";
 		};
+		3529060518EFB687004D73EA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3529060618EFB69D004D73EA /* HPSeekout.h */,
+				3529060718EFB69D004D73EA /* HPSeekout.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		354E1AC918E7CC8A007F2DF4 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,6 +240,7 @@
 		35F2688C18E27EC100AC55CD /* HiPengyou */ = {
 			isa = PBXGroup;
 			children = (
+				3529060518EFB687004D73EA /* Models */,
 				203234F918EEAEAE00385725 /* CustomViews */,
 				357D7D8C18E70E7F002A3166 /* CoreData */,
 				201E96BB18E6D56C00F5A907 /* Categories */,
@@ -380,6 +393,7 @@
 				354E1AE118E840C2007F2DF4 /* HPHomeViewController.m in Sources */,
 				35684EE618ED714100E9AE7A /* HPSeekoutCardView.m in Sources */,
 				35F268B718E29BC200AC55CD /* HPLoginViewController.m in Sources */,
+				3529060818EFB69D004D73EA /* HPSeekout.m in Sources */,
 				35F2689318E27EC100AC55CD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
