@@ -49,6 +49,12 @@
 - (void)initNaviBar
 {
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.backButton setBackgroundImage:[UIImage imageNamed:@"HPBackButton"] forState:UIControlStateNormal];
+    [self.backButton resetSize:CGSizeMake(20, 20)];
+    [self.backButton setCenter:CGPointMake(19/2+10, 43)];
+    [self.backButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backButton];
+
     
     
     self.titleButton = [[UILabel alloc]init];
@@ -144,6 +150,11 @@
 
 }
 
+#pragma mark - button event
+- (void)didClickBackButton
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 @end

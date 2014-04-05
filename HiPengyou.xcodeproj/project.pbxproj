@@ -24,6 +24,7 @@
 		354E1AE618E85850007F2DF4 /* HPSeekoutCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */; };
 		35684EE618ED714100E9AE7A /* HPSeekoutCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35684EE518ED714100E9AE7A /* HPSeekoutCardView.m */; };
 		357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 357D7D8D18E70F53002A3166 /* HiPengyou.xcdatamodeld */; };
+		35C1022A18EFEAA900A6EA29 /* HPProfileSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */; };
 		35F2688718E27EC100AC55CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688618E27EC100AC55CD /* Foundation.framework */; };
 		35F2688918E27EC100AC55CD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688818E27EC100AC55CD /* CoreGraphics.framework */; };
 		35F2688B18E27EC100AC55CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688A18E27EC100AC55CD /* UIKit.framework */; };
@@ -65,7 +66,7 @@
 		354E1AC118E7C7D3007F2DF4 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		354E1AC318E7C7DE007F2DF4 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		354E1AC518E7C7E6007F2DF4 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		354E1ACA18E7E2BB007F2DF4 /* HPLoginType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPLoginType.h; sourceTree = "<group>"; };
+		354E1ACA18E7E2BB007F2DF4 /* HPLoginType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HPLoginType.h; path = "/Users/danielqiu/Workspace/HiPengyou/HiPengyou-iOS/HiPengyou/HPLoginType.h"; sourceTree = "<absolute>"; };
 		354E1AD318E7F77D007F2DF4 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = HiPengyou/external/TencentOpenAPI.framework; sourceTree = "<group>"; };
 		354E1AD518E7F7C0007F2DF4 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = HiPengyou/external/FacebookSDK.framework; sourceTree = "<group>"; };
 		354E1AD718E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = external/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
@@ -73,10 +74,12 @@
 		354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPHomeViewController.m; sourceTree = "<group>"; };
 		354E1AE418E85850007F2DF4 /* HPSeekoutCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCreationViewController.h; sourceTree = "<group>"; };
 		354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCreationViewController.m; sourceTree = "<group>"; };
-		3564A20918EE65C0000760D2 /* HPSeekoutType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPSeekoutType.h; sourceTree = "<group>"; };
+		3564A20918EE65C0000760D2 /* HPSeekoutType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HPSeekoutType.h; path = "/Users/danielqiu/Workspace/HiPengyou/HiPengyou-iOS/HiPengyou/HPSeekoutType.h"; sourceTree = "<absolute>"; };
 		35684EE418ED714100E9AE7A /* HPSeekoutCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCardView.h; sourceTree = "<group>"; };
 		35684EE518ED714100E9AE7A /* HPSeekoutCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCardView.m; sourceTree = "<group>"; };
 		357D7D8E18E70F53002A3166 /* HiPengyou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HiPengyou.xcdatamodel; sourceTree = "<group>"; };
+		35C1022818EFEAA900A6EA29 /* HPProfileSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPProfileSettingViewController.h; sourceTree = "<group>"; };
+		35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPProfileSettingViewController.m; sourceTree = "<group>"; };
 		35F2688318E27EC100AC55CD /* HiPengyou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiPengyou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35F2688618E27EC100AC55CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		35F2688818E27EC100AC55CD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -158,8 +161,8 @@
 				354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */,
 				35684EE418ED714100E9AE7A /* HPSeekoutCardView.h */,
 				35684EE518ED714100E9AE7A /* HPSeekoutCardView.m */,
-				354E1ACA18E7E2BB007F2DF4 /* HPLoginType.h */,
-				3564A20918EE65C0000760D2 /* HPSeekoutType.h */,
+				35C1022818EFEAA900A6EA29 /* HPProfileSettingViewController.h */,
+				35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				203234FC18EEAED800385725 /* HPSeekoutTableViewCell.m in Sources */,
 				354E1AE118E840C2007F2DF4 /* HPHomeViewController.m in Sources */,
 				35684EE618ED714100E9AE7A /* HPSeekoutCardView.m in Sources */,
+				35C1022A18EFEAA900A6EA29 /* HPProfileSettingViewController.m in Sources */,
 				35F268B718E29BC200AC55CD /* HPLoginViewController.m in Sources */,
 				3529060818EFB69D004D73EA /* HPSeekout.m in Sources */,
 				35F2689318E27EC100AC55CD /* main.m in Sources */,
@@ -560,6 +564,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
