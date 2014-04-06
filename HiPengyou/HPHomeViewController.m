@@ -32,7 +32,7 @@
 @property (strong, atomic) HPSeekoutCreationViewController *seekoutCreationViewController;
 @property (strong, atomic) HPSeekoutTableView *seekoutTableView;
 //@property (strong, atomic) UIScrollView *seekoutScrollView;
-@property (strong, atomic) NSMutableArray *seekoutCardsArray;
+//@property (strong, atomic) NSMutableArray *seekoutCardsArray;
 @property (strong, atomic) UIAlertView *connectionFaiedAlertView;
 @property (strong, atomic) NSMutableArray *seekoutArray;
 @property HPSeekoutType seekoutType;
@@ -213,9 +213,10 @@
                                                                           [self.view getHeight] - 168,
                                                                           [self.view getWidth])
                                                          style:UITableViewStylePlain];
-    // Set Style
-    self.seekoutTableView.separatorInset = UIEdgeInsetsMake(20, 0, 0, 20);
     
+    // Set Style
+    self.seekoutTableView.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
+
     // Set Delegate
     self.seekoutTableView.delegate = self;
     self.seekoutTableView.dataSource = self;
@@ -232,11 +233,10 @@
 {
     self.seekoutArray = [[NSMutableArray alloc] init];
     
-    self.seekoutCardsArray = [[NSMutableArray alloc] init];
-    for (int i = 0 ; i < 2; i++)
-    {
+//    self.seekoutCardsArray = [[NSMutableArray alloc] init];
+
         [self requestForNewSeekout];
-    }
+
 }
 
 #pragma mark - Button Event
@@ -278,25 +278,49 @@
 // TODO
 - (void)didClickAllSeekoutButton:(UIButton *)sender
 {
-    self.seekoutType = all;
+    if(self.seekoutType != all)
+    {
+        self.seekoutType = all;
+        self.pageID = 0;
+        self.seekoutArray = [[NSMutableArray alloc]init];
+        [self requestForNewSeekout];
+    }
 }
 
 // TODO
 - (void)didClickPeopleSeekoutButton:(UIButton *)sender
 {
-    self.seekoutType = people;
+    if(self.seekoutType != people)
+    {
+        self.seekoutType = people;
+        self.pageID = 0;
+        self.seekoutArray = [[NSMutableArray alloc]init];
+        [self requestForNewSeekout];
+    }
 }
 
 // TODO
 - (void)didClickLifeTipsSeekoutButton:(UIButton *)sender
 {
-    self.seekoutType = tips;
+    if(self.seekoutType != tips)
+    {
+        self.seekoutType = tips;
+        self.pageID = 0;
+        self.seekoutArray = [[NSMutableArray alloc]init];
+        [self requestForNewSeekout];
+    }
 }
 
 // TODO
 - (void)didClickEventsSeekoutButton:(UIButton *)sender
 {
-    self.seekoutType = events;
+    if(self.seekoutType != events)
+    {
+        self.seekoutType = events;
+        self.pageID = 0;
+        self.seekoutArray = [[NSMutableArray alloc]init];
+        [self requestForNewSeekout];
+    }
 }
 
 #pragma mark - Request
@@ -334,14 +358,17 @@
                     [seekout setState:[s objectForKey:@"seekoutstatu"]];
                     [seekout setType:[[s objectForKey:@"type"] integerValue]];
                     [seekout setTime:[s objectForKey:@"uptime"]];
-
-                    
+                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
+                    UIImage *faceImage = [self requestForFace:faceURL];
+                    [seekout setFaceImage:faceImage];
                     [self.seekoutArray addObject: seekout];
+                    NSLog(@"%@",self.seekoutArray);
+                    [self.seekoutTableView reloadData];
                     NSLog(@"%@",[s objectForKey:@"author"]);
 //                    [self addSeekoutCard:seekout];
                 }
                 
-                [self.seekoutTableView reloadData];
+                
 
                 
                 
@@ -373,6 +400,15 @@
     //callback
 }
 
+- (UIImage *)requestForFace:(NSURL*)faceURL
+{
+
+    
+    NSData * data = [NSData dataWithContentsOfURL:faceURL];
+    UIImage * result = [UIImage imageWithData:data];
+    
+    return result;
+}
 
 //#pragma mark - Add Card
 //- (void)addSeekoutCard:(HPSeekout*)seekout
@@ -425,10 +461,10 @@
     NSLog(@"%@----开始进入刷新状态", refreshView.class);
     
     // 1.添加假数据
-    
+    [self requestForNewSeekout];
     
     // 2.2秒后刷新表格UI
-    [self performSelector:@selector(doneWithView:) withObject:refreshView afterDelay:2.0];
+    [self performSelector:@selector(doneWithView:) withObject:refreshView afterDelay:0.0];
 }
 
 - (void)refreshViewEndRefreshing:(MJRefreshBaseView *)refreshView
