@@ -32,6 +32,9 @@
 		357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 357D7D8D18E70F53002A3166 /* HiPengyou.xcdatamodeld */; };
 		35C1022A18EFEAA900A6EA29 /* HPProfileSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */; };
 		35C1022F18F0075C00A6EA29 /* HPRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C1022E18F0075C00A6EA29 /* HPRegisterViewController.m */; };
+		35C1023518F0FA1000A6EA29 /* NSString+Contains.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C1023418F0FA1000A6EA29 /* NSString+Contains.m */; };
+		35C1023818F0FB2200A6EA29 /* HPAPIURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C1023718F0FB2200A6EA29 /* HPAPIURL.m */; };
+		35C1023B18F0FD5D00A6EA29 /* HPFaceUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C1023A18F0FD5D00A6EA29 /* HPFaceUploadViewController.m */; };
 		35F2688718E27EC100AC55CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688618E27EC100AC55CD /* Foundation.framework */; };
 		35F2688918E27EC100AC55CD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688818E27EC100AC55CD /* CoreGraphics.framework */; };
 		35F2688B18E27EC100AC55CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F2688A18E27EC100AC55CD /* UIKit.framework */; };
@@ -101,6 +104,12 @@
 		35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPProfileSettingViewController.m; sourceTree = "<group>"; };
 		35C1022D18F0075C00A6EA29 /* HPRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRegisterViewController.h; sourceTree = "<group>"; };
 		35C1022E18F0075C00A6EA29 /* HPRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRegisterViewController.m; sourceTree = "<group>"; };
+		35C1023318F0FA1000A6EA29 /* NSString+Contains.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Contains.h"; sourceTree = "<group>"; };
+		35C1023418F0FA1000A6EA29 /* NSString+Contains.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Contains.m"; sourceTree = "<group>"; };
+		35C1023618F0FB2200A6EA29 /* HPAPIURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAPIURL.h; sourceTree = "<group>"; };
+		35C1023718F0FB2200A6EA29 /* HPAPIURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAPIURL.m; sourceTree = "<group>"; };
+		35C1023918F0FD5D00A6EA29 /* HPFaceUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPFaceUploadViewController.h; sourceTree = "<group>"; };
+		35C1023A18F0FD5D00A6EA29 /* HPFaceUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFaceUploadViewController.m; sourceTree = "<group>"; };
 		35F2688318E27EC100AC55CD /* HiPengyou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiPengyou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35F2688618E27EC100AC55CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		35F2688818E27EC100AC55CD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -189,6 +198,8 @@
 			children = (
 				201E96BE18E6D63900F5A907 /* UIView+Resize.h */,
 				201E96BF18E6D63900F5A907 /* UIView+Resize.m */,
+				35C1023318F0FA1000A6EA29 /* NSString+Contains.h */,
+				35C1023418F0FA1000A6EA29 /* NSString+Contains.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -210,6 +221,8 @@
 				35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */,
 				35C1022D18F0075C00A6EA29 /* HPRegisterViewController.h */,
 				35C1022E18F0075C00A6EA29 /* HPRegisterViewController.m */,
+				35C1023918F0FD5D00A6EA29 /* HPFaceUploadViewController.h */,
+				35C1023A18F0FD5D00A6EA29 /* HPFaceUploadViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -234,6 +247,8 @@
 				20144A4D18EFEFC600D3553C /* HPSeekoutType.h */,
 				3529060618EFB69D004D73EA /* HPSeekout.h */,
 				3529060718EFB69D004D73EA /* HPSeekout.m */,
+				35C1023618F0FB2200A6EA29 /* HPAPIURL.h */,
+				35C1023718F0FB2200A6EA29 /* HPAPIURL.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -442,9 +457,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				20144A5D18EFF4B900D3553C /* MJRefreshFooterView.m in Sources */,
+				35C1023818F0FB2200A6EA29 /* HPAPIURL.m in Sources */,
 				354E1AE618E85850007F2DF4 /* HPSeekoutCreationViewController.m in Sources */,
 				20144A5E18EFF4B900D3553C /* MJRefreshHeaderView.m in Sources */,
 				201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */,
+				35C1023518F0FA1000A6EA29 /* NSString+Contains.m in Sources */,
 				35F268C318E2C14B00AC55CD /* HPMessageViewController.m in Sources */,
 				357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */,
 				20144A6118EFFB8500D3553C /* HPSeekoutTableView.m in Sources */,
@@ -453,6 +470,7 @@
 				203234FC18EEAED800385725 /* HPSeekoutTableViewCell.m in Sources */,
 				354E1AE118E840C2007F2DF4 /* HPHomeViewController.m in Sources */,
 				35C1022A18EFEAA900A6EA29 /* HPProfileSettingViewController.m in Sources */,
+				35C1023B18F0FD5D00A6EA29 /* HPFaceUploadViewController.m in Sources */,
 				35C1022F18F0075C00A6EA29 /* HPRegisterViewController.m in Sources */,
 				20144A4B18EFEFB300D3553C /* HPSeekoutCardView.m in Sources */,
 				20144A5B18EFF4B900D3553C /* MJRefreshBaseView.m in Sources */,

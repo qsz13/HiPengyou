@@ -83,8 +83,8 @@
 {
     self.seekoutDetailTextView = [[UITextView alloc]init];
 
-    [self.seekoutDetailTextView resetSize:CGSizeMake(300, [self.view getHeight]*0.19)];
-    [self.seekoutDetailTextView setCenter:CGPointMake([self.view getWidth]/2, 133/2+[self.seekoutDetailTextView getHeight]/2)];
+    [self.seekoutDetailTextView resetSize:CGSizeMake(300, [self.view getHeight]*0.3)];
+    [self.seekoutDetailTextView setCenter:CGPointMake([self.view getWidth]/2, 150/2+[self.seekoutDetailTextView getHeight]/2)];
     
     [self.view addSubview:self.seekoutDetailTextView];
     
@@ -108,34 +108,34 @@
     [self.view addSubview:self.seekoutTypeButton];
     
     
-    self.seekoutLanguageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.seekoutLanguageButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutInfoButtonBgImage"] forState:UIControlStateNormal];
-    [self.seekoutLanguageButton resetSize:CGSizeMake(300, 42)];
-    [self.seekoutLanguageButton setCenter:CGPointMake([self.view getWidth]/2, [self.seekoutTypeButton getOriginY] + [self.seekoutTypeButton getHeight] + 13/2 + [self.seekoutLanguageButton getHeight]/2)];
-    
-    
-    self.seekoutLanguageIcon = [[UIImageView alloc]init];
-    [self.seekoutLanguageIcon setImage:[UIImage imageNamed:@"HPSeekoutInfoLanguageButtonIcon"]];
-    [self.seekoutLanguageIcon resetSize:CGSizeMake(24, 24)];
-    [self.seekoutLanguageIcon setCenter:CGPointMake([self.seekoutTypeButton getHeight]/2, [self.seekoutTypeButton getHeight]/2)];
-
-    [self.seekoutLanguageButton addSubview:self.seekoutLanguageIcon];
-    [self.view addSubview:self.seekoutLanguageButton];
-    
-    
-    self.seekoutLocationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.seekoutLocationButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutInfoButtonBgImage"] forState:UIControlStateNormal];
-    [self.seekoutLocationButton resetSize:CGSizeMake(300, 42)];
-    [self.seekoutLocationButton setCenter:CGPointMake([self.view getWidth]/2, [self.seekoutLanguageButton getOriginY] + [self.seekoutLanguageButton getHeight] + 13/2 + [self.seekoutLocationButton getHeight]/2)];
-    
-    
-    self.seekoutLocationIcon = [[UIImageView alloc]init];
-    [self.seekoutLocationIcon setImage:[UIImage imageNamed:@"HPSeekoutInfoLocationButtonIcon"]];
-    [self.seekoutLocationIcon resetSize:CGSizeMake(24, 24)];
-    [self.seekoutLocationIcon setCenter:CGPointMake([self.seekoutTypeButton getHeight]/2, [self.seekoutTypeButton getHeight]/2)];
-    
-    [self.seekoutLocationButton addSubview:self.seekoutLocationIcon];
-    [self.view addSubview:self.seekoutLocationButton];
+//    self.seekoutLanguageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [self.seekoutLanguageButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutInfoButtonBgImage"] forState:UIControlStateNormal];
+//    [self.seekoutLanguageButton resetSize:CGSizeMake(300, 42)];
+//    [self.seekoutLanguageButton setCenter:CGPointMake([self.view getWidth]/2, [self.seekoutTypeButton getOriginY] + [self.seekoutTypeButton getHeight] + 13/2 + [self.seekoutLanguageButton getHeight]/2)];
+//    
+//    
+//    self.seekoutLanguageIcon = [[UIImageView alloc]init];
+//    [self.seekoutLanguageIcon setImage:[UIImage imageNamed:@"HPSeekoutInfoLanguageButtonIcon"]];
+//    [self.seekoutLanguageIcon resetSize:CGSizeMake(24, 24)];
+//    [self.seekoutLanguageIcon setCenter:CGPointMake([self.seekoutTypeButton getHeight]/2, [self.seekoutTypeButton getHeight]/2)];
+//
+//    [self.seekoutLanguageButton addSubview:self.seekoutLanguageIcon];
+//    [self.view addSubview:self.seekoutLanguageButton];
+//    
+//    
+//    self.seekoutLocationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [self.seekoutLocationButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutInfoButtonBgImage"] forState:UIControlStateNormal];
+//    [self.seekoutLocationButton resetSize:CGSizeMake(300, 42)];
+//    [self.seekoutLocationButton setCenter:CGPointMake([self.view getWidth]/2, [self.seekoutLanguageButton getOriginY] + [self.seekoutLanguageButton getHeight] + 13/2 + [self.seekoutLocationButton getHeight]/2)];
+//    
+//    
+//    self.seekoutLocationIcon = [[UIImageView alloc]init];
+//    [self.seekoutLocationIcon setImage:[UIImage imageNamed:@"HPSeekoutInfoLocationButtonIcon"]];
+//    [self.seekoutLocationIcon resetSize:CGSizeMake(24, 24)];
+//    [self.seekoutLocationIcon setCenter:CGPointMake([self.seekoutTypeButton getHeight]/2, [self.seekoutTypeButton getHeight]/2)];
+//    
+//    [self.seekoutLocationButton addSubview:self.seekoutLocationIcon];
+//    [self.view addSubview:self.seekoutLocationButton];
 
     
     
