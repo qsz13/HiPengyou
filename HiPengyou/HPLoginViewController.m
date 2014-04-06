@@ -41,7 +41,9 @@
 {
     [super viewDidLoad];
     [self initNaviBar];
-
+    
+    [self checkLogin];
+    
     [self initView];
     [self initLogo];
     [self initLabel];
@@ -49,6 +51,20 @@
     [self initButton];
     [self initLoginFrame];
     [self initTencent];
+}
+- (void)checkLogin
+{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if([userDefaults objectForKey:@"isLoggedIn"])
+    {
+        
+        HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
+        [self.navigationController pushViewController:homeViewController animated:NO];
+    }
+
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
