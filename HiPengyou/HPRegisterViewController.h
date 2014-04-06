@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPRegisterViewController : UIViewController
+@interface HPRegisterViewController : UIViewController<UITextFieldDelegate>
 
 @end

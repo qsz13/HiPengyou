@@ -18,5 +18,4 @@
 
 @implementation HPSeekout
 
-
 @end

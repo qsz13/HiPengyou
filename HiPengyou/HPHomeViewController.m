@@ -12,6 +12,7 @@
 #import "HPSeekoutCreationViewController.h"
 #import "HPSeekoutCardView.h"
 #import "HPSeekout.h"
+#import "HPAPIURL.h"
 #import "UIView+Resize.h"
 #import "UIView+Animation.h"
 #import "HPSeekoutTableViewCell.h"
@@ -57,7 +58,7 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.sid = [userDefaults objectForKey:@"sid"];
-    NSLog(@"%@", self.sid);
+//    NSLog(@"%@", self.sid);
     
 }
 
@@ -293,7 +294,7 @@
 #pragma mark - Request
 - (void)requestForNewSeekout
 {
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://timadidas.vicp.cc:15730/seekout/seekoutList?sid=l705r5vb8osh0k0k5q9u3ji75genednm&"]];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",SEEKOUT_LIST_URL, self.sid]];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     
 

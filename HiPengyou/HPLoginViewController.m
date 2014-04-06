@@ -9,6 +9,7 @@
 #import "HPLoginViewController.h"
 #import "HPRegisterViewController.h"
 #import "HPHomeViewController.h"
+#import "HPAPIURL.h"
 #import "UIView+Resize.h"
 #import "HPLoginType.h"
 #import "HPAppDelegate.h"
@@ -329,6 +330,7 @@
         NSDictionary *hiAccountUserData = (NSDictionary *)userData;
         [userDefaults setObject:hiAccountUserData[@"id"] forKey:@"id"];
         [userDefaults setObject:hiAccountUserData[@"sid"] forKey:@"sid"];
+        [userDefaults setObject:@"hiAccount" forKey:@"connectType"];
         username = hiAccountUserData[@"username"];
     }
     else if(loginType == qq)
@@ -338,7 +340,7 @@
         [userDefaults setObject:[qqOAuth accessToken] forKey:@"qqAccessToken"];
         [userDefaults setObject:[qqOAuth openId] forKey:@"qqOpenId"];
         [userDefaults setObject:[qqOAuth expirationDate] forKey:@"qqExpirationDate"];
-        
+        [userDefaults setObject:@"qq" forKey:@"connectType"];
         NSError *e = nil;
         NSData *qqUserData = [(NSString*)userData dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:qqUserData options:NSJSONReadingMutableContainers error:&e];
@@ -359,7 +361,7 @@
 //hi account login request
 - (void)loginRequest
 {
-    NSURL *url = [[NSURL alloc] initWithString:@"http://timadidas.vicp.cc:15730/index/login"];
+    NSURL *url = [[NSURL alloc] initWithString:LOGIN_URL];
     
     NSString *username = self.usernameTextField.text;
     NSString *password = self.passwordTextField.text;

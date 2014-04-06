@@ -1,0 +1,14 @@
+//
+//  HPAPIURL.h
+//  HiPengyou
+//
+//  Created by Daniel Qiu on 4/6/14.
+//  Copyright (c) 2014 HiPengyou. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+#define BASE_URL @"http://timadidas.vicp.cc:15730"
+#define LOGIN_URL [NSString stringWithFormat:@"%@%@",BASE_URL,@"/index/login"]
+#define SEEKOUT_LIST_URL [NSString stringWithFormat:@"%@%@",BASE_URL,@"/seekout/seekoutList?sid="]
+
