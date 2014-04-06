@@ -132,7 +132,7 @@
 {
     self.replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.replyButton setBackgroundImage:[UIImage imageNamed:@"HPReplyButton"] forState:UIControlStateNormal];
-    [self.replyButton setTitle:@"I can help it" forState:UIControlStateNormal];
+    [self.replyButton setTitle:@"View More" forState:UIControlStateNormal];
     [self.replyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.replyButton resetSize:CGSizeMake(126, 36)];
     if([self getHeight] < 630/2)

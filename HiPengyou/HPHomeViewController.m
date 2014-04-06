@@ -31,7 +31,7 @@
 @property (strong, atomic) HPSeekoutCreationViewController *seekoutCreationViewController;
 @property (strong, atomic) HPSeekoutTableView *seekoutTableView;
 //@property (strong, atomic) UIScrollView *seekoutScrollView;
-@property (strong, atomic) NSMutableArray *seekoutCardsArray;
+//@property (strong, atomic) NSMutableArray *seekoutCardsArray;
 @property (strong, atomic) UIAlertView *connectionFaiedAlertView;
 @property (strong, atomic) NSMutableArray *seekoutArray;
 @property HPSeekoutType seekoutType;
@@ -229,7 +229,7 @@
 {
     self.seekoutArray = [[NSMutableArray alloc] init];
     
-    self.seekoutCardsArray = [[NSMutableArray alloc] init];
+//    self.seekoutCardsArray = [[NSMutableArray alloc] init];
     for (int i = 0 ; i < 2; i++)
     {
         [self requestForNewSeekout];
@@ -275,25 +275,49 @@
 // TODO
 - (void)didClickAllSeekoutButton:(UIButton *)sender
 {
-    self.seekoutType = all;
+    if(self.seekoutType != all)
+    {
+        self.seekoutType = all;
+        self.pageID = 0;
+        self.seekoutArray = [[NSMutableArray alloc]init];
+        [self requestForNewSeekout];
+    }
 }
 
 // TODO
 - (void)didClickPeopleSeekoutButton:(UIButton *)sender
 {
-    self.seekoutType = people;
+    if(self.seekoutType != people)
+    {
+        self.seekoutType = people;
+        self.pageID = 0;
+        self.seekoutArray = [[NSMutableArray alloc]init];
+        [self requestForNewSeekout];
+    }
 }
 
 // TODO
 - (void)didClickLifeTipsSeekoutButton:(UIButton *)sender
 {
-    self.seekoutType = tips;
+    if(self.seekoutType != tips)
+    {
+        self.seekoutType = tips;
+        self.pageID = 0;
+        self.seekoutArray = [[NSMutableArray alloc]init];
+        [self requestForNewSeekout];
+    }
 }
 
 // TODO
 - (void)didClickEventsSeekoutButton:(UIButton *)sender
 {
-    self.seekoutType = events;
+    if(self.seekoutType != events)
+    {
+        self.seekoutType = events;
+        self.pageID = 0;
+        self.seekoutArray = [[NSMutableArray alloc]init];
+        [self requestForNewSeekout];
+    }
 }
 
 #pragma mark - Request
