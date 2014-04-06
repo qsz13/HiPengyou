@@ -13,4 +13,3 @@
 #define REGISTER_URL [NSString stringWithFormat:@"%@%@",BASE_URL,@"/index/register"]
 #define SEEKOUT_LIST_URL [NSString stringWithFormat:@"%@%@",BASE_URL,@"/seekout/seekoutList?sid="]
 #define SEEKOUT_CREATE_URL [NSString stringWithFormat:@"%@%@",BASE_URL,@"/seekout/seekoutCreate?sid="]
-

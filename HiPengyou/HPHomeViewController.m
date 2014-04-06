@@ -11,6 +11,7 @@
 #import "HPProfileViewController.h"
 #import "HPSeekoutCreationViewController.h"
 #import "HPSeekoutCardView.h"
+#import "HPSeekoutType.h"
 #import "HPSeekout.h"
 #import "HPAPIURL.h"
 #import "UIView+Resize.h"
@@ -33,6 +34,8 @@
 @property (strong, atomic) NSMutableArray *seekoutCardsArray;
 @property (strong, atomic) UIAlertView *connectionFaiedAlertView;
 @property (strong, atomic) NSMutableArray *seekoutArray;
+@property HPSeekoutType seekoutType;
+@property NSInteger pageID;
 
 // TODO
 @property (strong, atomic) UIView *CategoriesView;
@@ -58,7 +61,9 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.sid = [userDefaults objectForKey:@"sid"];
-//    NSLog(@"%@", self.sid);
+    
+    self.seekoutType = all;
+    self.pageID = 0;
     
 }
 
@@ -227,7 +232,7 @@
     self.seekoutArray = [[NSMutableArray alloc] init];
     
     self.seekoutCardsArray = [[NSMutableArray alloc] init];
-    for (int i = 0 ; i < 3; i++)
+    for (int i = 0 ; i < 2; i++)
     {
         [self requestForNewSeekout];
     }
@@ -256,7 +261,7 @@
 // TODO - Animation, Show Categories View
 - (void)didClickCategoryButton:(UIButton *)sender
 {
-    NSLog(@"Click Catefory Button");
+//    NSLog(@"Click Catefory Button");
     if ([self.view.subviews containsObject:self.CategoriesView])
     {
         [self.CategoriesView fadeOut];
@@ -272,31 +277,33 @@
 // TODO
 - (void)didClickAllSeekoutButton:(UIButton *)sender
 {
-    NSLog(@"Click All Seekout Button");
+    self.seekoutType = all;
 }
 
 // TODO
 - (void)didClickPeopleSeekoutButton:(UIButton *)sender
 {
-    NSLog(@"Click People Seekout Button");
+    self.seekoutType = people;
 }
 
 // TODO
 - (void)didClickLifeTipsSeekoutButton:(UIButton *)sender
 {
-    NSLog(@"Click Life Tips Seekout Button");
+    self.seekoutType = tips;
 }
 
 // TODO
 - (void)didClickEventsSeekoutButton:(UIButton *)sender
 {
-    NSLog(@"Click Events Seekout Button");
+    self.seekoutType = events;
 }
 
 #pragma mark - Request
 - (void)requestForNewSeekout
 {
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",SEEKOUT_LIST_URL, self.sid]];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@&typeId=%d&pageId=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID]];
+    self.pageID++;
+    NSLog(@"%d",self.pageID);
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     
 
@@ -310,7 +317,7 @@
         {
             NSError *e = nil;
             NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            NSLog(@"%@",dataDict);
+//            NSLog(@"%@",dataDict);
             //request success
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {
@@ -329,10 +336,12 @@
 
                     
                     [self.seekoutArray addObject: seekout];
+                    NSLog(@"%@",[s objectForKey:@"author"]);
 //                    [self addSeekoutCard:seekout];
                 }
                 
-                    [self.seekoutTableView reloadData];
+                [self.seekoutTableView reloadData];
+
                 
                 
                 
@@ -397,14 +406,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%@",[self.seekoutArray objectAtIndex:0]);
     HPSeekoutTableViewCell *cell = [[HPSeekoutTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                                  reuseIdentifier:@"seekout"
                                                                            frame:CGRectMake(0,
                                                                                             0,
                                                                                             512 / 2,
                                                                                             [tableView getHeight])
-                                                                            data:[self.seekoutArray objectAtIndex:0]];
+                                                                            data:[self.seekoutArray objectAtIndex:indexPath.row]];
     // Set Style
     cell.transform = CGAffineTransformMakeRotation(M_PI / 2);
     cell.userInteractionEnabled = NO;

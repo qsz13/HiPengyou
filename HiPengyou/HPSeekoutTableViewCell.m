@@ -49,16 +49,16 @@
     self.frame = frame;
     [self resetWidthByOffset:20];
     
-    NSLog(@"Seekout Table View Cell: %f, %f, %f, %f",
-          [self getOriginX],
-          [self getOriginY],
-          [self getWidth],
-          [self getHeight]);
-    NSLog(@"Seekout Table View Cell Content View: %f, %f, %f, %f",
-          [self.contentView getOriginX],
-          [self.contentView getOriginY],
-          [self.contentView getWidth],
-          [self.contentView getHeight]);
+//    NSLog(@"Seekout Table View Cell: %f, %f, %f, %f",
+//          [self getOriginX],
+//          [self getOriginY],
+//          [self getWidth],
+//          [self getHeight]);
+//    NSLog(@"Seekout Table View Cell Content View: %f, %f, %f, %f",
+//          [self.contentView getOriginX],
+//          [self.contentView getOriginY],
+//          [self.contentView getWidth],
+//          [self.contentView getHeight]);
     
     if (self) {
         HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:frame];
