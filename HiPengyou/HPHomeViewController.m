@@ -413,10 +413,6 @@
                                                                                             512 / 2,
                                                                                             [tableView getHeight])
                                                                             data:[self.seekoutArray objectAtIndex:indexPath.row]];
-    // Set Style
-    cell.transform = CGAffineTransformMakeRotation(M_PI / 2);
-    cell.userInteractionEnabled = NO;
-    
     return cell;
 }
 

@@ -114,7 +114,7 @@
     [self.seekoutContentView setFrame:CGRectMake(27, [self.seekoutAuthorFaceImageView getOriginY]+[self.seekoutAuthorFaceImageView getHeight]+5, 208, 117)];
     
     // Add bg Button
-    self.bgButton = [[UIButton alloc] initWithFrame:self.seekoutContentView.frame];
+    self.bgButton = [[UIButton alloc] initWithFrame:self.seekoutContentView.bounds];
     [self.bgButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutContentBgImage"] forState:UIControlStateNormal];
     [self.bgButton addTarget:self
                       action:@selector(didClickContentBgButton:)

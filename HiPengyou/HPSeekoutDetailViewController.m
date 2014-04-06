@@ -7,8 +7,11 @@
 //
 
 #import "HPSeekoutDetailViewController.h"
+#import "UIView+Resize.h"
 
 @interface HPSeekoutDetailViewController ()
+
+@property (strong, atomic) HPSeekout *seekoutData;
 
 @end
 
@@ -19,6 +22,18 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+    }
+    return self;
+}
+
+- (id)initWithSeekoutData:(HPSeekout *)seekoutData
+{
+    self = [super init];
+    if (self) {
+        self.seekoutData = seekoutData;
+        
+        // UI Mehtods
+        [self initCustomNavBar];
     }
     return self;
 }
@@ -35,15 +50,21 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+#pragma mark - UI init
+- (void)initCustomNavBar
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setBackgroundImage:[UIImage imageNamed:@"HPBackButton"] forState:UIControlStateNormal];
+    [backButton resetSize:CGSizeMake(20, 20)];
+    [backButton setCenter:CGPointMake(19/2+10, 43)];
+    [backButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backButton];
 }
-*/
+
+#pragma mark - Button Event
+- (void)didClickBackButton
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 @end
