@@ -86,7 +86,7 @@
     
     self.seekoutAuthorFaceImageView = [[UIImageView alloc] init];
     [self.seekoutAuthorFaceImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.seekoutData.faceURL]]]];
-    [self.seekoutAuthorFaceImageView setImage:[UIImage imageNamed:@"avatar"]];
+    [self.seekoutAuthorFaceImageView setImage:self.seekoutData.faceImage];
     [self.seekoutAuthorFaceImageView resetSize:CGSizeMake(78,78)];
     if([self getHeight] < 630/2)
     {
@@ -126,7 +126,7 @@
     [self.seekoutContentLabel resetSize:CGSizeMake([self.seekoutContentView getWidth]-2*10, [self.seekoutContentView getHeight])];
     self.seekoutContentLabel.numberOfLines = 4;
     [self.seekoutContentLabel setText:self.seekoutData.content];
-//    [self.seekoutContentLabel setText:@"kasfasl;dfjknckashdfkljhsdflkjahsdlfkjahsldkfjhalksjdfhlaksjdfhal;skfjnc;alksdjncalkdjfncalkdjsfcnaldjkfanfjklncfjalkfdsjcnladksjfcnladskjf"];
+
     [self.seekoutContentLabel setTextColor:[UIColor colorWithRed:144.0f/255.0f green:150.0f/255.0f blue:157.0f/255.0f alpha:1]];
     [self.seekoutContentLabel setFont:[UIFont systemFontOfSize:16]];
     [self.seekoutContentLabel sizeToFit];

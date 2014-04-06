@@ -233,10 +233,9 @@
     self.seekoutArray = [[NSMutableArray alloc] init];
     
 //    self.seekoutCardsArray = [[NSMutableArray alloc] init];
-    for (int i = 0 ; i < 2; i++)
-    {
+
         [self requestForNewSeekout];
-    }
+
 }
 
 #pragma mark - Button Event
@@ -358,14 +357,17 @@
                     [seekout setState:[s objectForKey:@"seekoutstatu"]];
                     [seekout setType:[[s objectForKey:@"type"] integerValue]];
                     [seekout setTime:[s objectForKey:@"uptime"]];
-
-                    
+                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
+                    UIImage *faceImage = [self requestForFace:faceURL];
+                    [seekout setFaceImage:faceImage];
                     [self.seekoutArray addObject: seekout];
+                    NSLog(@"%@",self.seekoutArray);
+                    [self.seekoutTableView reloadData];
                     NSLog(@"%@",[s objectForKey:@"author"]);
 //                    [self addSeekoutCard:seekout];
                 }
                 
-                [self.seekoutTableView reloadData];
+                
 
                 
                 
@@ -397,6 +399,15 @@
     //callback
 }
 
+- (UIImage *)requestForFace:(NSURL*)faceURL
+{
+
+    
+    NSData * data = [NSData dataWithContentsOfURL:faceURL];
+    UIImage * result = [UIImage imageWithData:data];
+    
+    return result;
+}
 
 //#pragma mark - Add Card
 //- (void)addSeekoutCard:(HPSeekout*)seekout
@@ -448,10 +459,10 @@
     NSLog(@"%@----开始进入刷新状态", refreshView.class);
     
     // 1.添加假数据
-    
+    [self requestForNewSeekout];
     
     // 2.2秒后刷新表格UI
-    [self performSelector:@selector(doneWithView:) withObject:refreshView afterDelay:2.0];
+    [self performSelector:@selector(doneWithView:) withObject:refreshView afterDelay:0.0];
 }
 
 - (void)refreshViewEndRefreshing:(MJRefreshBaseView *)refreshView
