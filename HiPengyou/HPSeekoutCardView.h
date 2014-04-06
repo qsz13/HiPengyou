@@ -13,14 +13,7 @@
 
 @interface HPSeekoutCardView : UIView
 
-@property (strong, atomic) NSString *seekoutAuthorName;
-
-@property (strong, atomic) UIImage *seekoutAuthorFace;
-
-@property (strong, atomic) NSString *seekoutTime;
-
-@property (strong, atomic) NSString *seekoutContent;
-
+@property (strong, atomic) HPSeekout *seekoutData;
 @property HPSeekoutType seekoutType;
 
 -(void)loadData:(HPSeekout*)seekout;

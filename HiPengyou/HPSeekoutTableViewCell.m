@@ -13,8 +13,6 @@
 
 @interface HPSeekoutTableViewCell ()
 
-
-
 @end
 
 @implementation HPSeekoutTableViewCell

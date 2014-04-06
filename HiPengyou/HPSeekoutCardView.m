@@ -36,6 +36,7 @@
     return self;
 }
 
+#pragma mark - UI init
 - (void)initBackground
 {
     [self setBackgroundColor:[UIColor colorWithRed:244.0f / 255.0f
@@ -49,7 +50,7 @@
 {
     self.seekoutAuthorNameLabel = [[UILabel alloc] init];
     [self.seekoutAuthorNameLabel resetSize:CGSizeMake(500, 30)];
-    [self.seekoutAuthorNameLabel setText:self.seekoutAuthorName];
+    [self.seekoutAuthorNameLabel setText:self.seekoutData.author];
 //    [self.seekoutAuthorNameLabel setText:@"Tina Chou"];
     self.seekoutAuthorNameLabel.numberOfLines = 0;
     [self.seekoutAuthorNameLabel setTextColor:[UIColor colorWithRed:171.0f/255.0f green:104.0f/255.0f blue:102.0f/255.0f alpha:1]];
@@ -60,7 +61,7 @@
     [self addSubview:self.seekoutAuthorNameLabel];
     
     self.seekoutTimeLabel = [[UILabel alloc] init];
-    [self.seekoutTimeLabel setText:self.seekoutTime];
+    [self.seekoutTimeLabel setText:self.seekoutData.time];
 //    [self.seekoutTimeLabel setText:@"01 Mar 04:25pm"];
     [self.seekoutTimeLabel resetSize:CGSizeMake(200, 30)];
     self.seekoutTimeLabel.numberOfLines = 1;
@@ -82,8 +83,8 @@
     [self.seekoutTypeImageView setFrame:CGRectMake(20, 0, 29, 41)];
     [self addSubview:self.seekoutTypeImageView];
     
-    self.seekoutAuthorFaceImageView = [[UIImageView alloc]init];
-    [self.seekoutAuthorFaceImageView setImage:self.seekoutAuthorFace];
+    self.seekoutAuthorFaceImageView = [[UIImageView alloc] init];
+    [self.seekoutAuthorFaceImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.seekoutData.faceURL]]]];
     [self.seekoutAuthorFaceImageView setImage:[UIImage imageNamed:@"avatar"]];
     [self.seekoutAuthorFaceImageView resetSize:CGSizeMake(78,78)];
     if([self getHeight] < 630/2)
@@ -115,7 +116,7 @@
     [self.seekoutContentLabel setBackgroundColor:[UIColor clearColor]];
     [self.seekoutContentLabel resetSize:CGSizeMake([self.seekoutContentView getWidth]-2*10, [self.seekoutContentView getHeight])];
     self.seekoutContentLabel.numberOfLines = 4;
-    [self.seekoutContentLabel setText:self.seekoutContent];
+    [self.seekoutContentLabel setText:self.seekoutData.content];
 //    [self.seekoutContentLabel setText:@"kasfasl;dfjknckashdfkljhsdflkjahsdlfkjahsldkfjhalksjdfhlaksjdfhal;skfjnc;alksdjncalkdjfncalkdjsfcnaldjkfanfjklncfjalkfdsjcnladksjfcnladskjf"];
     [self.seekoutContentLabel setTextColor:[UIColor colorWithRed:144.0f/255.0f green:150.0f/255.0f blue:157.0f/255.0f alpha:1]];
     [self.seekoutContentLabel setFont:[UIFont systemFontOfSize:16]];
@@ -149,13 +150,7 @@
 
 - (void)loadData:(HPSeekout*)seekout
 {
-    self.seekoutAuthorName = seekout.author;
-    self.seekoutContent = seekout.content;
-    self.seekoutTime = seekout.time;
-    
-    
-    
-    
+    self.seekoutData = seekout;
     
     [self initLabel];
     [self initImageView];
