@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPSeekout.h"
 
 @interface HPSeekoutDetailViewController : UIViewController
+
+- (id)initWithSeekoutData:(HPSeekout *)seekoutData;
 
 @end

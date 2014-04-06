@@ -46,8 +46,6 @@
                data:(HPSeekout*)seekout
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.frame = frame;
-    [self resetWidthByOffset:20];
     
 //    NSLog(@"Seekout Table View Cell: %f, %f, %f, %f",
 //          [self getOriginX],
@@ -61,6 +59,15 @@
 //          [self.contentView getHeight]);
     
     if (self) {
+        // Set Style
+        self.transform = CGAffineTransformMakeRotation(M_PI / 2);
+//        self.userInteractionEnabled = NO;
+        [self resetWidthByOffset:20];
+        self.frame = frame;
+        self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
+        self.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+        [self setSelectionStyle:UITableViewCellSelectionStyleNone];
+        
         HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:frame];
         [seekoutCardView resetOriginXByOffset:10];
         [seekoutCardView loadData:seekout];
