@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 
 typedef enum HPSeekoutType : NSInteger {
+    all,
     people,
     tips,
-    activity
+    events
     
 } HPSeekoutType;
