@@ -20,19 +20,10 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-
-
-    
-    
     HPLoginViewController *loginViewController = [[HPLoginViewController alloc] init];
-    
-    
-    
 
-     self.navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     
-    
-
     // Set window background color
     [self.window setBackgroundColor:[UIColor colorWithRed:49.0f / 255.0f
                                                     green:188.0f / 255.0f
@@ -56,8 +47,6 @@
         
         }
 
-    
-    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if([userDefaults objectForKey:@"isLoggedIn"])
     {

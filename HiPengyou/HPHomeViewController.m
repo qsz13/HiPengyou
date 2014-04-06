@@ -13,6 +13,7 @@
 #import "HPSeekoutCardView.h"
 #import "HPSeekout.h"
 #import "UIView+Resize.h"
+#import "UIView+Animation.h"
 #import "HPSeekoutTableViewCell.h"
 #import "HPSeekoutTableView.h"
 
@@ -26,13 +27,14 @@
 @property (strong, atomic) HPMessageViewController *messageViewController;
 @property (strong, atomic) HPProfileViewController *profileViewController;
 @property (strong, atomic) HPSeekoutCreationViewController *seekoutCreationViewController;
+@property (strong, atomic) HPSeekoutTableView *seekoutTableView;
 //@property (strong, atomic) UIScrollView *seekoutScrollView;
 @property (strong, atomic) NSMutableArray *seekoutCardsArray;
 @property (strong, atomic) UIAlertView *connectionFaiedAlertView;
 @property (strong, atomic) NSMutableArray *seekoutArray;
 
 // TODO
-@property (strong, atomic) HPSeekoutTableView *seekoutTableView;
+@property (strong, atomic) UIView *CategoriesView;
 
 @end
 
@@ -44,10 +46,11 @@
     [super viewDidLoad];
     [self initData];
     [self initView];
-//    [self initSeekoutScrollView];
+    [self initCustomNavBar];
     [self initSeekoutTableView];
     [self initSeekoutCards];
-    [self initButton];
+    [self initCategoryButton];
+    [self initCategoriesView];
 }
 
 - (void)initData
@@ -71,41 +74,111 @@
     {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
-    
-    
 }
 
-
-
-
-
-- (void)initButton
+- (void)initCustomNavBar
 {
-    self.categoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.categoryButton setImage:[UIImage imageNamed:@"HPCategoriesButton"] forState:UIControlStateNormal];
-    [self.categoryButton setFrame:CGRectMake(7, 28, 31, 31)];
-    [self.view addSubview:self.categoryButton];
+    UIView *customNavbarView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 320, 44)];
     
-    self.messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.messageButton setImage:[UIImage imageNamed:@"HPMessageButton"] forState:UIControlStateNormal];
-    [self.messageButton setFrame: CGRectMake(470/2, 28, 31, 31)];
-    [self.messageButton addTarget:self action:@selector(didClickMessageButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.messageButton];
+    // Set Bg Color
+    customNavbarView.backgroundColor = [UIColor clearColor];
     
-    self.profileButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.profileButton setImage:[UIImage imageNamed:@"HPProfileButton"] forState:UIControlStateNormal];
-    [self.profileButton setFrame: CGRectMake(553/2, 28, 32, 32)];
-    [self.profileButton addTarget:self action:@selector(didClickProfileButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.profileButton];
-    
+    // init Add Seekout Button
     self.addSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.addSeekoutButton setImage:[UIImage imageNamed:@"HPAddSeekoutButton"] forState:UIControlStateNormal];
-//    [self.addSeekoutButton setFrame: CGRectMake(([self.view getWidth]-43)/2, [self.seekoutScrollView getOriginY]+[self.seekoutScrollView getHeight]+25, 43, 43)];
-    [self.addSeekoutButton setFrame: CGRectMake(([self.view getWidth] - 43) / 2, [self.seekoutTableView getOriginY] + [self.seekoutTableView getHeight] + 25, 43, 43)];
-    [self.addSeekoutButton addTarget:self action:@selector(didClickAddSeekoutButton) forControlEvents:UIControlEventTouchUpInside];
+    //    [self.addSeekoutButton setFrame: CGRectMake(([self.view getWidth] - 43) / 2,
+    //                                                [self.seekoutTableView getOriginY] + [self.seekoutTableView getHeight] + 25,
+    //                                                43, 43)];
+    [self.addSeekoutButton setFrame: CGRectMake(553 / 2, 8, 28, 28)];
+    [self.addSeekoutButton addTarget:self
+                              action:@selector(didClickAddSeekoutButton:)
+                    forControlEvents:UIControlEventTouchUpInside];
+    
+    // init MessageButton
+    self.messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.messageButton setImage:[UIImage imageNamed:@"HPChatButton"] forState:UIControlStateNormal];
+    [self.messageButton setFrame: CGRectMake([self.addSeekoutButton getOriginX] - 41.5, 8, 31, 31)];
+    [self.messageButton addTarget:self
+                           action:@selector(didClickMessageButton:)
+                 forControlEvents:UIControlEventTouchUpInside];
 
-    [self.view addSubview:self.addSeekoutButton];
+    // init Profile Button
+    self.profileButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.profileButton setImage:[UIImage imageNamed:@"HPProfileButton"] forState:UIControlStateNormal];
+    [self.profileButton setFrame: CGRectMake([self.messageButton getOriginX] - 41.5, 8, 31, 31)];
+    [self.profileButton addTarget:self
+                           action:@selector(didClickProfileButton:)
+                 forControlEvents:UIControlEventTouchUpInside];
+    
+    // Add to Custome Nav Bar View
+    [customNavbarView addSubview:self.profileButton];
+    [customNavbarView addSubview:self.messageButton];
+    [customNavbarView addSubview:self.addSeekoutButton];
+    
+    // Add to View
+    [self.view addSubview:customNavbarView];
+}
+
+- (void)initCategoryButton
+{
+    // init Category Button
+    self.categoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.categoryButton setImage:[UIImage imageNamed:@"HPCategoriesButton"] forState:UIControlStateNormal];
+    [self.categoryButton setFrame:CGRectMake(15, [self.seekoutTableView getOriginY] + [self.seekoutTableView getHeight] + 25, 31, 31)];
+    [self.categoryButton addTarget:self
+                            action:@selector(didClickCategoryButton:)
+                  forControlEvents:UIControlEventTouchUpInside];
+    
+    // Add to View
+    [self.view addSubview:self.categoryButton];
+}
+
+- (void)initCategoriesView
+{
+    self.CategoriesView = [[UIView alloc] init];
+    [self.CategoriesView resetSize:CGSizeMake(118, 25)];
+    [self.CategoriesView setCenter:CGPointMake([self.categoryButton getCenterX] + ([self.categoryButton getWidth] + [self.CategoriesView getWidth]) / 2 + 8, [self.categoryButton getCenterY])];
+    
+    // init Buttons
+    UIButton *allSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *peopleSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *lifeTipsSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *eventsSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    // Set Button Image
+    [allSeekoutButton setImage:[UIImage imageNamed:@"HPSeekoutTypeAllButton"] forState:UIControlStateNormal];
+    [peopleSeekoutButton setImage:[UIImage imageNamed:@"HPSeekoutTypePeopleButton"] forState:UIControlStateNormal];
+    [lifeTipsSeekoutButton setImage:[UIImage imageNamed:@"HPSeekoutTypeLifeTipsButton"] forState:UIControlStateNormal];
+    [eventsSeekoutButton setImage:[UIImage imageNamed:@"HPSeekoutTypeEventsButton"] forState:UIControlStateNormal];
+
+    // Set Frame
+    [allSeekoutButton setFrame:CGRectMake(0, 0, 25, 25)];
+    [peopleSeekoutButton setFrame:CGRectMake([allSeekoutButton getOriginX] + [allSeekoutButton getWidth] + 6, 0, 25, 25)];
+    [lifeTipsSeekoutButton setFrame:CGRectMake([peopleSeekoutButton getOriginX] + [peopleSeekoutButton getWidth] + 6, 0, 25, 25)];
+    [eventsSeekoutButton setFrame:CGRectMake([lifeTipsSeekoutButton getOriginX] + [lifeTipsSeekoutButton getWidth] + 6, 0, 25, 25)];
+    
+    // Add Actions
+    [allSeekoutButton addTarget:self
+                         action:@selector(didClickAllSeekoutButton:)
+               forControlEvents:UIControlEventTouchUpInside];
+    [peopleSeekoutButton addTarget:self
+                            action:@selector(didClickPeopleSeekoutButton:)
+                  forControlEvents:UIControlEventTouchUpInside];
+    [lifeTipsSeekoutButton addTarget:self
+                              action:@selector(didClickLifeTipsSeekoutButton:)
+                    forControlEvents:UIControlEventTouchUpInside];
+    [eventsSeekoutButton addTarget:self
+                            action:@selector(didClickEventsSeekoutButton:)
+                  forControlEvents:UIControlEventTouchUpInside];
+    
+    // Add to Catefories View
+    [self.CategoriesView addSubview:allSeekoutButton];
+    [self.CategoriesView addSubview:peopleSeekoutButton];
+    [self.CategoriesView addSubview:lifeTipsSeekoutButton];
+    [self.CategoriesView addSubview:eventsSeekoutButton];
+    
+    // Add to View?
+//    [self.view addSubview:self.CategoriesView];
 }
 
 //
@@ -125,7 +198,6 @@
 //    [self.view addSubview:self.seekoutScrollView];
 //}
 
-// TODO - 横向
 - (void)initSeekoutTableView
 {
     // Init With Frame
@@ -143,11 +215,8 @@
     self.seekoutTableView.header.delegate = self;
     self.seekoutTableView.footer.delegate = self;
     
-    [self addHeader];
-    [self addFooter];
-    
     // Add to Subview
-    [self.view addSubview:self.seekoutTableView];
+//    [self.view addSubview:self.seekoutTableView];
 }
 
 - (void)initSeekoutCards
@@ -155,34 +224,71 @@
     self.seekoutArray = [[NSMutableArray alloc] init];
     
     self.seekoutCardsArray = [[NSMutableArray alloc] init];
-    for(int i = 0 ; i < 3; i++)
+    for (int i = 0 ; i < 3; i++)
     {
         [self requestForNewSeekout];
     }
 }
 
 #pragma mark - Button Event
-
-- (void)didClickMessageButton
+- (void)didClickMessageButton:(UIButton *)sender
 {
     self.messageViewController = [[HPMessageViewController alloc] init];
-
     [self.navigationController pushViewController:self.messageViewController animated:YES];
 }
 
-- (void)didClickProfileButton
+- (void)didClickProfileButton:(UIButton *)sender
 {
     self.profileViewController = [[HPProfileViewController alloc] init];
 
     [self.navigationController pushViewController:self.profileViewController animated:YES];
 }
 
-- (void)didClickAddSeekoutButton
+- (void)didClickAddSeekoutButton:(UIButton *)sender
 {
     self.seekoutCreationViewController = [[HPSeekoutCreationViewController alloc] init];
     [self.navigationController pushViewController:self.seekoutCreationViewController animated:YES];
 }
 
+// TODO - Animation, Show Categories View
+- (void)didClickCategoryButton:(UIButton *)sender
+{
+    NSLog(@"Click Catefory Button");
+    if ([self.view.subviews containsObject:self.CategoriesView])
+    {
+        [self.CategoriesView fadeOut];
+        [self.CategoriesView removeFromSuperview];
+    }
+    else
+    {
+        [self.view addSubview:self.CategoriesView];
+        [self.CategoriesView fadeIn];
+    }
+}
+
+// TODO
+- (void)didClickAllSeekoutButton:(UIButton *)sender
+{
+    NSLog(@"Click All Seekout Button");
+}
+
+// TODO
+- (void)didClickPeopleSeekoutButton:(UIButton *)sender
+{
+    NSLog(@"Click People Seekout Button");
+}
+
+// TODO
+- (void)didClickLifeTipsSeekoutButton:(UIButton *)sender
+{
+    NSLog(@"Click Life Tips Seekout Button");
+}
+
+// TODO
+- (void)didClickEventsSeekoutButton:(UIButton *)sender
+{
+    NSLog(@"Click Events Seekout Button");
+}
 
 #pragma mark - Request
 - (void)requestForNewSeekout
@@ -255,9 +361,7 @@
 }
 
 
-#pragma mark - Add Card
-
-
+//#pragma mark - Add Card
 //- (void)addSeekoutCard:(HPSeekout*)seekout
 //{
 //    if ([self.seekoutCardsArray count])
@@ -282,8 +386,6 @@
 //    }
 //}
 
-
-
 #pragma mark - UITableView DataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -304,32 +406,7 @@
     cell.transform = CGAffineTransformMakeRotation(M_PI / 2);
     cell.userInteractionEnabled = NO;
     
-    // TODO
-    
     return cell;
-}
-
-// TODO
-#pragma mark - Seekout Table View
-- (void)addHeader
-{
-    // 3.集成刷新控件
-    // 3.1.下拉刷新
-    MJRefreshHeaderView *header = [MJRefreshHeaderView header];
-    header.scrollView = self.seekoutTableView;
-    header.delegate = self;
-    // 自动刷新
-    [header beginRefreshing];
-    self.seekoutTableView.header = header;
-}
-
-- (void)addFooter
-{
-    // 3.2.上拉加载更多
-    MJRefreshFooterView *footer = [MJRefreshFooterView footer];
-    footer.scrollView = self.seekoutTableView;
-    footer.delegate = self;
-    self.seekoutTableView.footer = footer;
 }
 
 // TODO

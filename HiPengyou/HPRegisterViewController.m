@@ -10,7 +10,7 @@
 
 @interface HPRegisterViewController ()
 
-@property ()UITextField
+@property (strong, nonatomic) UITextField *eee;
 
 @end
 

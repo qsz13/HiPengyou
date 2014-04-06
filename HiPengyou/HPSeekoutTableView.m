@@ -45,16 +45,29 @@
     self.rowHeight = 512.0f / 2 + 20; // 20 is for the seperate space
     self.separatorInset = UIEdgeInsetsMake(20, 0, 0, 20);
     self.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [self initHeader];
+    [self initFooter];
 }
 
-- (void)addFooter
+- (void)initHeader
 {
-    
+    // 3.集成刷新控件
+    // 3.1.下拉刷新
+    MJRefreshHeaderView *header = [MJRefreshHeaderView header];
+    header.scrollView = self;
+
+    // 自动刷新
+    [header beginRefreshing];
+    self.header = header;
 }
 
-- (void)addHeader
+- (void)initFooter
 {
-    
+    // 3.2.上拉加载更多
+    MJRefreshFooterView *footer = [MJRefreshFooterView footer];
+    footer.scrollView = self;
+    self.footer = footer;
 }
 
 @end

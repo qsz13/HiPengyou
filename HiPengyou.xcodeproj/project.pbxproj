@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		200DBF3B18F10B1F00AF6AD0 /* UIView+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 200DBF3A18F10B1F00AF6AD0 /* UIView+Animation.m */; };
 		20144A4B18EFEFB300D3553C /* HPSeekoutCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A4918EFEFB300D3553C /* HPSeekoutCardView.m */; };
 		20144A5A18EFF4B900D3553C /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 20144A5018EFF4B900D3553C /* MJRefresh.bundle */; };
 		20144A5B18EFF4B900D3553C /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A5318EFF4B900D3553C /* MJRefreshBaseView.m */; };
@@ -60,6 +61,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		200DBF3918F10B1F00AF6AD0 /* UIView+Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Animation.h"; sourceTree = "<group>"; };
+		200DBF3A18F10B1F00AF6AD0 /* UIView+Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Animation.m"; sourceTree = "<group>"; };
 		20144A4818EFEFB300D3553C /* HPSeekoutCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCardView.h; sourceTree = "<group>"; };
 		20144A4918EFEFB300D3553C /* HPSeekoutCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCardView.m; sourceTree = "<group>"; };
 		20144A4A18EFEFB300D3553C /* HPSeekoutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutTableViewCell.h; sourceTree = "<group>"; };
@@ -189,6 +192,8 @@
 			children = (
 				201E96BE18E6D63900F5A907 /* UIView+Resize.h */,
 				201E96BF18E6D63900F5A907 /* UIView+Resize.m */,
+				200DBF3918F10B1F00AF6AD0 /* UIView+Animation.h */,
+				200DBF3A18F10B1F00AF6AD0 /* UIView+Animation.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -446,6 +451,7 @@
 				20144A5E18EFF4B900D3553C /* MJRefreshHeaderView.m in Sources */,
 				201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */,
 				35F268C318E2C14B00AC55CD /* HPMessageViewController.m in Sources */,
+				200DBF3B18F10B1F00AF6AD0 /* UIView+Animation.m in Sources */,
 				357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */,
 				20144A6118EFFB8500D3553C /* HPSeekoutTableView.m in Sources */,
 				35F268C618E2C17200AC55CD /* HPProfileViewController.m in Sources */,

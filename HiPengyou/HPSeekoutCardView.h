@@ -9,14 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "HPSeekoutType.h"
 #import "HPSeekout.h"
+#import "MJRefresh.h"
 
 @interface HPSeekoutCardView : UIView
 
 @property (strong, atomic) NSString *seekoutAuthorName;
 
 @property (strong, atomic) UIImage *seekoutAuthorFace;
-
-
 
 @property (strong, atomic) NSString *seekoutTime;
 
