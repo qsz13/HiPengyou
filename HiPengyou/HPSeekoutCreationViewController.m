@@ -24,6 +24,7 @@
 @property (strong, atomic) UIButton *seekoutPostButton;
 @property (strong, atomic) UITableView *seekoutTypeTable;
 @property (strong, atomic) UIAlertView *postAlertView;
+@property (strong, atomic) NSString *sid;
 
 @end
 
@@ -34,11 +35,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self initData];
     [self initView];
     [self initNaviBar];
     [self initTextView];
     [self initButton];
 }
+
+- (void)initData
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.sid = [userDefaults objectForKey:@"sid"];
+    //    NSLog(@"%@", self.sid);
+    
+}
+
 
 - (void)initView
 {
@@ -167,8 +178,94 @@
     if([seekoutContentText length] <= 0)
     {
         self.postAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"pleas say somthing before you say somethig" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.postAlertView show];
     }
 
+    [self postRequest];
+    
+}
+
+#pragma mark - http request
+-(void)postRequest
+{
+    
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",SEEKOUT_CREATE_URL, self.sid] ];
+    NSString *seekoutContentText = self.seekoutContentTextView.text;
+    
+    
+    
+    //content=test%20test%20test&towhom=All&towhere=All%20cities&country=China&city=Shanghai&type=0&hasmedia=0&
+//    NSDictionary *postDictionary = @{
+//                                     @"content":seekoutContentText,
+//                                     @"towhom":@"All",
+//                                     @"towhere":@"Allcities",
+//                                     @"country":@"China",
+//                                     @"city":@"Shanghai",
+//                                     @"type":@0,
+//                                     @"hasmedia":@0
+//                                     };
+    
+//    NSData *postData = [NSKeyedArchiver ar:postDictionary];
+//    NSString *strData = [[NSString alloc]initWithData:postData encoding:NSUTF8StringEncoding];
+//    NSLog(@"!!!%@",strData);
+    NSData *postData = [[NSString stringWithFormat:@"content=%@&towhom=%@&towhere=%@&country=%@&city=%@&type=%@&hasmedia=%@&",seekoutContentText,@"All",@"All cities",@"China",@"Shanghai",@0,@0] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+        NSLog(@"%@",request);
+
+    
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        
+        //connection successed
+        if([data length] > 0 && connectionError == nil)
+        {
+            NSError *e = nil;
+            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+            
+            NSLog(@"%@",dataDict);
+            //register successed
+            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+            {
+                self.postAlertView = [[UIAlertView alloc]  initWithTitle:@"success" message:@"Create seekout ok" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [self.postAlertView show];
+            }
+            
+            //reigister failed
+            else if([[dataDict objectForKey:@"code"] isEqualToString:@"14009"])
+            {
+                self.postAlertView = [[UIAlertView alloc]  initWithTitle:@"failed" message:@"Create seekout failed" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [self.postAlertView show];
+            }
+        }
+        //connection failed
+        else if (connectionError != nil)
+        {
+            self.postAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.postAlertView show];
+            
+        }
+        //unknow error
+        else
+        {
+            NSLog(@"%@",data);
+            self.postAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.postAlertView show];
+        }
+        
+        
+    }];
+
+    
+    
+    
     
     
 }

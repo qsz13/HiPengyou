@@ -9,6 +9,7 @@
 #import "HPRegisterViewController.h"
 #import "HPFaceUploadViewController.h"
 #import "UIView+Resize.h"
+#import "HPAPIURL.h"
 #import "NSString+Contains.h"
 
 @interface HPRegisterViewController ()
@@ -149,7 +150,7 @@
 - (void)registerRequest
 {
     
-    NSURL *url = [[NSURL alloc] initWithString:@"http://timadidas.vicp.cc:15730/index/register"];
+    NSURL *url = [[NSURL alloc] initWithString:REGISTER_URL];
     
     NSString *usernameText = self.usernameTextField.text;
     NSString *passwordText = self.passwordTextField.text;
