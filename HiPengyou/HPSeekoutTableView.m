@@ -43,10 +43,9 @@
     [self resetOrigin:CGPointMake(0, [self getHeight] + 168 / 2)];
     self.showsVerticalScrollIndicator = NO;
     self.rowHeight = 512.0f / 2 + 20; // 20 is for the seperate space
-    self.separatorInset = UIEdgeInsetsMake(20, 0, 0, 20);
     self.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [self initHeader];
+//    [self initHeader];
     [self initFooter];
 }
 
