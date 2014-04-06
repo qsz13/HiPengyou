@@ -8,7 +8,7 @@
 
 #import "HPSeekoutCardView.h"
 #import "UIView+Resize.h"
-
+#import "HPSeekoutDetailViewController.h"
 
 @interface HPSeekoutCardView ()
 
@@ -19,6 +19,7 @@
 @property (strong, atomic) UILabel *seekoutContentLabel;
 @property (strong, atomic) UIImageView *seekoutAuthorFaceImageView;
 @property (strong, atomic) UIImageView *seekoutTypeImageView;
+@property (strong, atomic) UIButton *bgButton;
 
 @end
 
@@ -109,8 +110,16 @@
 - (void)initContentView
 {
     self.seekoutContentView = [[UIView alloc] init];
-    [self.seekoutContentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"HPSeekoutContentBgImage"]]];
+//    [self.seekoutContentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"HPSeekoutContentBgImage"]]];
     [self.seekoutContentView setFrame:CGRectMake(27, [self.seekoutAuthorFaceImageView getOriginY]+[self.seekoutAuthorFaceImageView getHeight]+5, 208, 117)];
+    
+    // Add bg Button
+    self.bgButton = [[UIButton alloc] initWithFrame:self.seekoutContentView.frame];
+    [self.bgButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutContentBgImage"] forState:UIControlStateNormal];
+    [self.bgButton addTarget:self
+                      action:@selector(didClickContentBgButton:)
+            forControlEvents:UIControlEventTouchUpInside];
+    [self.seekoutContentView addSubview:self.bgButton];
     
     self.seekoutContentLabel = [[UILabel alloc] init];
     [self.seekoutContentLabel setBackgroundColor:[UIColor clearColor]];
@@ -125,7 +134,6 @@
     [self.seekoutContentView addSubview:self.seekoutContentLabel];
     
     [self addSubview:self.seekoutContentView];
-    
 }
 
 - (void)initButton
@@ -148,6 +156,7 @@
     
 }
 
+#pragma mark - Load Seekout Data
 - (void)loadData:(HPSeekout*)seekout
 {
     self.seekoutData = seekout;
@@ -156,6 +165,12 @@
     [self initImageView];
     [self initContentView];
     [self initButton];
+}
+
+#pragma mark - Button Event
+- (void)didClickContentBgButton:(UIButton *)sender
+{
+    HPSeekoutDetailViewController *vc = [[HPSeekoutDetailViewController alloc] init];
 }
 
 @end

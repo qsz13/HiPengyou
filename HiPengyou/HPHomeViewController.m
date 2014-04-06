@@ -207,17 +207,19 @@
                                                                           [self.view getHeight] - 168,
                                                                           [self.view getWidth])
                                                          style:UITableViewStylePlain];
+    // Set Style
+    self.seekoutTableView.separatorInset = UIEdgeInsetsMake(20, 0, 0, 20);
     
     // Set Delegate
     self.seekoutTableView.delegate = self;
     self.seekoutTableView.dataSource = self;
     
     // Header and Footer Delegate
-    self.seekoutTableView.header.delegate = self;
+//    self.seekoutTableView.header.delegate = self;
     self.seekoutTableView.footer.delegate = self;
     
     // Add to Subview
-//    [self.view addSubview:self.seekoutTableView];
+    [self.view addSubview:self.seekoutTableView];
 }
 
 - (void)initSeekoutCards
