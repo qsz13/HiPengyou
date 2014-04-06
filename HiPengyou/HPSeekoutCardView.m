@@ -12,7 +12,7 @@
 
 @interface HPSeekoutCardView ()
 
-@property (strong, atomic) UIButton *replyButton;
+@property (strong, atomic) UIButton *viewMoreButton;
 @property (strong, atomic) UIView *seekoutContentView;
 @property (strong, atomic) UILabel *seekoutAuthorNameLabel;
 @property (strong, atomic) UILabel *seekoutTimeLabel;
@@ -130,22 +130,23 @@
 
 - (void)initButton
 {
-    self.replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.replyButton setBackgroundImage:[UIImage imageNamed:@"HPReplyButton"] forState:UIControlStateNormal];
-    [self.replyButton setTitle:@"View More" forState:UIControlStateNormal];
-    [self.replyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.replyButton resetSize:CGSizeMake(126, 36)];
+    self.viewMoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.viewMoreButton setBackgroundImage:[UIImage imageNamed:@"HPReplyButton"] forState:UIControlStateNormal];
+    [self.viewMoreButton setTitle:@"View More" forState:UIControlStateNormal];
+    [self.viewMoreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.viewMoreButton resetSize:CGSizeMake(126, 36)];
     if([self getHeight] < 630/2)
     {
-        [self.replyButton setCenter:CGPointMake([self getWidth]/2, [self.seekoutContentView getOriginY]+[self.seekoutContentView getHeight]+9+[self.replyButton getHeight]/2)];
+        [self.viewMoreButton setCenter:CGPointMake([self getWidth]/2, [self.seekoutContentView getOriginY]+[self.seekoutContentView getHeight]+9+[self.viewMoreButton getHeight]/2)];
     }
     else
     {
-        [self.replyButton setCenter:CGPointMake([self getWidth]/2, [self.seekoutContentView getOriginY]+[self.seekoutContentView getHeight]+28+[self.replyButton getHeight]/2)];
+        [self.viewMoreButton setCenter:CGPointMake([self getWidth]/2, [self.seekoutContentView getOriginY]+[self.seekoutContentView getHeight]+28+[self.viewMoreButton getHeight]/2)];
     }
-    [self addSubview:self.replyButton];
-    
-    
+    [self.viewMoreButton addTarget:self
+                            action:@selector(didClickViewMoreButton:)
+                  forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.viewMoreButton];
 }
 
 #pragma mark - Load Seekout Data
@@ -157,6 +158,22 @@
     [self initImageView];
     [self initContentView];
     [self initButton];
+}
+
+#pragma mark - Add Button Event
+- (void)addViewMoreButtonAction:(SEL)selector
+{
+    [self.viewMoreButton addTarget:self
+                            action:selector
+                  forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)didClickViewMoreButton:(UIButton *)sender
+{
+    HPSeekoutDetailViewController *vc = [[HPSeekoutDetailViewController alloc] initWithSeekoutData:self.seekoutData];
+    UINavigationController *nc = (UINavigationController *)[[UIApplication sharedApplication] delegate].window.rootViewController;
+    [nc pushViewController:vc animated:YES];
+    
 }
 
 @end

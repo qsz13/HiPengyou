@@ -18,6 +18,7 @@
 #import "UIView+Animation.h"
 #import "HPSeekoutTableViewCell.h"
 #import "HPSeekoutTableView.h"
+#import "HPSeekoutDetailViewController.h"
 
 @interface HPHomeViewController ()
 
@@ -413,6 +414,7 @@
                                                                                             512 / 2,
                                                                                             [tableView getHeight])
                                                                             data:[self.seekoutArray objectAtIndex:indexPath.row]];
+    
     return cell;
 }
 

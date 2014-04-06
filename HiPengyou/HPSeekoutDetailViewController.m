@@ -12,6 +12,8 @@
 @interface HPSeekoutDetailViewController ()
 
 @property (strong, atomic) HPSeekout *seekoutData;
+@property (strong, atomic) UIView *customNavBarView;
+@property (strong, atomic) UIView *seekoutDetailView;
 
 @end
 
@@ -31,9 +33,6 @@
     self = [super init];
     if (self) {
         self.seekoutData = seekoutData;
-        
-        // UI Mehtods
-        [self initCustomNavBar];
     }
     return self;
 }
@@ -41,7 +40,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    // UI Mehtods
+    [self initView];
+    [self initCustomNavBar];
+    [self initSeekoutDetailView];
+    [self initSeekoutReplyTableView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,14 +54,50 @@
 }
 
 #pragma mark - UI init
+- (void)initView
+{
+    [self.view setBackgroundColor:[UIColor colorWithRed:230.0f / 255.0f
+                                                  green:230.0f / 255.0f
+                                                   blue:230.0f / 255.0f
+                                                  alpha:1]];
+}
+
 - (void)initCustomNavBar
 {
+    self.customNavBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 320, 40)];
+    [self.customNavBarView setBackgroundColor:[UIColor clearColor]];
+    
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton setBackgroundImage:[UIImage imageNamed:@"HPBackButton"] forState:UIControlStateNormal];
     [backButton resetSize:CGSizeMake(20, 20)];
-    [backButton setCenter:CGPointMake(19/2+10, 43)];
+    [backButton setCenter:CGPointMake(19 / 2 + 10, 20)];
     [backButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:backButton];
+    
+    [self.customNavBarView addSubview:backButton];
+    
+    [self.view addSubview:self.customNavBarView];
+}
+
+- (void)initSeekoutDetailView
+{
+    self.seekoutDetailView = [[UIView alloc] init];
+    [self.seekoutDetailView resetSize:CGSizeMake(307, 203 / 2)];
+    [self.seekoutDetailView setCenter:CGPointMake(320 / 2, 36 + [self.customNavBarView getCenterY] + [self.seekoutDetailView getHeight])];
+    [self.seekoutDetailView setBackgroundColor:[UIColor clearColor]];
+    
+    UIImageView *avatarImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar"]];
+    [avatarImageView resetSize:CGSizeMake(134 / 2, 134 / 2)];
+    [avatarImageView resetOrigin:CGPointMake(0, 0)];
+    [self.seekoutDetailView addSubview:avatarImageView];
+    
+    UIView *seekoutDetailContentBox = [[UIView alloc] initWithFrame:CGRectMake(0, 45 / 2, 307, 79)];
+    [seekoutDetailContentBox setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"HPSeekoutDetailContentBoxBgImage"]]];
+    [self.seekoutDetailView addSubview:seekoutDetailContentBox];
+}
+
+- (void)initSeekoutReplyTableView
+{
+    
 }
 
 #pragma mark - Button Event

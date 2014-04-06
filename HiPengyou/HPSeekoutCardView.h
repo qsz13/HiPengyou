@@ -17,5 +17,6 @@
 @property HPSeekoutType seekoutType;
 
 -(void)loadData:(HPSeekout*)seekout;
+- (void)addViewMoreButtonAction:(SEL)selector;
 
 @end
