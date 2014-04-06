@@ -7,13 +7,14 @@
 //
 
 #import "HPSeekoutCreationViewController.h"
+#import "HPAPIURL.h"
 #import "UIView+Resize.h"
 
 @interface HPSeekoutCreationViewController ()
 
 @property (strong, atomic) UIButton *backButton;
 @property (strong, atomic) UILabel *titleButton;
-@property (strong, atomic) UITextView *seekoutDetailTextView;
+@property (strong, atomic) UITextView *seekoutContentTextView;
 @property (strong, atomic) UIButton *seekoutTypeButton;
 @property (strong, atomic) UIButton *seekoutLanguageButton;
 @property (strong, atomic) UIButton *seekoutLocationButton;
@@ -21,6 +22,8 @@
 @property (strong, atomic) UIImageView *seekoutLanguageIcon;
 @property (strong, atomic) UIImageView *seekoutLocationIcon;
 @property (strong, atomic) UIButton *seekoutPostButton;
+@property (strong, atomic) UITableView *seekoutTypeTable;
+@property (strong, atomic) UIAlertView *postAlertView;
 
 @end
 
@@ -70,23 +73,16 @@
     [self.titleButton sizeToFit];
     [self.titleButton setCenter:CGPointMake([self.view getWidth]/2, 87.5/2)];
     [self.view addSubview:self.titleButton];
-    
-    self.seekoutPostButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.seekoutPostButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutPostButton"] forState:UIControlStateNormal];
-    [self.seekoutPostButton resetSize:CGSizeMake(53, 23)];
-    [self.seekoutPostButton setCenter:CGPointMake(514/2+[self.seekoutPostButton getWidth]/2, 87.5/2)];
-    [self.view addSubview:self.seekoutPostButton];
-    
 }
 
 - (void)initTextView
 {
-    self.seekoutDetailTextView = [[UITextView alloc]init];
+    self.seekoutContentTextView = [[UITextView alloc]init];
 
-    [self.seekoutDetailTextView resetSize:CGSizeMake(300, [self.view getHeight]*0.3)];
-    [self.seekoutDetailTextView setCenter:CGPointMake([self.view getWidth]/2, 150/2+[self.seekoutDetailTextView getHeight]/2)];
+    [self.seekoutContentTextView resetSize:CGSizeMake(300, [self.view getHeight]*0.3)];
+    [self.seekoutContentTextView setCenter:CGPointMake([self.view getWidth]/2, 150/2+[self.seekoutContentTextView getHeight]/2)];
     
-    [self.view addSubview:self.seekoutDetailTextView];
+    [self.view addSubview:self.seekoutContentTextView];
     
     
 }
@@ -97,7 +93,7 @@
     self.seekoutTypeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.seekoutTypeButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutInfoButtonBgImage"] forState:UIControlStateNormal];
     [self.seekoutTypeButton resetSize:CGSizeMake(300, 42)];
-    [self.seekoutTypeButton setCenter:CGPointMake([self.view getWidth]/2, [self.seekoutDetailTextView getOriginY] + [self.seekoutDetailTextView getHeight] + 13/2 + [self.seekoutTypeButton getHeight]/2)];
+    [self.seekoutTypeButton setCenter:CGPointMake([self.view getWidth]/2, [self.seekoutContentTextView getOriginY] + [self.seekoutContentTextView getHeight] + 13/2 + [self.seekoutTypeButton getHeight]/2)];
     
     self.seekoutTypeIcon = [[UIImageView alloc]init];
     [self.seekoutTypeIcon setImage:[UIImage imageNamed:@"HPSeekoutInfoCategoriesButtonIcon"]];
@@ -106,6 +102,15 @@
     
     [self.seekoutTypeButton addSubview:self.seekoutTypeIcon];
     [self.view addSubview:self.seekoutTypeButton];
+    
+    self.seekoutPostButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.seekoutPostButton setTitle:@"Post" forState:UIControlStateNormal];
+    [self.seekoutPostButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutPostButton"] forState:UIControlStateNormal];
+    [self.seekoutPostButton resetSize:CGSizeMake(300, 42)];
+    [self.seekoutPostButton setCenter:CGPointMake([self.view getWidth]/2, [self.seekoutTypeButton getCenterY] + [self.seekoutTypeButton getHeight] + 13/2)];
+    [self.seekoutPostButton addTarget:self action:@selector(didClickPostButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.seekoutPostButton];
+
     
     
 //    self.seekoutLanguageButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -146,7 +151,7 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
    
-    [self.seekoutDetailTextView resignFirstResponder];
+    [self.seekoutContentTextView resignFirstResponder];
 
 }
 
@@ -154,6 +159,18 @@
 - (void)didClickBackButton
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)didClickPostButton
+{
+    NSString *seekoutContentText = self.seekoutContentTextView.text;
+    if([seekoutContentText length] <= 0)
+    {
+        self.postAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"pleas say somthing before you say somethig" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    }
+
+    
+    
 }
 
 

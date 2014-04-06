@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HPAPIURL : NSObject
+#define BASE_URL @"http://timadidas.vicp.cc:15730"
+#define LOGIN_URL [NSString stringWithFormat:@"%@%@",BASE_URL,@"/index/login"]
+#define SEEKOUT_LIST_URL [NSString stringWithFormat:@"%@%@",BASE_URL,@"/seekout/seekoutList?sid="]
 
-@end

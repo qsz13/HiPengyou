@@ -9,6 +9,7 @@
 #import "HPLoginViewController.h"
 #import "HPRegisterViewController.h"
 #import "HPHomeViewController.h"
+#import "HPAPIURL.h"
 #import "UIView+Resize.h"
 #import "HPLoginType.h"
 #import "HPAppDelegate.h"
@@ -360,7 +361,7 @@
 //hi account login request
 - (void)loginRequest
 {
-    NSURL *url = [[NSURL alloc] initWithString:@"http://timadidas.vicp.cc:15730/index/login"];
+    NSURL *url = [[NSURL alloc] initWithString:LOGIN_URL];
     
     NSString *username = self.usernameTextField.text;
     NSString *password = self.passwordTextField.text;

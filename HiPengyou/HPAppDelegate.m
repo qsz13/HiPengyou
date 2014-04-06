@@ -10,7 +10,6 @@
 #import "HPLoginViewController.h"
 #import "HPMessageViewController.h"
 #import "HPProfileViewController.h"
-
 #import "HPRegisterViewController.h"
 
 @implementation HPAppDelegate
