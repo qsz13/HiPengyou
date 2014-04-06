@@ -10,7 +10,7 @@
 #import "HPLoginViewController.h"
 #import "HPMessageViewController.h"
 #import "HPProfileViewController.h"
-#import "HPHomeViewController.h"
+
 #import "HPRegisterViewController.h"
 
 @implementation HPAppDelegate
@@ -61,8 +61,8 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if([userDefaults objectForKey:@"isLoggedIn"])
     {
-        HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
-        [self.navigationController pushViewController:homeViewController animated:NO];
+        self.homeViewController = [[HPHomeViewController alloc] init];
+        [self.navigationController pushViewController:self.homeViewController animated:NO];
     }
 //    if(![userDefaults boolForKey:@"isLoggedIn"])
 //    {

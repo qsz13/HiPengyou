@@ -10,6 +10,8 @@
 
 @interface HPRegisterViewController ()
 
+@property ()UITextField
+
 @end
 
 @implementation HPRegisterViewController
@@ -18,8 +20,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self initView];
+    [self initTextField];
+}
+
+- (void)initView
+{
+    
+    [self.view setBackgroundColor:[UIColor colorWithRed:230.0f / 255.0f
+                                                  green:230.0f / 255.0f
+                                                   blue:230.0f / 255.0f
+                                                  alpha:1]];
+}
+
+- (void)initTextField
+{
+    
+    
     
 }
+
 
 
 @end
