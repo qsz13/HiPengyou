@@ -110,16 +110,8 @@
 - (void)initContentView
 {
     self.seekoutContentView = [[UIView alloc] init];
-//    [self.seekoutContentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"HPSeekoutContentBgImage"]]];
+    [self.seekoutContentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"HPSeekoutContentBgImage"]]];
     [self.seekoutContentView setFrame:CGRectMake(27, [self.seekoutAuthorFaceImageView getOriginY]+[self.seekoutAuthorFaceImageView getHeight]+5, 208, 117)];
-    
-    // Add bg Button
-    self.bgButton = [[UIButton alloc] initWithFrame:self.seekoutContentView.bounds];
-    [self.bgButton setBackgroundImage:[UIImage imageNamed:@"HPSeekoutContentBgImage"] forState:UIControlStateNormal];
-    [self.bgButton addTarget:self
-                      action:@selector(didClickContentBgButton:)
-            forControlEvents:UIControlEventTouchUpInside];
-    [self.seekoutContentView addSubview:self.bgButton];
     
     self.seekoutContentLabel = [[UILabel alloc] init];
     [self.seekoutContentLabel setBackgroundColor:[UIColor clearColor]];
@@ -140,7 +132,7 @@
 {
     self.replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.replyButton setBackgroundImage:[UIImage imageNamed:@"HPReplyButton"] forState:UIControlStateNormal];
-    [self.replyButton setTitle:@"I can help it" forState:UIControlStateNormal];
+    [self.replyButton setTitle:@"View More" forState:UIControlStateNormal];
     [self.replyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.replyButton resetSize:CGSizeMake(126, 36)];
     if([self getHeight] < 630/2)
@@ -165,12 +157,6 @@
     [self initImageView];
     [self initContentView];
     [self initButton];
-}
-
-#pragma mark - Button Event
-- (void)didClickContentBgButton:(UIButton *)sender
-{
-    HPSeekoutDetailViewController *vc = [[HPSeekoutDetailViewController alloc] init];
 }
 
 @end
