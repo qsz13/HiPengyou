@@ -74,8 +74,6 @@
     [self.seekoutTimeLabel setCenter:CGPointMake([self getWidth]/2, [self.seekoutAuthorNameLabel getCenterY] + 33/2)];
 
     [self addSubview:self.seekoutTimeLabel];
-
-
 }
 
 - (void)initImageView
@@ -88,7 +86,8 @@
     [self.seekoutAuthorFaceImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.seekoutData.faceURL]]]];
     [self.seekoutAuthorFaceImageView setImage:self.seekoutData.faceImage];
     [self.seekoutAuthorFaceImageView resetSize:CGSizeMake(78,78)];
-    if([self getHeight] < 630/2)
+    [self.seekoutAuthorFaceImageView.layer setCornerRadius:self.seekoutAuthorFaceImageView.frame.size.width / 2];
+    if ([self getHeight] < 630/2)
     {
         [self.seekoutAuthorFaceImageView setCenter:CGPointMake([self getWidth]/2, [self getHeight]*0.3)];
     }
@@ -104,7 +103,6 @@
 //          [self.seekoutAuthorFaceImageView getOriginY],
 //          [self.seekoutAuthorFaceImageView getWidth],
 //          [self.seekoutAuthorFaceImageView getHeight]);
-    
 }
 
 - (void)initContentView

@@ -45,7 +45,7 @@
     self.rowHeight = 512.0f / 2 + 20; // 20 is for the seperate space
     self.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-//    [self initHeader];
+    [self initHeader];
     [self initFooter];
 }
 

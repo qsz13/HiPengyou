@@ -14,6 +14,5 @@
     reuseIdentifier:(NSString *)reuseIdentifier
               frame:(CGRect)frame
                data:(HPSeekout*)seekout;
-- (void)addViewMoreButtonAction:(SEL)selector;
 
 @end

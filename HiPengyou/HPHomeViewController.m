@@ -37,6 +37,7 @@
 @property (strong, atomic) NSMutableArray *seekoutArray;
 @property HPSeekoutType seekoutType;
 @property NSInteger pageID;
+@property NSInteger scrollIndex;
 
 // TODO
 @property (strong, atomic) UIView *CategoriesView;
@@ -65,7 +66,6 @@
     
     self.seekoutType = all;
     self.pageID = 0;
-    
 }
 
 
@@ -222,8 +222,10 @@
     self.seekoutTableView.dataSource = self;
     
     // Header and Footer Delegate
-//    self.seekoutTableView.header.delegate = self;
+    self.seekoutTableView.header.delegate = self;
     self.seekoutTableView.footer.delegate = self;
+    
+    self.scrollIndex = 0;
     
     // Add to Subview
     [self.view addSubview:self.seekoutTableView];
@@ -328,7 +330,7 @@
 {
     NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@&typeId=%d&pageId=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID]];
     self.pageID++;
-    NSLog(@"%d",self.pageID);
+    NSLog(@"pageID: %d",self.pageID);
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     
 
@@ -342,7 +344,7 @@
         {
             NSError *e = nil;
             NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-//            NSLog(@"%@",dataDict);
+            NSLog(@"Data: %@",dataDict);
             //request success
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {
@@ -357,7 +359,13 @@
                     [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
                     [seekout setState:[s objectForKey:@"seekoutstatu"]];
                     [seekout setType:[[s objectForKey:@"type"] integerValue]];
-                    [seekout setTime:[s objectForKey:@"uptime"]];
+                    
+                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [s objectForKey:@"uptime"]] doubleValue]];
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+                    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+                    [seekout setTime:[dateFormatter stringFromDate:date]];
+                    
                     NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
                     UIImage *faceImage = [self requestForFace:faceURL];
                     [seekout setFaceImage:faceImage];
@@ -493,6 +501,8 @@
 
 - (void)doneWithView:(MJRefreshBaseView *)refreshView
 {
+    NSLog(@"%f, %f", self.seekoutTableView.contentOffset.x, self.seekoutTableView.contentOffset.y);
+    
     // 刷新表格
     [self.seekoutTableView reloadData];
     
@@ -500,6 +510,29 @@
     [refreshView endRefreshing];
 }
 
+#pragma mark - UIScrollView Delegate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+//    NSLog(@"Will Begin: %f, %f", scrollView.contentOffset.x, scrollView.contentOffset.y);
+}
 
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+//    if (targetContentOffset->y - scrollView.contentOffset.y <= [UIScreen mainScreen].bounds.size.width / 3) {
+//        [scrollView setContentOffset:CGPointMake(0, targetContentOffset->y - scrollView.contentOffset.y) animated:YES];
+//    }
+//    CGPoint offset = CGPointMake(targetContentOffset->x, 0);
+//    [scrollView setContentOffset:offset animated:YES];
+//    int width = 512 / 2 + scrollView.contentInset.top;
+//    int pageY = self.scrollIndex * width;
+//    if (targetContentOffset->y < pageY) {
+//        if (self.scrollIndex > 0) {
+//            self.scrollIndex--;
+//        }
+//    } else if (targetContentOffset->y > pageY){
+//        self.scrollIndex++;
+//    }
+//    targetContentOffset->y = self.scrollIndex * width;
+//    NSLog(@"%d %d", self.scrollIndex, (int)targetContentOffset->y);
+//    NSLog(@"Will End: %f, %f", scrollView.contentOffset.x, scrollView.contentOffset.y);
+}
 
 @end
