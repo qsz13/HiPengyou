@@ -328,12 +328,13 @@
 #pragma mark - Request
 - (void)requestForNewSeekout
 {
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@&typeId=%d&pageId=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID]];
+    self.slideWay = 0;
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
+    
     self.pageID++;
     NSLog(@"pageID: %d",self.pageID);
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     
-
 
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -370,14 +371,88 @@
                     UIImage *faceImage = [self requestForFace:faceURL];
                     [seekout setFaceImage:faceImage];
                     [self.seekoutArray addObject: seekout];
+                    [self.seekoutArray insertObject:seekout atIndex:0];
                     NSLog(@"%@",self.seekoutArray);
                     [self.seekoutTableView reloadData];
                     NSLog(@"%@",[s objectForKey:@"author"]);
 //                    [self addSeekoutCard:seekout];
                 }
                 
-                
+            }
+            //login failed
+            else if([[dataDict objectForKey:@"code"] isEqualToString:@"10001"])
+            {
+                //please login first
+            }
+        }
+        //connection failed
+        else if (connectionError != nil)
+        {
+            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.connectionFaiedAlertView show];
+            
+        }
+        //unknow error
+        else
+        {
+            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.connectionFaiedAlertView show];
+        }
+        
+        
+    }];
+    
+    //callback
+}
 
+
+- (void)requestForOldSeekout
+{
+    self.slideWay = 1;
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
+    
+    self.pageID++;
+    NSLog(@"%d",self.pageID);
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    
+    
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        
+        
+        //connection successed
+        if([data length] > 0 && connectionError == nil)
+        {
+            NSError *e = nil;
+            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+            //            NSLog(@"%@",dataDict);
+            //request success
+            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+            {
+                NSDictionary *resultDict = [dataDict objectForKey:@"result"];
+                NSArray *seekoutList = [resultDict objectForKey:@"Seekout.list"];
+                for (NSDictionary *s in seekoutList)
+                {
+                    HPSeekout *seekout = [[HPSeekout alloc]init];
+                    [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
+                    [seekout setContent:[s objectForKey:@"content"]];
+                    [seekout setAuthor:[s objectForKey:@"author"]];
+                    [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
+                    [seekout setState:[s objectForKey:@"seekoutstatu"]];
+                    [seekout setType:[[s objectForKey:@"type"] integerValue]];
+                    [seekout setTime:[s objectForKey:@"uptime"]];
+                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
+                    UIImage *faceImage = [self requestForFace:faceURL];
+                    [seekout setFaceImage:faceImage];
+                    [self.seekoutArray addObject: seekout];
+                    NSLog(@"%@",self.seekoutArray);
+                    [self.seekoutTableView reloadData];
+                    NSLog(@"%@",[s objectForKey:@"author"]);
+                    //                    [self addSeekoutCard:seekout];
+                }
+                
+                
+                
                 
                 
                 
@@ -407,6 +482,7 @@
     
     //callback
 }
+
 
 - (UIImage *)requestForFace:(NSURL*)faceURL
 {

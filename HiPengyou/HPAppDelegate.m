@@ -46,17 +46,8 @@
         
         }
 
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if([userDefaults objectForKey:@"isLoggedIn"])
-    {
-        self.homeViewController = [[HPHomeViewController alloc] init];
-        [self.navigationController pushViewController:self.homeViewController animated:NO];
-    }
-//    if(![userDefaults boolForKey:@"isLoggedIn"])
-//    {
-//    
-//        [self.navigationController pushViewController:homeViewController animated:NO];
-//    }
+    
+    
     
     
     
