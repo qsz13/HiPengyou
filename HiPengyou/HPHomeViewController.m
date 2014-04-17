@@ -38,6 +38,7 @@
 @property HPSeekoutType seekoutType;
 @property NSInteger pageID;
 @property NSInteger scrollIndex;
+@property NSInteger slideWay;
 
 // TODO
 @property (strong, atomic) UIView *CategoriesView;
