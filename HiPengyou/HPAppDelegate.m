@@ -20,8 +20,10 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     HPLoginViewController *loginViewController = [[HPLoginViewController alloc] init];
+    
+    HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
 
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
     
     // Set window background color
     [self.window setBackgroundColor:[UIColor colorWithRed:49.0f / 255.0f

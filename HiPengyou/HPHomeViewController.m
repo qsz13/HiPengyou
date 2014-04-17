@@ -53,10 +53,11 @@
     [super viewDidLoad];
     [self initData];
     [self initView];
-    [self initCustomNavBar];
+    self.navigationController.navigationBarHidden = YES;
+//    [self initCustomNavBar];
     [self initSeekoutTableView];
     [self initSeekoutCards];
-    [self initCategoryButton];
+//    [self initCategoryButton];
     [self initCategoriesView];
 }
 
@@ -330,7 +331,7 @@
 - (void)requestForNewSeekout
 {
     self.slideWay = 0;
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL,  self.seekoutType, self.pageID,self.slideWay]];
     
     self.pageID++;
     NSLog(@"pageID: %d",self.pageID);
@@ -410,7 +411,7 @@
 - (void)requestForOldSeekout
 {
     self.slideWay = 1;
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.seekoutType, self.pageID,self.slideWay]];
     
     self.pageID++;
     NSLog(@"%d",self.pageID);

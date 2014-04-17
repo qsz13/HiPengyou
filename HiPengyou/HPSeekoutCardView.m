@@ -144,7 +144,7 @@
     [self.viewMoreButton addTarget:self
                             action:@selector(didClickViewMoreButton:)
                   forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.viewMoreButton];
+//    [self addSubview:self.viewMoreButton];
 }
 
 #pragma mark - Load Seekout Data
