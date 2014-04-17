@@ -86,6 +86,7 @@
     [self.seekoutAuthorFaceImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.seekoutData.faceURL]]]];
     [self.seekoutAuthorFaceImageView setImage:self.seekoutData.faceImage];
     [self.seekoutAuthorFaceImageView resetSize:CGSizeMake(78,78)];
+    [self.seekoutAuthorFaceImageView.layer setMasksToBounds:YES];
     [self.seekoutAuthorFaceImageView.layer setCornerRadius:self.seekoutAuthorFaceImageView.frame.size.width / 2];
     if ([self getHeight] < 630/2)
     {
