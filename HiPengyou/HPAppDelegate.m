@@ -23,7 +23,7 @@
     
     HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
 
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     
     // Set window background color
     [self.window setBackgroundColor:[UIColor colorWithRed:49.0f / 255.0f

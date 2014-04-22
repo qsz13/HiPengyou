@@ -18,6 +18,7 @@
 @interface HPLoginViewController ()
 
 @property (strong, atomic) UIImageView *logo;
+@property (strong,atomic) UILabel *sloganLabel;
 @property (strong, atomic) UIView *loginFrame;
 @property (strong, atomic) UITextField *usernameTextField;
 @property (strong, atomic) UITextField *passwordTextField;
@@ -46,31 +47,30 @@
     
     [self initView];
     [self initLogo];
-    [self initLabel];
-    [self initSocialLoginButton];
-    [self initButton];
-    [self initLoginFrame];
-    [self initTencent];
-}
-- (void)checkLogin
-{
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if([userDefaults objectForKey:@"isLoggedIn"])
-    {
-        
-        HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
-        [self.navigationController pushViewController:homeViewController animated:NO];
-    }
-
-    
-    
+    [self initSlogan];
+//    [self initLabel];
+//    [self initSocialLoginButton];
+//    [self initButton];
+//    [self initLoginFrame];
+//    [self initTencent];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(loginForGuestView) userInfo:nil repeats:NO];
+    
+}
+
+
+
+
 
 #pragma mark - UI Method
 
@@ -91,10 +91,27 @@
 {
     self.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
     [self.logo setFrame:CGRectMake(self.view.frame.size.width * 0.45 / 2,
-                                   self.view.frame.size.height * 0.15,
+                                   self.view.frame.size.height * 0.3,
                                    self.view.frame.size.width * 0.55,
                                    self.view.frame.size.height * 0.05)];
+    
     [self.view addSubview: self.logo];
+}
+
+- (void)initSlogan
+{
+    self.sloganLabel = [[UILabel alloc] init];
+    self.sloganLabel.numberOfLines = 1;
+    [self.sloganLabel resetSize:CGSizeMake(200, 30)];
+    [self.sloganLabel setText:@"Enjoy your life here"];
+    [self.sloganLabel sizeToFit];
+    [self.sloganLabel setBackgroundColor:[UIColor clearColor]];
+    [self.sloganLabel setTextColor:[UIColor whiteColor]];
+    [self.sloganLabel resetCenter:CGPointMake([self.view getWidth]/2, [self.logo getOriginY]+[self.logo getHeight]+50)];
+   
+    [self.view addSubview:self.sloganLabel];
+    
+    
 }
 
 - (void)initLabel
@@ -326,6 +343,27 @@
 
 
 #pragma mark - Login
+
+- (void)loginForGuestView
+{
+    HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
+    [self.navigationController pushViewController:homeViewController animated:NO];
+}
+
+- (void)checkLogin
+{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if([userDefaults objectForKey:@"isLoggedIn"])
+    {
+        
+        HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
+        [self.navigationController pushViewController:homeViewController animated:NO];
+    }
+    
+    
+    
+}
 
 // init Tencent OAuth
 - (void)initTencent
