@@ -18,6 +18,7 @@
 @property NSString *state;
 @property NSInteger type;
 @property NSString *time;
-@property UIImage *faceImage;
+//@property UIImage *faceImage;
+@property NSURL *faceImageURL;
 
 @end

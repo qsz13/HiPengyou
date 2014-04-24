@@ -31,8 +31,6 @@
 @property (strong, atomic) HPProfileViewController *profileViewController;
 @property (strong, atomic) HPSeekoutCreationViewController *seekoutCreationViewController;
 @property (strong, atomic) HPSeekoutTableView *seekoutTableView;
-//@property (strong, atomic) UIScrollView *seekoutScrollView;
-//@property (strong, atomic) NSMutableArray *seekoutCardsArray;
 @property (strong, atomic) UIAlertView *connectionFaiedAlertView;
 @property (strong, atomic) NSMutableArray *seekoutArray;
 @property HPSeekoutType seekoutType;
@@ -369,8 +367,9 @@
                     [seekout setTime:[dateFormatter stringFromDate:date]];
                     
                     NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
-                    UIImage *faceImage = [self requestForFace:faceURL];
-                    [seekout setFaceImage:faceImage];
+//                    UIImage *faceImage = [self requestForFace:faceURL];
+//                    [seekout setFaceImage:faceImage];
+                    [seekout setFaceImageURL:faceURL];
                     [self.seekoutArray addObject: seekout];
                     [self.seekoutArray insertObject:seekout atIndex:0];
                     NSLog(@"%@",self.seekoutArray);
@@ -443,13 +442,12 @@
                     [seekout setType:[[s objectForKey:@"type"] integerValue]];
                     [seekout setTime:[s objectForKey:@"uptime"]];
                     NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
-                    UIImage *faceImage = [self requestForFace:faceURL];
-                    [seekout setFaceImage:faceImage];
+                    [seekout setFaceImageURL:faceURL];
+
                     [self.seekoutArray addObject: seekout];
                     NSLog(@"%@",self.seekoutArray);
                     [self.seekoutTableView reloadData];
                     NSLog(@"%@",[s objectForKey:@"author"]);
-                    //                    [self addSeekoutCard:seekout];
                 }
                 
                 

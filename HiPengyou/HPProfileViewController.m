@@ -27,7 +27,6 @@
     [super viewDidLoad];
     [self initData];
     [self initView];
-//    [self initButton];
     [self initNaviBar];
     [self initFace];
 
@@ -38,7 +37,6 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.username = [userDefaults objectForKey:@"username"];
 
-    
 }
 
 - (void)initView
@@ -92,19 +90,9 @@
     [self.faceImageView setCenter:CGPointMake([self.view getWidth]/2, 157/2+[self.faceImageView getHeight]/2)];
     [self.view addSubview:self.faceImageView];
     
-    
-    
-    
+
 }
 
-//- (void)initButton
-//{
-//    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [self.backButton setFrame:CGRectMake( 20, 34 , 50, 30)];
-//    [self.backButton setTitle:@"back" forState:UIControlStateNormal];
-//    [self.backButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:self.backButton];
-//}
 
 
 

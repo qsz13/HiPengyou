@@ -9,6 +9,7 @@
 #import "HPSeekoutCardView.h"
 #import "UIView+Resize.h"
 #import "HPSeekoutDetailViewController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface HPSeekoutCardView ()
 
@@ -31,8 +32,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self initBackground];
-
-
+        
+        
     }
     return self;
 }
@@ -41,9 +42,9 @@
 - (void)initBackground
 {
     [self setBackgroundColor:[UIColor colorWithRed:244.0f / 255.0f
-                                                       green:244.0f / 255.0f
-                                                        blue:244.0f / 255.0f
-                                                       alpha:1]];
+                                             green:244.0f / 255.0f
+                                              blue:244.0f / 255.0f
+                                             alpha:1]];
 }
 
 
@@ -52,7 +53,7 @@
     self.seekoutAuthorNameLabel = [[UILabel alloc] init];
     [self.seekoutAuthorNameLabel resetSize:CGSizeMake(500, 30)];
     [self.seekoutAuthorNameLabel setText:self.seekoutData.author];
-//    [self.seekoutAuthorNameLabel setText:@"Tina Chou"];
+    //    [self.seekoutAuthorNameLabel setText:@"Tina Chou"];
     self.seekoutAuthorNameLabel.numberOfLines = 0;
     [self.seekoutAuthorNameLabel setTextColor:[UIColor colorWithRed:171.0f/255.0f green:104.0f/255.0f blue:102.0f/255.0f alpha:1]];
     [self.seekoutAuthorNameLabel setBackgroundColor:[UIColor clearColor]];
@@ -63,16 +64,16 @@
     
     self.seekoutTimeLabel = [[UILabel alloc] init];
     [self.seekoutTimeLabel setText:self.seekoutData.time];
-//    [self.seekoutTimeLabel setText:@"01 Mar 04:25pm"];
+    //    [self.seekoutTimeLabel setText:@"01 Mar 04:25pm"];
     [self.seekoutTimeLabel resetSize:CGSizeMake(200, 30)];
     self.seekoutTimeLabel.numberOfLines = 1;
-
+    
     [self.seekoutTimeLabel setTextColor:[UIColor colorWithRed:144.0f/255.0f green:150.0f/255.0f blue:157.0f/255.0f alpha:1]];
     [self.seekoutTimeLabel setBackgroundColor:[UIColor clearColor]];
     [self.seekoutTimeLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:13]];
     [self.seekoutTimeLabel sizeToFit];
     [self.seekoutTimeLabel setCenter:CGPointMake([self getWidth]/2, [self.seekoutAuthorNameLabel getCenterY] + 33/2)];
-
+    
     [self addSubview:self.seekoutTimeLabel];
 }
 
@@ -84,8 +85,9 @@
     
     self.seekoutAuthorFaceImageView = [[UIImageView alloc] init];
     [self.seekoutAuthorFaceImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.seekoutData.faceURL]]]];
-    [self.seekoutAuthorFaceImageView setImage:self.seekoutData.faceImage];
+    [self.seekoutAuthorFaceImageView setImageWithURL:self.seekoutData.faceImageURL];
     [self.seekoutAuthorFaceImageView resetSize:CGSizeMake(78,78)];
+    [self.seekoutAuthorFaceImageView.layer setMasksToBounds:YES];
     [self.seekoutAuthorFaceImageView.layer setCornerRadius:self.seekoutAuthorFaceImageView.frame.size.width / 2];
     if ([self getHeight] < 630/2)
     {
@@ -95,14 +97,14 @@
     {
         [self.seekoutAuthorFaceImageView setCenter:CGPointMake([self getWidth]/2, [self getHeight]*0.35)];
     }
-   
+    
     [self addSubview:self.seekoutAuthorFaceImageView];
     
-//    NSLog(@"seekoutAuthorFaceImageView: %f, %f, %f, %f",
-//          [self.seekoutAuthorFaceImageView getOriginX],
-//          [self.seekoutAuthorFaceImageView getOriginY],
-//          [self.seekoutAuthorFaceImageView getWidth],
-//          [self.seekoutAuthorFaceImageView getHeight]);
+    //    NSLog(@"seekoutAuthorFaceImageView: %f, %f, %f, %f",
+    //          [self.seekoutAuthorFaceImageView getOriginX],
+    //          [self.seekoutAuthorFaceImageView getOriginY],
+    //          [self.seekoutAuthorFaceImageView getWidth],
+    //          [self.seekoutAuthorFaceImageView getHeight]);
 }
 
 - (void)initContentView
@@ -116,7 +118,7 @@
     [self.seekoutContentLabel resetSize:CGSizeMake([self.seekoutContentView getWidth]-2*10, [self.seekoutContentView getHeight])];
     self.seekoutContentLabel.numberOfLines = 4;
     [self.seekoutContentLabel setText:self.seekoutData.content];
-
+    
     [self.seekoutContentLabel setTextColor:[UIColor colorWithRed:144.0f/255.0f green:150.0f/255.0f blue:157.0f/255.0f alpha:1]];
     [self.seekoutContentLabel setFont:[UIFont systemFontOfSize:16]];
     [self.seekoutContentLabel sizeToFit];
@@ -144,7 +146,7 @@
     [self.viewMoreButton addTarget:self
                             action:@selector(didClickViewMoreButton:)
                   forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.viewMoreButton];
+    //    [self addSubview:self.viewMoreButton];
 }
 
 #pragma mark - Load Seekout Data
