@@ -20,6 +20,8 @@
 #import "HPSeekoutTableView.h"
 #import "HPSeekoutDetailViewController.h"
 
+
+
 @interface HPHomeViewController ()
 
 @property (strong, atomic) NSString *sid;
@@ -31,8 +33,6 @@
 @property (strong, atomic) HPProfileViewController *profileViewController;
 @property (strong, atomic) HPSeekoutCreationViewController *seekoutCreationViewController;
 @property (strong, atomic) HPSeekoutTableView *seekoutTableView;
-//@property (strong, atomic) UIScrollView *seekoutScrollView;
-//@property (strong, atomic) NSMutableArray *seekoutCardsArray;
 @property (strong, atomic) UIAlertView *connectionFaiedAlertView;
 @property (strong, atomic) NSMutableArray *seekoutArray;
 @property HPSeekoutType seekoutType;
@@ -57,7 +57,7 @@
 //    [self initCustomNavBar];
     [self initSeekoutTableView];
     [self initSeekoutCards];
-//    [self initCategoryButton];
+    [self initCategoryButton];
     [self initCategoriesView];
 }
 
@@ -84,50 +84,50 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
 }
-
-- (void)initCustomNavBar
-{
-    UIView *customNavbarView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 320, 44)];
-    
-    // Set Bg Color
-    customNavbarView.backgroundColor = [UIColor clearColor];
-    
-    // init Add Seekout Button
-    self.addSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.addSeekoutButton setImage:[UIImage imageNamed:@"HPAddSeekoutButton"] forState:UIControlStateNormal];
-    //    [self.addSeekoutButton setFrame: CGRectMake(([self.view getWidth] - 43) / 2,
-    //                                                [self.seekoutTableView getOriginY] + [self.seekoutTableView getHeight] + 25,
-    //                                                43, 43)];
-    [self.addSeekoutButton setFrame: CGRectMake(553 / 2, 8, 28, 28)];
-    [self.addSeekoutButton addTarget:self
-                              action:@selector(didClickAddSeekoutButton:)
-                    forControlEvents:UIControlEventTouchUpInside];
-    
-    // init MessageButton
-    self.messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.messageButton setImage:[UIImage imageNamed:@"HPChatButton"] forState:UIControlStateNormal];
-    [self.messageButton setFrame: CGRectMake([self.addSeekoutButton getOriginX] - 41.5, 8, 31, 31)];
-    [self.messageButton addTarget:self
-                           action:@selector(didClickMessageButton:)
-                 forControlEvents:UIControlEventTouchUpInside];
-
-    // init Profile Button
-    self.profileButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.profileButton setImage:[UIImage imageNamed:@"HPProfileButton"] forState:UIControlStateNormal];
-    [self.profileButton setFrame: CGRectMake([self.messageButton getOriginX] - 41.5, 8, 31, 31)];
-    [self.profileButton addTarget:self
-                           action:@selector(didClickProfileButton:)
-                 forControlEvents:UIControlEventTouchUpInside];
-    
-    // Add to Custome Nav Bar View
-    [customNavbarView addSubview:self.profileButton];
-    [customNavbarView addSubview:self.messageButton];
-    [customNavbarView addSubview:self.addSeekoutButton];
-    
-    // Add to View
-    [self.view addSubview:customNavbarView];
-}
-
+//
+//- (void)initCustomNavBar
+//{
+//    UIView *customNavbarView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 320, 44)];
+//    
+//    // Set Bg Color
+//    customNavbarView.backgroundColor = [UIColor clearColor];
+//    
+//    // init Add Seekout Button
+//    self.addSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [self.addSeekoutButton setImage:[UIImage imageNamed:@"HPAddSeekoutButton"] forState:UIControlStateNormal];
+//    //    [self.addSeekoutButton setFrame: CGRectMake(([self.view getWidth] - 43) / 2,
+//    //                                                [self.seekoutTableView getOriginY] + [self.seekoutTableView getHeight] + 25,
+//    //                                                43, 43)];
+//    [self.addSeekoutButton setFrame: CGRectMake(553 / 2, 8, 28, 28)];
+//    [self.addSeekoutButton addTarget:self
+//                              action:@selector(didClickAddSeekoutButton:)
+//                    forControlEvents:UIControlEventTouchUpInside];
+//    
+//    // init MessageButton
+//    self.messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [self.messageButton setImage:[UIImage imageNamed:@"HPChatButton"] forState:UIControlStateNormal];
+//    [self.messageButton setFrame: CGRectMake([self.addSeekoutButton getOriginX] - 41.5, 8, 31, 31)];
+//    [self.messageButton addTarget:self
+//                           action:@selector(didClickMessageButton:)
+//                 forControlEvents:UIControlEventTouchUpInside];
+//
+//    // init Profile Button
+//    self.profileButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [self.profileButton setImage:[UIImage imageNamed:@"HPProfileButton"] forState:UIControlStateNormal];
+//    [self.profileButton setFrame: CGRectMake([self.messageButton getOriginX] - 41.5, 8, 31, 31)];
+//    [self.profileButton addTarget:self
+//                           action:@selector(didClickProfileButton:)
+//                 forControlEvents:UIControlEventTouchUpInside];
+//    
+//    // Add to Custome Nav Bar View
+//    [customNavbarView addSubview:self.profileButton];
+//    [customNavbarView addSubview:self.messageButton];
+//    [customNavbarView addSubview:self.addSeekoutButton];
+//    
+//    // Add to View
+//    [self.view addSubview:customNavbarView];
+//}
+//
 - (void)initCategoryButton
 {
     // init Category Button
@@ -370,13 +370,20 @@
                     [seekout setTime:[dateFormatter stringFromDate:date]];
                     
                     NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
-                    UIImage *faceImage = [self requestForFace:faceURL];
-                    [seekout setFaceImage:faceImage];
+//                    UIImage *faceImage = [UIImage ]
+//                    [WebImageOperations processImageDataWithURLString:[faceURL absoluteString] andBlock:^(NSData *imageData) {
+//                        if (self.view.window) {
+//                            UIImage *image = [UIImage imageWithData:imageData];
+//                            faceImage = image;
+//                        }
+//                        
+//                    }];
+                    
+                    
+                    [seekout setFaceImageURL:faceURL];
                     [self.seekoutArray addObject: seekout];
                     [self.seekoutArray insertObject:seekout atIndex:0];
-                    NSLog(@"%@",self.seekoutArray);
                     [self.seekoutTableView reloadData];
-                    NSLog(@"%@",[s objectForKey:@"author"]);
 //                    [self addSeekoutCard:seekout];
                 }
                 
@@ -414,7 +421,6 @@
     NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.seekoutType, self.pageID,self.slideWay]];
     
     self.pageID++;
-    NSLog(@"%d",self.pageID);
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     
     
@@ -427,7 +433,6 @@
         {
             NSError *e = nil;
             NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            //            NSLog(@"%@",dataDict);
             //request success
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {
@@ -444,13 +449,10 @@
                     [seekout setType:[[s objectForKey:@"type"] integerValue]];
                     [seekout setTime:[s objectForKey:@"uptime"]];
                     NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
-                    UIImage *faceImage = [self requestForFace:faceURL];
-                    [seekout setFaceImage:faceImage];
+
+                    [seekout setFaceImageURL:faceURL];
                     [self.seekoutArray addObject: seekout];
-                    NSLog(@"%@",self.seekoutArray);
                     [self.seekoutTableView reloadData];
-                    NSLog(@"%@",[s objectForKey:@"author"]);
-                    //                    [self addSeekoutCard:seekout];
                 }
                 
                 
@@ -488,13 +490,28 @@
 
 - (UIImage *)requestForFace:(NSURL*)faceURL
 {
-
+    [faceURL absoluteString];
     
     NSData * data = [NSData dataWithContentsOfURL:faceURL];
     UIImage * result = [UIImage imageWithData:data];
-    
     return result;
 }
+
+//- (void)requestForFaceAsynchronously:(NSString *)faceURL
+//{
+//    
+//    [WebImageOperations processImageDataWithURLString:faceURL andBlock:^(NSData *imageData) {
+//        if (self.view.window) {
+//            UIImage *image = [UIImage imageWithData:imageData];
+//            
+//            cell.photo.image = image;
+//        }
+//        
+//    }];
+//    
+//    
+//}
+
 
 //#pragma mark - Add Card
 //- (void)addSeekoutCard:(HPSeekout*)seekout

@@ -10,7 +10,7 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <FacebookSDK/FacebookSDK.h>
 
-@interface HPLoginViewController : UIViewController<UITextFieldDelegate, UIAlertViewDelegate, TencentSessionDelegate>
+@interface HPLoginViewController : UIViewController<UITextFieldDelegate, UIAlertViewDelegate>//, TencentSessionDelegate>
 
 
 @end

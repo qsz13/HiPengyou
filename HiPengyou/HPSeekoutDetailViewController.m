@@ -9,6 +9,7 @@
 #import "HPSeekoutDetailViewController.h"
 #import "UIView+Resize.h"
 #import "HPSeekoutReplyTableViewCell.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface HPSeekoutDetailViewController ()
 
@@ -108,7 +109,8 @@
     
     // Author Avatar
 //    self.avatarImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar"]];
-    self.avatarImageView = [[UIImageView alloc] initWithImage:self.seekoutData.faceImage];
+    self.avatarImageView = [[UIImageView alloc] init];
+    [self.avatarImageView setImageWithURL:self.seekoutData.faceImageURL];
     [self.avatarImageView resetSize:CGSizeMake(134 / 2, 134 / 2)];
     [self.avatarImageView resetOrigin:CGPointMake(0, 0)];
     [self.avatarImageView.layer setCornerRadius:self.avatarImageView.frame.size.width / 2];

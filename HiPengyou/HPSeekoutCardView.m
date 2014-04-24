@@ -9,6 +9,7 @@
 #import "HPSeekoutCardView.h"
 #import "UIView+Resize.h"
 #import "HPSeekoutDetailViewController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface HPSeekoutCardView ()
 
@@ -84,7 +85,7 @@
     
     self.seekoutAuthorFaceImageView = [[UIImageView alloc] init];
     [self.seekoutAuthorFaceImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.seekoutData.faceURL]]]];
-    [self.seekoutAuthorFaceImageView setImage:self.seekoutData.faceImage];
+    [self.seekoutAuthorFaceImageView setImageWithURL:self.seekoutData.faceImageURL];
     [self.seekoutAuthorFaceImageView resetSize:CGSizeMake(78,78)];
     [self.seekoutAuthorFaceImageView.layer setMasksToBounds:YES];
     [self.seekoutAuthorFaceImageView.layer setCornerRadius:self.seekoutAuthorFaceImageView.frame.size.width / 2];
