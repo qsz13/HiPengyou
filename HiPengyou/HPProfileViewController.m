@@ -95,7 +95,7 @@
     self.settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.settingButton setImage:[UIImage imageNamed:@"HPProfileSettingButton"] forState:UIControlStateNormal];
     [self.settingButton resetSize:CGSizeMake(31, 31)];
-    [self.settingButton setCenter:CGPointMake(584/2+[self.settingButton getWidth]/2, 87.5/2)];
+    [self.settingButton setCenter:CGPointMake(560/2+[self.settingButton getWidth]/2, 87.5/2)];
     [self.settingButton addTarget:self action:@selector(didClickSettingButton) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.settingButton];
     
