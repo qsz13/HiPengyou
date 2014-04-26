@@ -110,10 +110,7 @@
                   forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.registerButton];
 
-    
-    
-    
-    
+  
 }
 
 
@@ -230,10 +227,6 @@
     
 }
     
-
-    
-    
-
 
 
 

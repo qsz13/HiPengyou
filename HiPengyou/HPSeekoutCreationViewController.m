@@ -10,6 +10,7 @@
 #import "HPAPIURL.h"
 #import "HPSeekoutType.h"
 #import "UIView+Resize.h"
+#import "UIImage+ImageEffects.h"
 
 @interface HPSeekoutCreationViewController ()
 
@@ -29,7 +30,7 @@
 //@property (strong, atomic) UITableView *seekoutTypeTable;
 @property (strong, atomic) UIAlertView *postSuccessAlertView;
 @property (strong, atomic) UIAlertView *postFailedAlertView;
-
+@property (strong, atomic) UIImageView *blurredBackgroundImageView;
 @property (strong, atomic) NSString *sid;
 @property HPSeekoutType seekoutType;
 
@@ -55,7 +56,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.sid = [userDefaults objectForKey:@"sid"];
     self.seekoutType = people;
-    self.seekoutTypeArray = @[@"people",@"tips",@"events"];
+    self.seekoutTypeArray = @[@"     People Seekout",@"     Tips Seekout",@"     Events Seekout"];
     
     
 }
@@ -191,27 +192,50 @@
 {
     if (self.seekoutType == people)
     {
-        [self.seekoutTypeLabel setText:@"people"];
+        [self.seekoutTypeLabel setText:@"People Seekout"];
     }
     else if (self.seekoutType == tips)
     {
-        [self.seekoutTypeLabel setText:@"tips"];
+        [self.seekoutTypeLabel setText:@"Tips Seekout"];
     }
     else if (self.seekoutType == events)
     {
-        [self.seekoutTypeLabel setText:@"events"];
+        [self.seekoutTypeLabel setText:@"Events Seekout"];
     }
 }
 
 - (void)initTableView
 {
     self.seekoutTypeTableView = [[UITableView alloc] init];
-    [self.seekoutTypeTableView resetSize:CGSizeMake([self.view getWidth]*2/3, [self.view getHeight]/3)];
+    [self.seekoutTypeTableView resetSize:CGSizeMake([self.view getWidth]*2/3, [self.seekoutContentTextView getHeight])];
     [self.seekoutTypeTableView setCenter:CGPointMake([self.view getWidth]/2, [self.view getHeight]/2)];
     self.seekoutTypeTableView.tableFooterView = [[UIView alloc] init];
     self.seekoutTypeTableView.scrollEnabled = NO;
     self.seekoutTypeTableView.delegate = self;
     self.seekoutTypeTableView.dataSource = self;
+    [self.seekoutTypeTableView setSeparatorInset:UIEdgeInsetsZero];
+    
+    UIView *headerView = [[UIView alloc] init];
+    [headerView setFrame:CGRectMake(0, 0, [self.seekoutTypeTableView getWidth], [self.seekoutTypeTableView getHeight]/4)];
+    [headerView setBackgroundColor:[UIColor colorWithRed:48.0f / 255.0f
+                                                   green:188.0f / 255.0f
+                                                    blue:235.0f / 255.0f
+                                                   alpha:1]];
+    UILabel *headerLabel = [[UILabel alloc] init];
+    [headerLabel setBackgroundColor:[UIColor clearColor]];
+    [headerLabel setTextColor:[UIColor whiteColor]];
+    [headerLabel resetSize:CGSizeMake([self.seekoutTypeTableView getWidth], [self.seekoutTypeTableView getHeight])];
+    [headerLabel setText:@"Seekout Category"];
+    [headerLabel setFont:[UIFont systemFontOfSize:20]];
+    headerLabel.numberOfLines = 1;
+    [headerLabel sizeToFit];
+    [headerLabel resetCenter:CGPointMake([headerView getWidth]/2, [headerView getHeight]/2)];
+    [headerView  addSubview:headerLabel];
+    
+    self.seekoutTypeTableView.tableHeaderView = headerView;
+
+
+ 
 }
 
 - (void)removeTableView
@@ -220,7 +244,27 @@
     {
         [self.seekoutTypeTableView removeFromSuperview];
     }
+    if([self.blurredBackgroundImageView isDescendantOfView:self.view])
+    {
+        [self.blurredBackgroundImageView removeFromSuperview];
+    }
 }
+
+
+- (void)blurBackground
+{
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    backgroundImage = [backgroundImage applyLightEffect];
+    self.blurredBackgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
+    [self.view addSubview:self.blurredBackgroundImageView];
+    
+}
+
+
 
 #pragma mark - Keyboard Dismiss
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -239,6 +283,7 @@
 - (void)didClickTypeButton
 {
     
+    [self blurBackground];
     [self.view addSubview:self.seekoutTypeTableView];
 }
 
@@ -363,6 +408,30 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     }
     cell.textLabel.text = [self.seekoutTypeArray objectAtIndex:indexPath.row];
+    [cell setBackgroundColor:[UIColor colorWithRed:247.0f / 255.0f
+                                            green:247.0f / 255.0f
+                                             blue:247.0f / 255.0f
+                                             alpha:1]];
+    [cell.textLabel setTextColor:[UIColor colorWithRed:48.0f / 255.0f
+                                                green:188.0f / 255.0f
+                                                 blue:235.0f / 255.0f
+                                                 alpha:1]];
+    UIImageView *typeIcon = nil;
+    if (indexPath.row == 0)
+    {
+        typeIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HPSeekoutTypePeopleButton"]];
+    }
+    else if (indexPath.row == 1)
+    {
+        typeIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HPSeekoutTypeLifeTipsButton"]];
+    }
+    else if (indexPath.row == 2)
+    {
+        typeIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HPSeekoutTypeEventsButton"]];
+    }
+    [typeIcon setCenter:CGPointMake(20, [cell getHeight]/2)];
+    [cell.contentView addSubview:typeIcon];
+    
     return cell;
     
 }
@@ -394,11 +463,11 @@
 
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    return @"Select seekout type";
+    return [self.seekoutTypeTableView getHeight] / 4;
 }
+
 
 
 @end

@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+//seekout type
+//self Post is used in profile page to retrieve seekouts posted by current user
+//will modify in the future
 typedef enum HPSeekoutType : NSInteger {
     all,
     people,

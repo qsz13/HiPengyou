@@ -33,6 +33,7 @@
 		354E1AE118E840C2007F2DF4 /* HPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */; };
 		354E1AE618E85850007F2DF4 /* HPSeekoutCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */; };
 		357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 357D7D8D18E70F53002A3166 /* HiPengyou.xcdatamodeld */; };
+		35B5E59B190B71E400392CD9 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B5E59A190B71E400392CD9 /* UIImage+ImageEffects.m */; };
 		35C1022A18EFEAA900A6EA29 /* HPProfileSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */; };
 		35C1022F18F0075C00A6EA29 /* HPRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C1022E18F0075C00A6EA29 /* HPRegisterViewController.m */; };
 		35C1023518F0FA1000A6EA29 /* NSString+Contains.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C1023418F0FA1000A6EA29 /* NSString+Contains.m */; };
@@ -111,6 +112,8 @@
 		354E1AE418E85850007F2DF4 /* HPSeekoutCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCreationViewController.h; sourceTree = "<group>"; };
 		354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCreationViewController.m; sourceTree = "<group>"; };
 		357D7D8E18E70F53002A3166 /* HiPengyou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HiPengyou.xcdatamodel; sourceTree = "<group>"; };
+		35B5E599190B71E400392CD9 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		35B5E59A190B71E400392CD9 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		35C1022818EFEAA900A6EA29 /* HPProfileSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPProfileSettingViewController.h; sourceTree = "<group>"; };
 		35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPProfileSettingViewController.m; sourceTree = "<group>"; };
 		35C1022D18F0075C00A6EA29 /* HPRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRegisterViewController.h; sourceTree = "<group>"; };
@@ -210,6 +213,8 @@
 		201E96BB18E6D56C00F5A907 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				35B5E599190B71E400392CD9 /* UIImage+ImageEffects.h */,
+				35B5E59A190B71E400392CD9 /* UIImage+ImageEffects.m */,
 				201E96BE18E6D63900F5A907 /* UIView+Resize.h */,
 				201E96BF18E6D63900F5A907 /* UIView+Resize.m */,
 				200DBF3918F10B1F00AF6AD0 /* UIView+Animation.h */,
@@ -528,6 +533,7 @@
 				35F2689718E27EC100AC55CD /* HPAppDelegate.m in Sources */,
 				203234FC18EEAED800385725 /* HPSeekoutTableViewCell.m in Sources */,
 				354E1AE118E840C2007F2DF4 /* HPHomeViewController.m in Sources */,
+				35B5E59B190B71E400392CD9 /* UIImage+ImageEffects.m in Sources */,
 				35C1022A18EFEAA900A6EA29 /* HPProfileSettingViewController.m in Sources */,
 				35C1023B18F0FD5D00A6EA29 /* HPFaceUploadViewController.m in Sources */,
 				35C1022F18F0075C00A6EA29 /* HPRegisterViewController.m in Sources */,

@@ -20,7 +20,7 @@
 @property (strong, atomic) UIView *customNavBarView;
 
 @property (strong, atomic) UIView *seekoutDetailView;
-@property (strong, atomic) UIImageView *avatarImageView;
+@property (strong, atomic) UIImageView *faceImageView;
 @property (strong, atomic) UILabel *seekoutAuthorNameLabel;
 
 @property (strong, atomic) UITableView *seekoutReplyTableView;
@@ -88,7 +88,6 @@
     [backButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
     
     [self.customNavBarView addSubview:backButton];
-    
     [self.view addSubview:self.customNavBarView];
 }
 
@@ -107,21 +106,43 @@
     // Seekout Detail Content Text
     
     
-    // Author Avatar
-//    self.avatarImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar"]];
-    self.avatarImageView = [[UIImageView alloc] init];
-    [self.avatarImageView setImageWithURL:self.seekoutData.faceImageURL];
-    [self.avatarImageView resetSize:CGSizeMake(134 / 2, 134 / 2)];
-    [self.avatarImageView resetOrigin:CGPointMake(0, 0)];
-    [self.avatarImageView.layer setCornerRadius:self.avatarImageView.frame.size.width / 2];
+    // Author face
+    self.faceImageView = [[UIImageView alloc] init];
+    [self.faceImageView setImageWithURL:self.seekoutData.faceImageURL];
+    [self.faceImageView resetSize:CGSizeMake(134 / 2, 134 / 2)];
+    [self.faceImageView resetOrigin:CGPointMake(0, -5)];
+    
+    //make the face image to be circle
+    [self.faceImageView.layer setMasksToBounds:YES];
+    [self.faceImageView.layer setCornerRadius:self.faceImageView.frame.size.width / 2];
+    
     
     // Author Name
     self.seekoutAuthorNameLabel = [[UILabel alloc] init];
+    [self.seekoutAuthorNameLabel setBackgroundColor:[UIColor clearColor]];
+    [self.seekoutAuthorNameLabel setTextColor:[UIColor
+                                               colorWithRed:171.0f/255.0f
+                                               green:104.0f/255.0f
+                                               blue:102.0f/255.0f
+                                               alpha:1]];
+    
+    
+
+    [self.seekoutAuthorNameLabel resetSize:CGSizeMake(500, 30)];
+    [self.seekoutAuthorNameLabel setText:self.seekoutData.author];
+    self.seekoutAuthorNameLabel.numberOfLines = 0;
+
+    [self.seekoutAuthorNameLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17]];
+    [self.seekoutAuthorNameLabel sizeToFit];
+    [self.seekoutAuthorNameLabel resetOrigin:CGPointMake([self.faceImageView getWidth]+10,0)];
+    [self.seekoutDetailView addSubview:self.seekoutAuthorNameLabel];
+
+    
     
     
     // Add to Seekout Detail View
     [self.seekoutDetailView addSubview:seekoutDetailContentView];
-    [self.seekoutDetailView addSubview:self.avatarImageView];
+    [self.seekoutDetailView addSubview:self.faceImageView];
     [self.seekoutDetailView addSubview:self.seekoutAuthorNameLabel];
     
     // Add to View
@@ -140,6 +161,9 @@
     // Set Delegate
     self.seekoutReplyTableView.delegate = self;
     self.seekoutReplyTableView.dataSource = self;
+    
+    [self.seekoutReplyTableView setSeparatorInset:UIEdgeInsetsZero];
+
     
     // Add to View
     [self.view addSubview:self.seekoutReplyTableView];
