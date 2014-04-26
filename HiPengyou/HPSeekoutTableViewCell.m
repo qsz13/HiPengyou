@@ -47,21 +47,9 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-//    NSLog(@"Seekout Table View Cell: %f, %f, %f, %f",
-//          [self getOriginX],
-//          [self getOriginY],
-//          [self getWidth],
-//          [self getHeight]);
-//    NSLog(@"Seekout Table View Cell Content View: %f, %f, %f, %f",
-//          [self.contentView getOriginX],
-//          [self.contentView getOriginY],
-//          [self.contentView getWidth],
-//          [self.contentView getHeight]);
-    
     if (self) {
         // Set Style
         self.transform = CGAffineTransformMakeRotation(M_PI / 2);
-//        self.userInteractionEnabled = NO;
         [self resetWidthByOffset:20];
         self.frame = frame;
         self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];

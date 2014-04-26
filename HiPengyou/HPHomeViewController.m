@@ -92,9 +92,6 @@
     // init Add Seekout Button
     self.addSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.addSeekoutButton setImage:[UIImage imageNamed:@"HPAddSeekoutButton"] forState:UIControlStateNormal];
-    //    [self.addSeekoutButton setFrame: CGRectMake(([self.view getWidth] - 43) / 2,
-    //                                                [self.seekoutTableView getOriginY] + [self.seekoutTableView getHeight] + 25,
-    //                                                43, 43)];
     [self.addSeekoutButton setFrame: CGRectMake(553 / 2, 8, 28, 28)];
     [self.addSeekoutButton addTarget:self
                               action:@selector(didClickAddSeekoutButton:)
@@ -187,22 +184,6 @@
 //    [self.view addSubview:self.CategoriesView];
 }
 
-//
-//- (void)initSeekoutScrollView
-//{
-//
-//    [self.seekoutScrollView setBounces:NO];
-//    self.seekoutScrollView = [[UIScrollView alloc] init];
-//
-//    [self.seekoutScrollView setFrame:CGRectMake(0,168/2, [self.view getWidth],[self.view getHeight]-168)];
-//
-//    
-//
-//    
-//    [self.seekoutScrollView setContentSize:CGSizeMake([self.seekoutScrollView getWidth], [self.seekoutScrollView getHeight])];
-//    [self.seekoutScrollView setShowsVerticalScrollIndicator:NO];
-//    [self.view addSubview:self.seekoutScrollView];
-//}
 
 - (void)initSeekoutTableView
 {
@@ -263,7 +244,7 @@
 // TODO - Animation, Show Categories View
 - (void)didClickCategoryButton:(UIButton *)sender
 {
-//    NSLog(@"Click Catefory Button");
+
     if ([self.view.subviews containsObject:self.CategoriesView])
     {
         [self.CategoriesView fadeOut];
@@ -324,14 +305,14 @@
     }
 }
 
-#pragma mark - Request
+#pragma mark - Network Request
 - (void)requestForNewSeekout
 {
     self.slideWay = 0;
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
     
     self.pageID++;
-    NSLog(@"pageID: %d",self.pageID);
+
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     
 
@@ -344,7 +325,7 @@
         {
             NSError *e = nil;
             NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            NSLog(@"Data: %@",dataDict);
+
             //request success
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {
@@ -367,15 +348,10 @@
                     [seekout setTime:[dateFormatter stringFromDate:date]];
                     
                     NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
-//                    UIImage *faceImage = [self requestForFace:faceURL];
-//                    [seekout setFaceImage:faceImage];
                     [seekout setFaceImageURL:faceURL];
-                    [self.seekoutArray addObject: seekout];
+//                    [self.seekoutArray addObject: seekout];
                     [self.seekoutArray insertObject:seekout atIndex:0];
-                    NSLog(@"%@",self.seekoutArray);
                     [self.seekoutTableView reloadData];
-                    NSLog(@"%@",[s objectForKey:@"author"]);
-//                    [self addSeekoutCard:seekout];
                 }
                 
             }
@@ -409,7 +385,7 @@
 - (void)requestForOldSeekout
 {
     self.slideWay = 1;
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
     
     self.pageID++;
     NSLog(@"%d",self.pageID);
@@ -425,7 +401,7 @@
         {
             NSError *e = nil;
             NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            //            NSLog(@"%@",dataDict);
+
             //request success
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {
@@ -445,15 +421,13 @@
                     [seekout setFaceImageURL:faceURL];
 
                     [self.seekoutArray addObject: seekout];
-                    NSLog(@"%@",self.seekoutArray);
+
                     [self.seekoutTableView reloadData];
-                    NSLog(@"%@",[s objectForKey:@"author"]);
+
                 }
                 
                 
-                
-                
-                
+
                 
             }
             //login failed
@@ -493,30 +467,6 @@
     return result;
 }
 
-//#pragma mark - Add Card
-//- (void)addSeekoutCard:(HPSeekout*)seekout
-//{
-//    if ([self.seekoutCardsArray count])
-//    {
-//        HPSeekoutCardView *lastSeekoutCardView = [self.seekoutCardsArray lastObject];
-//
-//        HPSeekoutCardView *newSeekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake([lastSeekoutCardView getOriginX] + [lastSeekoutCardView getWidth] + 10, 0, 512/2, [self.seekoutScrollView getHeight])];
-//        [newSeekoutCardView loadData:seekout];
-//        [self.seekoutCardsArray addObject:newSeekoutCardView];
-//        [self.seekoutScrollView setContentSize:CGSizeMake(self.seekoutScrollView.contentSize.width + [newSeekoutCardView getWidth] + 10, [self.seekoutScrollView getHeight])];
-//        NSLog(@"%f",[self.seekoutScrollView getWidth]);
-//        [self.seekoutScrollView addSubview:newSeekoutCardView];
-//
-//    }
-//    else
-//    {
-//        HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:CGRectMake(48/2+16/2, 0, 512/2, [self.seekoutScrollView getHeight])];
-//        [self.seekoutCardsArray addObject:seekoutCardView];
-//        [self.seekoutScrollView setContentSize:CGSizeMake([seekoutCardView getWidth]+48+16, [self.seekoutScrollView getWidth])];
-//
-//        [self.seekoutScrollView addSubview:seekoutCardView];
-//    }
-//}
 
 #pragma mark - UITableView DataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -583,31 +533,6 @@
     
     // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
     [refreshView endRefreshing];
-}
-
-#pragma mark - UIScrollView Delegate
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//    NSLog(@"Will Begin: %f, %f", scrollView.contentOffset.x, scrollView.contentOffset.y);
-}
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-//    if (targetContentOffset->y - scrollView.contentOffset.y <= [UIScreen mainScreen].bounds.size.width / 3) {
-//        [scrollView setContentOffset:CGPointMake(0, targetContentOffset->y - scrollView.contentOffset.y) animated:YES];
-//    }
-//    CGPoint offset = CGPointMake(targetContentOffset->x, 0);
-//    [scrollView setContentOffset:offset animated:YES];
-//    int width = 512 / 2 + scrollView.contentInset.top;
-//    int pageY = self.scrollIndex * width;
-//    if (targetContentOffset->y < pageY) {
-//        if (self.scrollIndex > 0) {
-//            self.scrollIndex--;
-//        }
-//    } else if (targetContentOffset->y > pageY){
-//        self.scrollIndex++;
-//    }
-//    targetContentOffset->y = self.scrollIndex * width;
-//    NSLog(@"%d %d", self.scrollIndex, (int)targetContentOffset->y);
-//    NSLog(@"Will End: %f, %f", scrollView.contentOffset.x, scrollView.contentOffset.y);
 }
 
 @end

@@ -12,6 +12,7 @@ typedef enum HPSeekoutType : NSInteger {
     all,
     people,
     tips,
-    events
+    events,
+    selfPost
     
 } HPSeekoutType;

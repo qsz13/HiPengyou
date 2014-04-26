@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPSeekoutCreationViewController : UIViewController
+@interface HPSeekoutCreationViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+
+
 
 @end

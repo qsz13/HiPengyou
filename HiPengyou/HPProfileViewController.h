@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPProfileViewController : UIViewController
+@interface HPProfileViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
 @end

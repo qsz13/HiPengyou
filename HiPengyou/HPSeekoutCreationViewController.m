@@ -8,6 +8,7 @@
 
 #import "HPSeekoutCreationViewController.h"
 #import "HPAPIURL.h"
+#import "HPSeekoutType.h"
 #import "UIView+Resize.h"
 
 @interface HPSeekoutCreationViewController ()
@@ -18,13 +19,19 @@
 @property (strong, atomic) UIButton *seekoutTypeButton;
 @property (strong, atomic) UIButton *seekoutLanguageButton;
 @property (strong, atomic) UIButton *seekoutLocationButton;
+@property (strong, atomic) UILabel *seekoutTypeLabel;
+@property (strong, atomic) UITableView *seekoutTypeTableView;
+@property (strong, atomic) NSArray *seekoutTypeArray;
 @property (strong, atomic) UIImageView *seekoutTypeIcon;
 @property (strong, atomic) UIImageView *seekoutLanguageIcon;
 @property (strong, atomic) UIImageView *seekoutLocationIcon;
 @property (strong, atomic) UIButton *seekoutPostButton;
-@property (strong, atomic) UITableView *seekoutTypeTable;
-@property (strong, atomic) UIAlertView *postAlertView;
+//@property (strong, atomic) UITableView *seekoutTypeTable;
+@property (strong, atomic) UIAlertView *postSuccessAlertView;
+@property (strong, atomic) UIAlertView *postFailedAlertView;
+
 @property (strong, atomic) NSString *sid;
+@property HPSeekoutType seekoutType;
 
 @end
 
@@ -40,13 +47,16 @@
     [self initNaviBar];
     [self initTextView];
     [self initButton];
+    [self initTableView];
 }
 
 - (void)initData
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.sid = [userDefaults objectForKey:@"sid"];
-    //    NSLog(@"%@", self.sid);
+    self.seekoutType = people;
+    self.seekoutTypeArray = @[@"people",@"tips",@"events"];
+    
     
 }
 
@@ -110,8 +120,30 @@
     [self.seekoutTypeIcon setImage:[UIImage imageNamed:@"HPSeekoutInfoCategoriesButtonIcon"]];
     [self.seekoutTypeIcon resetSize:CGSizeMake(24, 24)];
     [self.seekoutTypeIcon setCenter:CGPointMake([self.seekoutTypeButton getHeight]/2, [self.seekoutTypeButton getHeight]/2)];
-    
     [self.seekoutTypeButton addSubview:self.seekoutTypeIcon];
+    
+    self.seekoutTypeLabel = [[UILabel alloc] init];
+    [self.seekoutTypeLabel setBackgroundColor:[UIColor clearColor]];
+    [self.seekoutTypeLabel resetSize:CGSizeMake([self.seekoutTypeButton getWidth]/2, [self.seekoutTypeButton getHeight])];
+    self.seekoutTypeLabel.numberOfLines = 1;
+
+    [self refreshSeekoutTypeLabel];
+    
+    [self.seekoutTypeLabel setTextColor:[UIColor colorWithRed:48.0f / 255.0f
+                                                   green:188.0f / 255.0f
+                                                    blue:235.0f / 255.0f
+                                                        alpha:1]];
+    [self.seekoutTypeLabel setFont:[UIFont systemFontOfSize:16]];
+    [self.seekoutTypeLabel sizeToFit];
+    [self.seekoutTypeLabel resetOrigin:CGPointMake([self.seekoutTypeIcon getOriginX] + [self.seekoutTypeIcon getWidth] + 10, [self.seekoutTypeButton getHeight]/2 - [self.seekoutTypeLabel getHeight]/2)];
+//    [self.seekoutTypeLabel setCenter:CGPointMake([self.seekoutTypeButton getWidth]/2, [self.seekoutTypeButton getHeight]/2)];
+    [self.seekoutTypeButton addSubview:self.seekoutTypeLabel];
+    
+    
+    
+    
+    
+    [self.seekoutTypeButton addTarget:self action:@selector(didClickTypeButton) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.seekoutTypeButton];
     
     self.seekoutPostButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -153,9 +185,41 @@
 //    [self.seekoutLocationButton addSubview:self.seekoutLocationIcon];
 //    [self.view addSubview:self.seekoutLocationButton];
 
-    
-    
-    
+}
+
+- (void)refreshSeekoutTypeLabel
+{
+    if (self.seekoutType == people)
+    {
+        [self.seekoutTypeLabel setText:@"people"];
+    }
+    else if (self.seekoutType == tips)
+    {
+        [self.seekoutTypeLabel setText:@"tips"];
+    }
+    else if (self.seekoutType == events)
+    {
+        [self.seekoutTypeLabel setText:@"events"];
+    }
+}
+
+- (void)initTableView
+{
+    self.seekoutTypeTableView = [[UITableView alloc] init];
+    [self.seekoutTypeTableView resetSize:CGSizeMake([self.view getWidth]*2/3, [self.view getHeight]/3)];
+    [self.seekoutTypeTableView setCenter:CGPointMake([self.view getWidth]/2, [self.view getHeight]/2)];
+    self.seekoutTypeTableView.tableFooterView = [[UIView alloc] init];
+    self.seekoutTypeTableView.scrollEnabled = NO;
+    self.seekoutTypeTableView.delegate = self;
+    self.seekoutTypeTableView.dataSource = self;
+}
+
+- (void)removeTableView
+{
+    if([self.seekoutTypeTableView isDescendantOfView:self.view])
+    {
+        [self.seekoutTypeTableView removeFromSuperview];
+    }
 }
 
 #pragma mark - Keyboard Dismiss
@@ -172,13 +236,19 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)didClickTypeButton
+{
+    
+    [self.view addSubview:self.seekoutTypeTableView];
+}
+
 - (void)didClickPostButton
 {
     NSString *seekoutContentText = self.seekoutContentTextView.text;
     if([seekoutContentText length] <= 0)
     {
-        self.postAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"pleas say somthing before you say somethig" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [self.postAlertView show];
+        self.postFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"pleas say somthing before you say somethig" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.postFailedAlertView show];
     }
 
     [self postRequest];
@@ -189,7 +259,7 @@
 -(void)postRequest
 {
     
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@%@",SEEKOUT_CREATE_URL, self.sid] ];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@",SEEKOUT_CREATE_URL, self.sid] ];
     NSString *seekoutContentText = self.seekoutContentTextView.text;
     
     
@@ -208,7 +278,7 @@
 //    NSData *postData = [NSKeyedArchiver ar:postDictionary];
 //    NSString *strData = [[NSString alloc]initWithData:postData encoding:NSUTF8StringEncoding];
 //    NSLog(@"!!!%@",strData);
-    NSData *postData = [[NSString stringWithFormat:@"content=%@&towhom=%@&towhere=%@&country=%@&city=%@&type=%@&hasmedia=%@&",seekoutContentText,@"All",@"All cities",@"China",@"Shanghai",@0,@0] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSData *postData = [[NSString stringWithFormat:@"content=%@&towhom=%@&towhere=%@&country=%@&city=%@&type=%d&hasmedia=%@&",seekoutContentText,@"All",@"All cities",@"China",@"Shanghai",self.seekoutType,@0] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
@@ -234,30 +304,30 @@
             //register successed
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {
-                self.postAlertView = [[UIAlertView alloc]  initWithTitle:@"success" message:@"Create seekout ok" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [self.postAlertView show];
+                self.postSuccessAlertView = [[UIAlertView alloc]  initWithTitle:@"success" message:@"Create seekout ok" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [self.postSuccessAlertView show];
             }
             
             //reigister failed
             else if([[dataDict objectForKey:@"code"] isEqualToString:@"14009"])
             {
-                self.postAlertView = [[UIAlertView alloc]  initWithTitle:@"failed" message:@"Create seekout failed" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [self.postAlertView show];
+                self.postFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"failed" message:@"Create seekout failed" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [self.postFailedAlertView show];
             }
         }
         //connection failed
         else if (connectionError != nil)
         {
-            self.postAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.postAlertView show];
+            self.postFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.postFailedAlertView show];
             
         }
         //unknow error
         else
         {
             NSLog(@"%@",data);
-            self.postAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.postAlertView show];
+            self.postFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.postFailedAlertView show];
         }
         
         
@@ -268,6 +338,66 @@
     
     
     
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == self.postSuccessAlertView.cancelButtonIndex){
+        [self didClickBackButton];
+    }
+}
+
+
+#pragma mark - Table View Data Source
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.seekoutTypeArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *cellIdentifier = @"seekoutType";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+    }
+    cell.textLabel.text = [self.seekoutTypeArray objectAtIndex:indexPath.row];
+    return cell;
+    
+}
+
+#pragma mark - Table View Delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if(indexPath.row == 0)
+    {
+        //people
+        self.seekoutType = people;
+    }
+    else if(indexPath.row == 1)
+    {
+        //tips
+        self.seekoutType = tips;
+    }
+    else if(indexPath.row ==2)
+    {
+        //events
+        self.seekoutType = events;
+    }
+    [self refreshSeekoutTypeLabel];
+    
+    [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(removeTableView) userInfo:nil repeats:NO];
+     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+
+{
+    return @"Select seekout type";
 }
 
 
