@@ -77,7 +77,18 @@
 
 - (void)initImageView
 {
-    self.seekoutTypeImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"HPSeekoutTypePeopleImage"]];
+    if (self.seekoutData.type == people)
+    {
+        self.seekoutTypeImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"HPSeekoutTypePeopleImage"]];
+    }
+    else if (self.seekoutData.type == tips)
+    {
+        self.seekoutTypeImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"HPSeekoutTypeTipsImage"]];
+    }
+    else if (self.seekoutData.type == events)
+    {
+        self.seekoutTypeImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"HPSeekoutTypeEventsImage"]];
+    }
     [self.seekoutTypeImageView setFrame:CGRectMake(20, 0, 29, 41)];
     [self addSubview:self.seekoutTypeImageView];
     
