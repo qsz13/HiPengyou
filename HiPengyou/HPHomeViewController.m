@@ -311,6 +311,8 @@
         self.seekoutType = tips;
         self.pageID = 0;
         self.seekoutArray = [[NSMutableArray alloc]init];
+        NSLog(@"clear");
+        [self.seekoutTableView reloadData];
         [self requestForNewSeekout];
     }
 }
@@ -334,7 +336,7 @@
     NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL,  self.seekoutType, self.pageID,self.slideWay]];
     
     self.pageID++;
-    NSLog(@"pageID: %d",self.pageID);
+//    NSLog(@"pageID: %d",self.pageID);
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     
 
@@ -347,7 +349,7 @@
         {
             NSError *e = nil;
             NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            NSLog(@"Data: %@",dataDict);
+//            NSLog(@"Data: %@",dataDict);
             //request success
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {

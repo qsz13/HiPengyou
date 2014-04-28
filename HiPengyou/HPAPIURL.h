@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define BASE_URL @"http://quickycard.com:8001/"
+#define BASE_URL @"http://timadidas.vicp.cc:15730"
 #define LOGIN_URL [NSString stringWithFormat:@"%@%@",BASE_URL,@"/index/login"]
 #define REGISTER_URL [NSString stringWithFormat:@"%@%@",BASE_URL,@"/index/register"]
 #define SEEKOUT_LIST_URL [NSString stringWithFormat:@"%@%@",BASE_URL,@"/seekout/seekoutListForSlide?"]

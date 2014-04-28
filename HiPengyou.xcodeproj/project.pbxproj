@@ -20,6 +20,7 @@
 		201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 201E96BF18E6D63900F5A907 /* UIView+Resize.m */; };
 		203234FC18EEAED800385725 /* HPSeekoutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 203234FB18EEAED800385725 /* HPSeekoutTableViewCell.m */; };
 		2057323B18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2057323A18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m */; };
+		351C47CC190BA1F800EEB058 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 351C47CB190BA1F800EEB058 /* CFNetwork.framework */; };
 		3529060818EFB69D004D73EA /* HPSeekout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3529060718EFB69D004D73EA /* HPSeekout.m */; };
 		354E1ABA18E7C79D007F2DF4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AB918E7C79D007F2DF4 /* Security.framework */; };
 		354E1ABC18E7C7A9007F2DF4 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */; };
@@ -94,6 +95,7 @@
 		2057323918F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutReplyTableViewCell.h; sourceTree = "<group>"; };
 		2057323A18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutReplyTableViewCell.m; sourceTree = "<group>"; };
 		2AABD450A33C4AD091522D82 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		351C47CB190BA1F800EEB058 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3529060618EFB69D004D73EA /* HPSeekout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekout.h; sourceTree = "<group>"; };
 		3529060718EFB69D004D73EA /* HPSeekout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekout.m; sourceTree = "<group>"; };
 		354E1AB918E7C79D007F2DF4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -149,6 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				351C47CC190BA1F800EEB058 /* CFNetwork.framework in Frameworks */,
 				354E1AD618E7F7C0007F2DF4 /* FacebookSDK.framework in Frameworks */,
 				354E1AD418E7F77D007F2DF4 /* TencentOpenAPI.framework in Frameworks */,
 				354E1AC618E7C7E6007F2DF4 /* libz.dylib in Frameworks */,
@@ -308,6 +311,7 @@
 		35F2688518E27EC100AC55CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				351C47CB190BA1F800EEB058 /* CFNetwork.framework */,
 				354E1AD518E7F7C0007F2DF4 /* FacebookSDK.framework */,
 				354E1AD318E7F77D007F2DF4 /* TencentOpenAPI.framework */,
 				354E1AC518E7C7E6007F2DF4 /* libz.dylib */,
@@ -590,7 +594,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Tingzhi Yang (YU353S7ZMW)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tingzhi Yang (YU353S7ZMW)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -608,6 +613,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "C4E295F1-8593-4333-80F3-44DAE06550EE";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -628,7 +634,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Tingzhi Yang (YU353S7ZMW)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tingzhi Yang (YU353S7ZMW)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -639,6 +646,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PROVISIONING_PROFILE = "C4E295F1-8593-4333-80F3-44DAE06550EE";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -668,6 +676,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -696,6 +705,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
