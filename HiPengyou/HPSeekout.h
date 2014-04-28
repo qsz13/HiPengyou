@@ -11,14 +11,12 @@
 @interface HPSeekout : NSObject
 
 @property NSInteger seekoutID;
-@property NSString *faceURL;
 @property NSString *content;
 @property NSString *author;
 @property NSInteger commentNumber;
 @property NSString *state;
 @property NSInteger type;
 @property NSString *time;
-//@property UIImage *faceImage;
 @property NSURL *faceImageURL;
 
 @end

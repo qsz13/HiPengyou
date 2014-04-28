@@ -97,7 +97,7 @@
     [self addSubview:self.seekoutTypeImageView];
     
     self.seekoutAuthorFaceImageView = [[UIImageView alloc] init];
-    [self.seekoutAuthorFaceImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.seekoutData.faceURL]]]];
+//    [self.seekoutAuthorFaceImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.seekoutData.faceURL]]]];
     [self.seekoutAuthorFaceImageView setImageWithURL:self.seekoutData.faceImageURL];
     [self.seekoutAuthorFaceImageView resetSize:CGSizeMake(78,78)];
     [self.seekoutAuthorFaceImageView.layer setMasksToBounds:YES];
