@@ -1,6 +1,6 @@
 
-#import "MJRefreshFooterView.h"
-#import "MJRefreshHeaderView.h"
+#import "HPRefreshFooterView.h"
+#import "HPRefreshHeaderView.h"
 
 /**
  MJ友情提示：

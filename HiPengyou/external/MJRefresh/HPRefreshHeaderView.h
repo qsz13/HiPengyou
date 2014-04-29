@@ -6,8 +6,8 @@
 //  Copyright (c) 2013年 itcast. All rights reserved.
 //  下拉刷新
 
-#import "MJRefreshBaseView.h"
+#import "HPRefreshBaseView.h"
 
-@interface MJRefreshHeaderView : MJRefreshBaseView
+@interface HPRefreshHeaderView : HPRefreshBaseView
 + (instancetype)header;
 @end

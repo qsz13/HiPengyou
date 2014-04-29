@@ -194,6 +194,14 @@
                                                                           [self.view getWidth])
                                                          style:UITableViewStylePlain];
     
+//    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+//    tableViewController.tableView = self.seekoutTableView;
+//    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+//    [refreshControl addTarget:self action:@selector(requestForNewSeekout) forControlEvents:UIControlEventValueChanged];
+////    [self.seekoutTableView addSubview:refreshControl];
+//    tableViewController.refreshControl = refreshControl;
+    
+    
     // Set Style
     self.seekoutTableView.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
 
@@ -257,7 +265,7 @@
     }
 }
 
-// TODO
+
 - (void)didClickAllSeekoutButton:(UIButton *)sender
 {
     if(self.seekoutType != all)
@@ -269,7 +277,7 @@
     }
 }
 
-// TODO
+
 - (void)didClickPeopleSeekoutButton:(UIButton *)sender
 {
     if(self.seekoutType != people)
@@ -281,7 +289,7 @@
     }
 }
 
-// TODO
+
 - (void)didClickLifeTipsSeekoutButton:(UIButton *)sender
 {
     if(self.seekoutType != tips)
@@ -293,7 +301,7 @@
     }
 }
 
-// TODO
+
 - (void)didClickEventsSeekoutButton:(UIButton *)sender
 {
     if(self.seekoutType != events)
@@ -488,8 +496,8 @@
 }
 
 // TODO
-#pragma mark - MJRefreshBaseView Delegate
-- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+#pragma mark - HPRefreshBaseView Delegate
+- (void)refreshViewBeginRefreshing:(HPRefreshBaseView *)refreshView
 {
     NSLog(@"%@----开始进入刷新状态", refreshView.class);
     
@@ -500,23 +508,23 @@
     [self performSelector:@selector(doneWithView:) withObject:refreshView afterDelay:0.0];
 }
 
-- (void)refreshViewEndRefreshing:(MJRefreshBaseView *)refreshView
+- (void)refreshViewEndRefreshing:(HPRefreshBaseView *)refreshView
 {
     NSLog(@"%@----刷新完毕", refreshView.class);
 }
 
-- (void)refreshView:(MJRefreshBaseView *)refreshView stateChange:(MJRefreshState)state
+- (void)refreshView:(HPRefreshBaseView *)refreshView stateChange:(HPRefreshState)state
 {
     switch (state) {
-        case MJRefreshStateNormal:
+        case HPRefreshStateNormal:
             NSLog(@"%@----切换到：普通状态", refreshView.class);
             break;
             
-        case MJRefreshStatePulling:
+        case HPRefreshStatePulling:
             NSLog(@"%@----切换到：松开即可刷新的状态", refreshView.class);
             break;
             
-        case MJRefreshStateRefreshing:
+        case HPRefreshStateRefreshing:
             NSLog(@"%@----切换到：正在刷新状态", refreshView.class);
             break;
         default:
@@ -524,7 +532,7 @@
     }
 }
 
-- (void)doneWithView:(MJRefreshBaseView *)refreshView
+- (void)doneWithView:(HPRefreshBaseView *)refreshView
 {
     NSLog(@"%f, %f", self.seekoutTableView.contentOffset.x, self.seekoutTableView.contentOffset.y);
     

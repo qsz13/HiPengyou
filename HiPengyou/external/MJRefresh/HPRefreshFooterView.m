@@ -1,15 +1,15 @@
 //
-//  MJRefreshFooterView.m
-//  MJRefresh
+//  HPRefreshFooterView.m
+//  HPRefresh
 //
-//  Created by mj on 13-2-26.
+//  Created by HP on 13-2-26.
 //  Copyright (c) 2013年 itcast. All rights reserved.
 //  上拉加载更多
 
-#import "MJRefreshFooterView.h"
-#import "MJRefreshConst.h"
+#import "HPRefreshFooterView.h"
+#import "HPRefreshConst.h"
 
-@interface MJRefreshFooterView()
+@interface HPRefreshFooterView()
 //{
 //    BOOL _withoutIdle;
 //}
@@ -18,11 +18,11 @@
 }
 @end
 
-@implementation MJRefreshFooterView
+@implementation HPRefreshFooterView
 
 + (instancetype)footer
 {
-    return [[MJRefreshFooterView alloc] init];
+    return [[HPRefreshFooterView alloc] init];
 }
 
 #pragma mark - 初始化
@@ -51,9 +51,9 @@
 - (void)setScrollView:(UIScrollView *)scrollView
 {
     // 1.移除以前的监听器
-    [_scrollView removeObserver:self forKeyPath:MJRefreshContentSize context:nil];
+    [_scrollView removeObserver:self forKeyPath:HPRefreshContentSize context:nil];
     // 2.监听contentSize
-    [scrollView addObserver:self forKeyPath:MJRefreshContentSize options:NSKeyValueObservingOptionNew context:nil];
+    [scrollView addObserver:self forKeyPath:HPRefreshContentSize options:NSKeyValueObservingOptionNew context:nil];
     
     // 3.父类的方法
     [super setScrollView:scrollView];
@@ -69,7 +69,7 @@
     
     if (!self.userInteractionEnabled || self.alpha <= 0.01 || self.hidden) return;
     
-    if ([MJRefreshContentSize isEqualToString:keyPath]) {
+    if ([HPRefreshContentSize isEqualToString:keyPath]) {
         [self adjustFrame];
     }
 }
@@ -83,25 +83,25 @@
     CGFloat scrollHeight = _scrollView.frame.size.height - _scrollViewInitInset.top - _scrollViewInitInset.bottom;
     CGFloat y = MAX(contentHeight, scrollHeight);
     // 设置边框
-    self.frame = CGRectMake(0, y, _scrollView.frame.size.width, MJRefreshViewHeight);
+    self.frame = CGRectMake(0, y, _scrollView.frame.size.width, HPRefreshViewHeight);
 }
 
 #pragma mark - 状态相关
 #pragma mark 设置状态
-- (void)setState:(MJRefreshState)state
+- (void)setState:(HPRefreshState)state
 {
     if (_state == state) return;
-    MJRefreshState oldState = _state;
+    HPRefreshState oldState = _state;
     
     [super setState:state];
     
 	switch (state)
     {
-		case MJRefreshStatePulling:
+		case HPRefreshStatePulling:
         {
-            _statusLabel.text = MJRefreshFooterReleaseToRefresh;
+            _statusLabel.text = HPRefreshFooterReleaseToRefresh;
             
-            [UIView animateWithDuration:MJRefreshAnimationDuration animations:^{
+            [UIView animateWithDuration:HPRefreshAnimationDuration animations:^{
                 _arrowImage.transform = CGAffineTransformIdentity;
                 UIEdgeInsets inset = _scrollView.contentInset;
                 inset.bottom = _scrollViewInitInset.bottom;
@@ -110,17 +110,17 @@
 			break;
         }
             
-		case MJRefreshStateNormal:
+		case HPRefreshStateNormal:
         {
-            _statusLabel.text = MJRefreshFooterPullToRefresh;
+            _statusLabel.text = HPRefreshFooterPullToRefresh;
             
             // 刚刷新完毕
-            CGFloat animDuration = MJRefreshAnimationDuration;
+            CGFloat animDuration = HPRefreshAnimationDuration;
             CGFloat deltaH = [self contentBreakView];
             CGPoint tempOffset;
             
             int currentCount = [self totalDataCountInScrollView];
-            if (MJRefreshStateRefreshing == oldState && deltaH > 0 && currentCount != _lastRefreshCount) {
+            if (HPRefreshStateRefreshing == oldState && deltaH > 0 && currentCount != _lastRefreshCount) {
                 tempOffset = _scrollView.contentOffset;
                 animDuration = 0;
             }
@@ -138,16 +138,16 @@
 			break;
         }
             
-        case MJRefreshStateRefreshing:
+        case HPRefreshStateRefreshing:
         {
             // 记录刷新前的数量
             _lastRefreshCount = [self totalDataCountInScrollView];
             
-            _statusLabel.text = MJRefreshFooterRefreshing;
+            _statusLabel.text = HPRefreshFooterRefreshing;
             _arrowImage.transform = CGAffineTransformMakeRotation(M_PI);
-            [UIView animateWithDuration:MJRefreshAnimationDuration animations:^{
+            [UIView animateWithDuration:HPRefreshAnimationDuration animations:^{
                 UIEdgeInsets inset = _scrollView.contentInset;
-                CGFloat bottom = MJRefreshViewHeight + _scrollViewInitInset.bottom;
+                CGFloat bottom = HPRefreshViewHeight + _scrollViewInitInset.bottom;
                 CGFloat deltaH = [self contentBreakView];
                 if (deltaH < 0) { // 如果内容高度小于view的高度
                     bottom -= deltaH;
@@ -163,12 +163,7 @@
 	}
 }
 
-//- (void)endRefreshingWithoutIdle
-//{
-//    _withoutIdle = YES;
-//    [self endRefreshing];
-//    _withoutIdle = NO;
-//}
+
 
 #pragma mark 获得scrollView的内容 超出 view 的高度
 - (CGFloat)contentBreakView
@@ -192,12 +187,12 @@
 // view的类型
 - (int)viewType
 {
-    return MJRefreshViewTypeFooter;
+    return HPRefreshViewTypeFooter;
 }
 
 - (void)free
 {
     [super free];
-    [_scrollView removeObserver:self forKeyPath:MJRefreshContentSize];
+    [_scrollView removeObserver:self forKeyPath:HPRefreshContentSize];
 }
 @end

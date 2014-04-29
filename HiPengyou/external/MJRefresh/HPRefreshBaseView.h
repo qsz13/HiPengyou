@@ -1,8 +1,8 @@
 //
-//  MJRefreshBaseView.h
-//  MJRefresh
+//  HPRefreshBaseView.h
+//  HPRefresh
 //  
-//  Created by mj on 13-3-4.
+//  Created by HP on 13-3-4.
 //  Copyright (c) 2013年 itcast. All rights reserved.
 
 #import <UIKit/UIKit.h>
@@ -12,47 +12,47 @@
  */
 // 控件的刷新状态
 typedef enum {
-	MJRefreshStatePulling = 1, // 松开就可以进行刷新的状态
-	MJRefreshStateNormal = 2, // 普通状态
-	MJRefreshStateRefreshing = 3, // 正在刷新中的状态
-    MJRefreshStateWillRefreshing = 4
-} MJRefreshState;
+	HPRefreshStatePulling = 1, // 松开就可以进行刷新的状态
+	HPRefreshStateNormal = 2, // 普通状态
+	HPRefreshStateRefreshing = 3, // 正在刷新中的状态
+    HPRefreshStateWillRefreshing = 4
+} HPRefreshState;
 
 // 控件的类型
 typedef enum {
-    MJRefreshViewTypeHeader = -1, // 头部控件
-    MJRefreshViewTypeFooter = 1 // 尾部控件
-} MJRefreshViewType;
+    HPRefreshViewTypeHeader = -1, // 头部控件
+    HPRefreshViewTypeFooter = 1 // 尾部控件
+} HPRefreshViewType;
 
-@class MJRefreshBaseView;
+@class HPRefreshBaseView;
 
 /**
  回调的Block定义
  */
 // 开始进入刷新状态就会调用
-typedef void (^BeginRefreshingBlock)(MJRefreshBaseView *refreshView);
+typedef void (^BeginRefreshingBlock)(HPRefreshBaseView *refreshView);
 // 刷新完毕就会调用
-typedef void (^EndRefreshingBlock)(MJRefreshBaseView *refreshView);
+typedef void (^EndRefreshingBlock)(HPRefreshBaseView *refreshView);
 // 刷新状态变更就会调用
-typedef void (^RefreshStateChangeBlock)(MJRefreshBaseView *refreshView, MJRefreshState state);
+typedef void (^RefreshStateChangeBlock)(HPRefreshBaseView *refreshView, HPRefreshState state);
 
 /**
  代理的协议定义
  */
-@protocol MJRefreshBaseViewDelegate <NSObject>
+@protocol HPRefreshBaseViewDelegate <NSObject>
 @optional
 // 开始进入刷新状态就会调用
-- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView;
+- (void)refreshViewBeginRefreshing:(HPRefreshBaseView *)refreshView;
 // 刷新完毕就会调用
-- (void)refreshViewEndRefreshing:(MJRefreshBaseView *)refreshView;
+- (void)refreshViewEndRefreshing:(HPRefreshBaseView *)refreshView;
 // 刷新状态变更就会调用
-- (void)refreshView:(MJRefreshBaseView *)refreshView stateChange:(MJRefreshState)state;
+- (void)refreshView:(HPRefreshBaseView *)refreshView stateChange:(HPRefreshState)state;
 @end
 
 /**
  类的声明
  */
-@interface MJRefreshBaseView : UIView
+@interface HPRefreshBaseView : UIView
 {
     // 父控件一开始的contentInset
     UIEdgeInsets _scrollViewInitInset;
@@ -66,7 +66,7 @@ typedef void (^RefreshStateChangeBlock)(MJRefreshBaseView *refreshView, MJRefres
 	__weak UIActivityIndicatorView *_activityView;
     
     // 状态
-    MJRefreshState _state;
+    HPRefreshState _state;
 }
 
 // 构造方法
@@ -84,7 +84,7 @@ typedef void (^RefreshStateChangeBlock)(MJRefreshBaseView *refreshView, MJRefres
 @property (nonatomic, copy) RefreshStateChangeBlock refreshStateChangeBlock;
 @property (nonatomic, copy) EndRefreshingBlock endStateChangeBlock;
 // 代理
-@property (nonatomic, weak) id<MJRefreshBaseViewDelegate> delegate;
+@property (nonatomic, weak) id<HPRefreshBaseViewDelegate> delegate;
 
 // 是否正在刷新
 @property (nonatomic, readonly, getter=isRefreshing) BOOL refreshing;
@@ -100,6 +100,6 @@ typedef void (^RefreshStateChangeBlock)(MJRefreshBaseView *refreshView, MJRefres
 /**
  交给子类去实现 和 调用
  */
-- (void)setState:(MJRefreshState)state;
+- (void)setState:(HPRefreshState)state;
 - (int)totalDataCountInScrollView;
 @end

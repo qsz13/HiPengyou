@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HPSeekoutType.h"
 #import "HPSeekout.h"
-#import "MJRefresh.h"
+#import "HPRefresh.h"
 
 @interface HPSeekoutCardView : UIView
 

@@ -1,24 +1,24 @@
 //
-//  MJRefreshHeaderView.m
-//  MJRefresh
+//  HPRefreshHeaderView.m
+//  HPRefresh
 //
-//  Created by mj on 13-2-26.
+//  Created by HP on 13-2-26.
 //  Copyright (c) 2013年 itcast. All rights reserved.
 //  下拉刷新
 
-#import "MJRefreshConst.h"
-#import "MJRefreshHeaderView.h"
+#import "HPRefreshConst.h"
+#import "HPRefreshHeaderView.h"
 
-@interface MJRefreshHeaderView()
+@interface HPRefreshHeaderView()
 // 最后的更新时间
 @property (nonatomic, strong) NSDate *lastUpdateTime;
 @end
 
-@implementation MJRefreshHeaderView
+@implementation HPRefreshHeaderView
 
 + (instancetype)header
 {
-    return [[MJRefreshHeaderView alloc] init];
+    return [[HPRefreshHeaderView alloc] init];
 }
 
 #pragma mark - UIScrollView相关
@@ -28,10 +28,10 @@
     [super setScrollView:scrollView];
     
     // 1.设置边框
-    self.frame = CGRectMake(0, - MJRefreshViewHeight, scrollView.frame.size.width, MJRefreshViewHeight);
+    self.frame = CGRectMake(0, - HPRefreshViewHeight, scrollView.frame.size.width, HPRefreshViewHeight);
     
     // 2.加载时间
-    self.lastUpdateTime = [[NSUserDefaults standardUserDefaults] objectForKey:MJRefreshHeaderTimeKey];
+    self.lastUpdateTime = [[NSUserDefaults standardUserDefaults] objectForKey:HPRefreshHeaderTimeKey];
 }
 
 #pragma mark - 状态相关
@@ -41,7 +41,7 @@
     _lastUpdateTime = lastUpdateTime;
     
     // 1.归档
-    [[NSUserDefaults standardUserDefaults] setObject:_lastUpdateTime forKey:MJRefreshHeaderTimeKey];
+    [[NSUserDefaults standardUserDefaults] setObject:_lastUpdateTime forKey:HPRefreshHeaderTimeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     // 2.更新时间
@@ -75,25 +75,25 @@
 }
 
 #pragma mark 设置状态
-- (void)setState:(MJRefreshState)state
+- (void)setState:(HPRefreshState)state
 {
     // 1.一样的就直接返回
     if (_state == state) return;
     
     // 2.保存旧状态
-    MJRefreshState oldState = _state;
+    HPRefreshState oldState = _state;
     
     // 3.调用父类方法
     [super setState:state];
     
     // 4.根据状态执行不同的操作
 	switch (state) {
-		case MJRefreshStatePulling: // 松开可立即刷新
+		case HPRefreshStatePulling: // 松开可立即刷新
         {
             // 设置文字
-            _statusLabel.text = MJRefreshHeaderReleaseToRefresh;
+            _statusLabel.text = HPRefreshHeaderReleaseToRefresh;
             // 执行动画
-            [UIView animateWithDuration:MJRefreshAnimationDuration animations:^{
+            [UIView animateWithDuration:HPRefreshAnimationDuration animations:^{
                 _arrowImage.transform = CGAffineTransformMakeRotation(M_PI);
                 UIEdgeInsets inset = _scrollView.contentInset;
                 inset.top = _scrollViewInitInset.top;
@@ -102,12 +102,12 @@
 			break;
         }
             
-		case MJRefreshStateNormal: // 下拉可以刷新
+		case HPRefreshStateNormal: // 下拉可以刷新
         {
             // 设置文字
-			_statusLabel.text = MJRefreshHeaderPullToRefresh;
+			_statusLabel.text = HPRefreshHeaderPullToRefresh;
             // 执行动画
-            [UIView animateWithDuration:MJRefreshAnimationDuration animations:^{
+            [UIView animateWithDuration:HPRefreshAnimationDuration animations:^{
                 _arrowImage.transform = CGAffineTransformIdentity;
                 UIEdgeInsets inset = _scrollView.contentInset;
                 inset.top = _scrollViewInitInset.top;
@@ -115,26 +115,26 @@
             }];
             
             // 刷新完毕
-            if (MJRefreshStateRefreshing == oldState) {
+            if (HPRefreshStateRefreshing == oldState) {
                 // 保存刷新时间
                 self.lastUpdateTime = [NSDate date];
             }
 			break;
         }
             
-		case MJRefreshStateRefreshing: // 正在刷新中
+		case HPRefreshStateRefreshing: // 正在刷新中
         {
             // 设置文字
-            _statusLabel.text = MJRefreshHeaderRefreshing;
+            _statusLabel.text = HPRefreshHeaderRefreshing;
             // 执行动画
-            [UIView animateWithDuration:MJRefreshAnimationDuration animations:^{
+            [UIView animateWithDuration:HPRefreshAnimationDuration animations:^{
                 _arrowImage.transform = CGAffineTransformIdentity;
                 // 1.增加65的滚动区域
                 UIEdgeInsets inset = _scrollView.contentInset;
-                inset.top = _scrollViewInitInset.top + MJRefreshViewHeight;
+                inset.top = _scrollViewInitInset.top + HPRefreshViewHeight;
                 _scrollView.contentInset = inset;
                 // 2.设置滚动位置
-                _scrollView.contentOffset = CGPointMake(0, - _scrollViewInitInset.top - MJRefreshViewHeight);
+                _scrollView.contentOffset = CGPointMake(0, - _scrollViewInitInset.top - HPRefreshViewHeight);
             }];
 			break;
         }
@@ -154,6 +154,6 @@
 // view的类型
 - (int)viewType
 {
-    return MJRefreshViewTypeHeader;
+    return HPRefreshViewTypeHeader;
 }
 @end

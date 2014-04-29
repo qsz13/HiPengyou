@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MJRefresh.h"
+#import "HPRefresh.h"
 
-@interface HPSeekoutTableView : UITableView <MJRefreshBaseViewDelegate>
+@interface HPSeekoutTableView : UITableView <HPRefreshBaseViewDelegate>
 
-@property (strong, nonatomic) MJRefreshHeaderView *header;
-@property (strong, nonatomic) MJRefreshFooterView *footer;
+@property (strong, nonatomic) HPRefreshHeaderView *header;
+@property (strong, nonatomic) HPRefreshFooterView *footer;
 
 @end

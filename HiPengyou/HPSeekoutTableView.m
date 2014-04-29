@@ -46,7 +46,7 @@
 {
     // 3.集成刷新控件
     // 3.1.下拉刷新
-    MJRefreshHeaderView *header = [MJRefreshHeaderView header];
+    HPRefreshHeaderView *header = [HPRefreshHeaderView header];
     header.scrollView = self;
 
     // 自动刷新
@@ -57,7 +57,7 @@
 - (void)initFooter
 {
     // 3.2.上拉加载更多
-    MJRefreshFooterView *footer = [MJRefreshFooterView footer];
+    HPRefreshFooterView *footer = [HPRefreshFooterView footer];
     footer.scrollView = self;
     self.footer = footer;
 }

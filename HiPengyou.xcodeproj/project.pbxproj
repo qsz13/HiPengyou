@@ -10,16 +10,17 @@
 		200DBF3B18F10B1F00AF6AD0 /* UIView+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 200DBF3A18F10B1F00AF6AD0 /* UIView+Animation.m */; };
 		200DBF3E18F1346600AF6AD0 /* HPSeekoutDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 200DBF3D18F1346600AF6AD0 /* HPSeekoutDetailViewController.m */; };
 		20144A4B18EFEFB300D3553C /* HPSeekoutCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A4918EFEFB300D3553C /* HPSeekoutCardView.m */; };
-		20144A5A18EFF4B900D3553C /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 20144A5018EFF4B900D3553C /* MJRefresh.bundle */; };
-		20144A5B18EFF4B900D3553C /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A5318EFF4B900D3553C /* MJRefreshBaseView.m */; };
-		20144A5C18EFF4B900D3553C /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A5518EFF4B900D3553C /* MJRefreshConst.m */; };
-		20144A5D18EFF4B900D3553C /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A5718EFF4B900D3553C /* MJRefreshFooterView.m */; };
-		20144A5E18EFF4B900D3553C /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A5918EFF4B900D3553C /* MJRefreshHeaderView.m */; };
+		20144A5B18EFF4B900D3553C /* HPRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A5318EFF4B900D3553C /* HPRefreshBaseView.m */; };
+		20144A5D18EFF4B900D3553C /* HPRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A5718EFF4B900D3553C /* HPRefreshFooterView.m */; };
+		20144A5E18EFF4B900D3553C /* HPRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A5918EFF4B900D3553C /* HPRefreshHeaderView.m */; };
 		20144A6118EFFB8500D3553C /* HPSeekoutTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A6018EFFB8500D3553C /* HPSeekoutTableView.m */; };
 		201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 201E96BF18E6D63900F5A907 /* UIView+Resize.m */; };
 		203234FC18EEAED800385725 /* HPSeekoutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 203234FB18EEAED800385725 /* HPSeekoutTableViewCell.m */; };
 		2057323B18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2057323A18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m */; };
 		3529060818EFB69D004D73EA /* HPSeekout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3529060718EFB69D004D73EA /* HPSeekout.m */; };
+		354457DC190E4A9700FFAA79 /* HPRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 354457DB190E4A9700FFAA79 /* HPRefresh.bundle */; };
+		354457E0190E4C4C00FFAA79 /* HPRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 354457DF190E4C4C00FFAA79 /* HPRefreshConst.m */; };
+		354457E3190E5EEC00FFAA79 /* HPSeekoutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354457E2190E5EEC00FFAA79 /* HPSeekoutTableViewController.m */; };
 		354E1ABA18E7C79D007F2DF4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1AB918E7C79D007F2DF4 /* Security.framework */; };
 		354E1ABC18E7C7A9007F2DF4 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */; };
 		354E1ABE18E7C7B4007F2DF4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */; };
@@ -78,16 +79,12 @@
 		20144A4A18EFEFB300D3553C /* HPSeekoutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutTableViewCell.h; sourceTree = "<group>"; };
 		20144A4C18EFEFC600D3553C /* HPLoginType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLoginType.h; sourceTree = "<group>"; };
 		20144A4D18EFEFC600D3553C /* HPSeekoutType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutType.h; sourceTree = "<group>"; };
-		20144A5018EFF4B900D3553C /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
-		20144A5118EFF4B900D3553C /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
-		20144A5218EFF4B900D3553C /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
-		20144A5318EFF4B900D3553C /* MJRefreshBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshBaseView.m; sourceTree = "<group>"; };
-		20144A5418EFF4B900D3553C /* MJRefreshConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshConst.h; sourceTree = "<group>"; };
-		20144A5518EFF4B900D3553C /* MJRefreshConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshConst.m; sourceTree = "<group>"; };
-		20144A5618EFF4B900D3553C /* MJRefreshFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooterView.h; sourceTree = "<group>"; };
-		20144A5718EFF4B900D3553C /* MJRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooterView.m; sourceTree = "<group>"; };
-		20144A5818EFF4B900D3553C /* MJRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeaderView.h; sourceTree = "<group>"; };
-		20144A5918EFF4B900D3553C /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
+		20144A5218EFF4B900D3553C /* HPRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRefreshBaseView.h; sourceTree = "<group>"; };
+		20144A5318EFF4B900D3553C /* HPRefreshBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRefreshBaseView.m; sourceTree = "<group>"; };
+		20144A5618EFF4B900D3553C /* HPRefreshFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRefreshFooterView.h; sourceTree = "<group>"; };
+		20144A5718EFF4B900D3553C /* HPRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRefreshFooterView.m; sourceTree = "<group>"; };
+		20144A5818EFF4B900D3553C /* HPRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRefreshHeaderView.h; sourceTree = "<group>"; };
+		20144A5918EFF4B900D3553C /* HPRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRefreshHeaderView.m; sourceTree = "<group>"; };
 		20144A5F18EFFB8500D3553C /* HPSeekoutTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutTableView.h; sourceTree = "<group>"; };
 		20144A6018EFFB8500D3553C /* HPSeekoutTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutTableView.m; sourceTree = "<group>"; };
 		201E96BE18E6D63900F5A907 /* UIView+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Resize.h"; sourceTree = "<group>"; };
@@ -97,6 +94,12 @@
 		2057323A18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutReplyTableViewCell.m; sourceTree = "<group>"; };
 		3529060618EFB69D004D73EA /* HPSeekout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekout.h; sourceTree = "<group>"; };
 		3529060718EFB69D004D73EA /* HPSeekout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekout.m; sourceTree = "<group>"; };
+		354457DB190E4A9700FFAA79 /* HPRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HPRefresh.bundle; sourceTree = "<group>"; };
+		354457DD190E4BA200FFAA79 /* HPRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRefresh.h; sourceTree = "<group>"; };
+		354457DE190E4C4C00FFAA79 /* HPRefreshConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRefreshConst.h; sourceTree = "<group>"; };
+		354457DF190E4C4C00FFAA79 /* HPRefreshConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRefreshConst.m; sourceTree = "<group>"; };
+		354457E1190E5EEC00FFAA79 /* HPSeekoutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutTableViewController.h; sourceTree = "<group>"; };
+		354457E2190E5EEC00FFAA79 /* HPSeekoutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutTableViewController.m; sourceTree = "<group>"; };
 		354E1AB918E7C79D007F2DF4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		354E1ABB18E7C7A9007F2DF4 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		354E1ABD18E7C7B4007F2DF4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -187,26 +190,26 @@
 		20144A4E18EFF4A300D3553C /* External */ = {
 			isa = PBXGroup;
 			children = (
-				20144A4F18EFF4B900D3553C /* MJRefresh */,
+				20144A4F18EFF4B900D3553C /* HPRefresh */,
 			);
 			name = External;
 			sourceTree = "<group>";
 		};
-		20144A4F18EFF4B900D3553C /* MJRefresh */ = {
+		20144A4F18EFF4B900D3553C /* HPRefresh */ = {
 			isa = PBXGroup;
 			children = (
-				20144A5018EFF4B900D3553C /* MJRefresh.bundle */,
-				20144A5118EFF4B900D3553C /* MJRefresh.h */,
-				20144A5218EFF4B900D3553C /* MJRefreshBaseView.h */,
-				20144A5318EFF4B900D3553C /* MJRefreshBaseView.m */,
-				20144A5418EFF4B900D3553C /* MJRefreshConst.h */,
-				20144A5518EFF4B900D3553C /* MJRefreshConst.m */,
-				20144A5618EFF4B900D3553C /* MJRefreshFooterView.h */,
-				20144A5718EFF4B900D3553C /* MJRefreshFooterView.m */,
-				20144A5818EFF4B900D3553C /* MJRefreshHeaderView.h */,
-				20144A5918EFF4B900D3553C /* MJRefreshHeaderView.m */,
+				354457DB190E4A9700FFAA79 /* HPRefresh.bundle */,
+				20144A5218EFF4B900D3553C /* HPRefreshBaseView.h */,
+				20144A5318EFF4B900D3553C /* HPRefreshBaseView.m */,
+				354457DD190E4BA200FFAA79 /* HPRefresh.h */,
+				354457DE190E4C4C00FFAA79 /* HPRefreshConst.h */,
+				354457DF190E4C4C00FFAA79 /* HPRefreshConst.m */,
+				20144A5618EFF4B900D3553C /* HPRefreshFooterView.h */,
+				20144A5718EFF4B900D3553C /* HPRefreshFooterView.m */,
+				20144A5818EFF4B900D3553C /* HPRefreshHeaderView.h */,
+				20144A5918EFF4B900D3553C /* HPRefreshHeaderView.m */,
 			);
-			name = MJRefresh;
+			name = HPRefresh;
 			path = external/MJRefresh;
 			sourceTree = "<group>";
 		};
@@ -246,6 +249,8 @@
 				35C1023A18F0FD5D00A6EA29 /* HPFaceUploadViewController.m */,
 				200DBF3C18F1346600AF6AD0 /* HPSeekoutDetailViewController.h */,
 				200DBF3D18F1346600AF6AD0 /* HPSeekoutDetailViewController.m */,
+				354457E1190E5EEC00FFAA79 /* HPSeekoutTableViewController.h */,
+				354457E2190E5EEC00FFAA79 /* HPSeekoutTableViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -466,8 +471,8 @@
 			files = (
 				354E1AD818E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				35F2689118E27EC100AC55CD /* InfoPlist.strings in Resources */,
-				20144A5A18EFF4B900D3553C /* MJRefresh.bundle in Resources */,
 				35F2689918E27EC100AC55CD /* Images.xcassets in Resources */,
+				354457DC190E4A9700FFAA79 /* HPRefresh.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,9 +524,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20144A5D18EFF4B900D3553C /* MJRefreshFooterView.m in Sources */,
+				20144A5D18EFF4B900D3553C /* HPRefreshFooterView.m in Sources */,
 				354E1AE618E85850007F2DF4 /* HPSeekoutCreationViewController.m in Sources */,
-				20144A5E18EFF4B900D3553C /* MJRefreshHeaderView.m in Sources */,
+				20144A5E18EFF4B900D3553C /* HPRefreshHeaderView.m in Sources */,
 				201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */,
 				35C1023518F0FA1000A6EA29 /* NSString+Contains.m in Sources */,
 				35F268C318E2C14B00AC55CD /* HPMessageViewController.m in Sources */,
@@ -538,12 +543,13 @@
 				35C1023B18F0FD5D00A6EA29 /* HPFaceUploadViewController.m in Sources */,
 				35C1022F18F0075C00A6EA29 /* HPRegisterViewController.m in Sources */,
 				20144A4B18EFEFB300D3553C /* HPSeekoutCardView.m in Sources */,
-				20144A5B18EFF4B900D3553C /* MJRefreshBaseView.m in Sources */,
+				20144A5B18EFF4B900D3553C /* HPRefreshBaseView.m in Sources */,
 				35F268B718E29BC200AC55CD /* HPLoginViewController.m in Sources */,
+				354457E0190E4C4C00FFAA79 /* HPRefreshConst.m in Sources */,
 				3529060818EFB69D004D73EA /* HPSeekout.m in Sources */,
 				35F2689318E27EC100AC55CD /* main.m in Sources */,
+				354457E3190E5EEC00FFAA79 /* HPSeekoutTableViewController.m in Sources */,
 				35F0674B19093408007B3CDB /* HPProfileSeekoutTableViewCell.m in Sources */,
-				20144A5C18EFF4B900D3553C /* MJRefreshConst.m in Sources */,
 				2057323B18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

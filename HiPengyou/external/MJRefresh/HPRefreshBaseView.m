@@ -1,15 +1,15 @@
 //
-//  MJRefreshBaseView.m
-//  MJRefresh
+//  HPRefreshBaseView.m
+//  HPRefresh
 //
-//  Created by mj on 13-3-4.
+//  Created by HP on 13-3-4.
 //  Copyright (c) 2013年 itcast. All rights reserved.
 //
 
-#import "MJRefreshBaseView.h"
-#import "MJRefreshConst.h"
+#import "HPRefreshBaseView.h"
+#import "HPRefreshConst.h"
 
-@interface MJRefreshBaseView()
+@interface HPRefreshBaseView()
 {
     BOOL _hasInitInset;
 }
@@ -19,10 +19,10 @@
 // 合理的Y值
 - (CGFloat)validY;
 // view的类型
-- (MJRefreshViewType)viewType;
+- (HPRefreshViewType)viewType;
 @end
 
-@implementation MJRefreshBaseView
+@implementation HPRefreshBaseView
 
 #pragma mark 创建一个UILabel
 - (UILabel *)labelWithFontSize:(CGFloat)size
@@ -30,7 +30,7 @@
     UILabel *label = [[UILabel alloc] init];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.font = [UIFont boldSystemFontOfSize:size];
-    label.textColor = MJRefreshLabelTextColor;
+    label.textColor = HPRefreshLabelTextColor;
     label.backgroundColor = [UIColor clearColor];
     label.textAlignment = NSTextAlignmentCenter;
     return label;
@@ -52,12 +52,12 @@
     if (!_hasInitInset) {
         _scrollViewInitInset = _scrollView.contentInset;
     
-        [self observeValueForKeyPath:MJRefreshContentSize ofObject:nil change:nil context:nil];
+        [self observeValueForKeyPath:HPRefreshContentSize ofObject:nil change:nil context:nil];
         
         _hasInitInset = YES;
         
-        if (_state == MJRefreshStateWillRefreshing) {
-            [self setState:MJRefreshStateRefreshing];
+        if (_state == HPRefreshStateWillRefreshing) {
+            [self setState:HPRefreshStateRefreshing];
         }
     }
 }
@@ -87,7 +87,7 @@
         [self addSubview:_activityView = activityView];
         
         // 6.设置默认状态
-        [self setState:MJRefreshStateNormal];
+        [self setState:HPRefreshStateNormal];
     }
     return self;
 }
@@ -95,7 +95,7 @@
 #pragma mark 设置frame
 - (void)setFrame:(CGRect)frame
 {
-    frame.size.height = MJRefreshViewHeight;
+    frame.size.height = HPRefreshViewHeight;
     [super setFrame:frame];
     
     CGFloat w = frame.size.width;
@@ -123,7 +123,7 @@
 
 - (void)setBounds:(CGRect)bounds
 {
-    bounds.size.height = MJRefreshViewHeight;
+    bounds.size.height = HPRefreshViewHeight;
     [super setBounds:bounds];
 }
 
@@ -132,9 +132,9 @@
 - (void)setScrollView:(UIScrollView *)scrollView
 {
     // 移除之前的监听器
-    [_scrollView removeObserver:self forKeyPath:MJRefreshContentOffset context:nil];
+    [_scrollView removeObserver:self forKeyPath:HPRefreshContentOffset context:nil];
     // 监听contentOffset
-    [scrollView addObserver:self forKeyPath:MJRefreshContentOffset options:NSKeyValueObservingOptionNew context:nil];
+    [scrollView addObserver:self forKeyPath:HPRefreshContentOffset options:NSKeyValueObservingOptionNew context:nil];
     
     // 设置scrollView
     _scrollView = scrollView;
@@ -144,10 +144,10 @@
 #pragma mark 监听UIScrollView的contentOffset属性
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {    
-    if (![MJRefreshContentOffset isEqualToString:keyPath]) return;
+    if (![HPRefreshContentOffset isEqualToString:keyPath]) return;
     
     if (!self.userInteractionEnabled || self.alpha <= 0.01 || self.hidden
-        || _state == MJRefreshStateRefreshing) return;
+        || _state == HPRefreshStateRefreshing) return;
     
     // scrollView所滚动的Y值 * 控件的类型（头部控件是-1，尾部控件是1）
     CGFloat offsetY = _scrollView.contentOffset.y * self.viewType;
@@ -155,53 +155,53 @@
     if (offsetY <= validY) return;
     
     if (_scrollView.isDragging) {
-        CGFloat validOffsetY = validY + MJRefreshViewHeight;
-        if (_state == MJRefreshStatePulling && offsetY <= validOffsetY) {
+        CGFloat validOffsetY = validY + HPRefreshViewHeight;
+        if (_state == HPRefreshStatePulling && offsetY <= validOffsetY) {
             // 转为普通状态
-            [self setState:MJRefreshStateNormal];
+            [self setState:HPRefreshStateNormal];
             // 通知代理
             if ([_delegate respondsToSelector:@selector(refreshView:stateChange:)]) {
-                [_delegate refreshView:self stateChange:MJRefreshStateNormal];
+                [_delegate refreshView:self stateChange:HPRefreshStateNormal];
             }
             
             // 回调
             if (_refreshStateChangeBlock) {
-                _refreshStateChangeBlock(self, MJRefreshStateNormal);
+                _refreshStateChangeBlock(self, HPRefreshStateNormal);
             }
-        } else if (_state == MJRefreshStateNormal && offsetY > validOffsetY) {
+        } else if (_state == HPRefreshStateNormal && offsetY > validOffsetY) {
             // 转为即将刷新状态
-            [self setState:MJRefreshStatePulling];
+            [self setState:HPRefreshStatePulling];
             // 通知代理
             if ([_delegate respondsToSelector:@selector(refreshView:stateChange:)]) {
-                [_delegate refreshView:self stateChange:MJRefreshStatePulling];
+                [_delegate refreshView:self stateChange:HPRefreshStatePulling];
             }
             
             // 回调
             if (_refreshStateChangeBlock) {
-                _refreshStateChangeBlock(self, MJRefreshStatePulling);
+                _refreshStateChangeBlock(self, HPRefreshStatePulling);
             }
         }
     } else { // 即将刷新 && 手松开
-        if (_state == MJRefreshStatePulling) {
+        if (_state == HPRefreshStatePulling) {
             // 开始刷新
-            [self setState:MJRefreshStateRefreshing];
+            [self setState:HPRefreshStateRefreshing];
             // 通知代理
             if ([_delegate respondsToSelector:@selector(refreshView:stateChange:)]) {
-                [_delegate refreshView:self stateChange:MJRefreshStateRefreshing];
+                [_delegate refreshView:self stateChange:HPRefreshStateRefreshing];
             }
             
             // 回调
             if (_refreshStateChangeBlock) {
-                _refreshStateChangeBlock(self, MJRefreshStateRefreshing);
+                _refreshStateChangeBlock(self, HPRefreshStateRefreshing);
             }
         }
     }
 }
 
 #pragma mark 设置状态
-- (void)setState:(MJRefreshState)state
+- (void)setState:(HPRefreshState)state
 {
-    if (_state != MJRefreshStateRefreshing) {
+    if (_state != HPRefreshStateRefreshing) {
         // 存储当前的contentInset
         _scrollViewInitInset = _scrollView.contentInset;
     }
@@ -211,14 +211,14 @@
     
     // 2.根据状态执行不同的操作
     switch (state) {
-		case MJRefreshStateNormal: // 普通状态
+		case HPRefreshStateNormal: // 普通状态
             // 显示箭头
             _arrowImage.hidden = NO;
             // 停止转圈圈
 			[_activityView stopAnimating];
             
             // 说明是刚刷新完毕 回到 普通状态的
-            if (MJRefreshStateRefreshing == _state) {
+            if (HPRefreshStateRefreshing == _state) {
                 // 通知代理
                 if ([_delegate respondsToSelector:@selector(refreshViewEndRefreshing:)]) {
                     [_delegate refreshViewEndRefreshing:self];
@@ -232,10 +232,10 @@
             
 			break;
             
-        case MJRefreshStatePulling:
+        case HPRefreshStatePulling:
             break;
             
-		case MJRefreshStateRefreshing:
+		case HPRefreshStateRefreshing:
             // 开始转圈圈
 			[_activityView startAnimating];
             // 隐藏箭头
@@ -264,33 +264,33 @@
 #pragma mark 是否正在刷新
 - (BOOL)isRefreshing
 {
-    return MJRefreshStateRefreshing == _state;
+    return HPRefreshStateRefreshing == _state;
 }
 #pragma mark 开始刷新
 - (void)beginRefreshing
 {
     if (self.window) {
-        [self setState:MJRefreshStateRefreshing];
+        [self setState:HPRefreshStateRefreshing];
     } else {
-        _state = MJRefreshStateWillRefreshing;
+        _state = HPRefreshStateWillRefreshing;
     }
 }
 #pragma mark 结束刷新
 - (void)endRefreshing
 {
-    double delayInSeconds = self.viewType == MJRefreshViewTypeFooter ? 0.3 : 0.0;
+    double delayInSeconds = self.viewType == HPRefreshViewTypeFooter ? 0.3 : 0.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [self setState:MJRefreshStateNormal];
+        [self setState:HPRefreshStateNormal];
     });
 }
 
 #pragma mark - 随便实现
 - (CGFloat)validY { return 0;}
-- (MJRefreshViewType)viewType {return MJRefreshViewTypeHeader;}
+- (HPRefreshViewType)viewType {return HPRefreshViewTypeHeader;}
 - (void)free
 {
-    [_scrollView removeObserver:self forKeyPath:MJRefreshContentOffset];
+    [_scrollView removeObserver:self forKeyPath:HPRefreshContentOffset];
 }
 - (void)removeFromSuperview
 {

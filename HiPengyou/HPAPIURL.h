@@ -16,3 +16,4 @@
 #define SEEKOUT_CREATE_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/seekout/seekoutCreate?"]
 #define FACE_IMAGE_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,FACE_PORT,@"/faceimage/"]
 #define PERSONAL_SEEKOUT_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/seekout/personalseekoutList?"]
+#define COMMENT_LIST_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/comment/commentList?"]

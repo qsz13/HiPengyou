@@ -20,6 +20,7 @@
 @property (strong, atomic) UIView *customNavBarView;
 
 @property (strong, atomic) UIView *seekoutDetailView;
+@property (strong, atomic) UILabel *seekoutContentLabel;
 @property (strong, atomic) UIImageView *faceImageView;
 @property (strong, atomic) UILabel *seekoutAuthorNameLabel;
 
@@ -78,7 +79,7 @@
 
 - (void)initCustomNavBar
 {
-    self.customNavBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 320, 40)];
+    self.customNavBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 320, 60)];
     [self.customNavBarView setBackgroundColor:[UIColor clearColor]];
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -95,22 +96,19 @@
 {
     // init Seekout Detail View
     self.seekoutDetailView = [[UIView alloc] init];
-    [self.seekoutDetailView resetSize:CGSizeMake(307, 203 / 2)];
-    [self.seekoutDetailView setCenter:CGPointMake(320 / 2, 18 + [self.customNavBarView getCenterY] + ([self.customNavBarView getHeight] + [self.seekoutDetailView getHeight]) / 2)];
-    [self.seekoutDetailView setBackgroundColor:[UIColor clearColor]];
+
+    [self.seekoutDetailView setFrame:CGRectMake(0, [self.customNavBarView getHeight], [self.view getWidth], [self.view getHeight]*2/5)];
+    [self.seekoutDetailView setBackgroundColor:[UIColor whiteColor]];
     
-    // Seekout Detail Content View
-    UIView *seekoutDetailContentView = [[UIView alloc] initWithFrame:CGRectMake(0, 45 / 2, 307, 79)];
-    [seekoutDetailContentView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"HPSeekoutDetailContentBoxBgImage"]]];
-    
-    // Seekout Detail Content Text
+
+
     
     
     // Author face
     self.faceImageView = [[UIImageView alloc] init];
     [self.faceImageView setImageWithURL:self.seekoutData.faceImageURL];
-    [self.faceImageView resetSize:CGSizeMake(134 / 2, 134 / 2)];
-    [self.faceImageView resetOrigin:CGPointMake(0, -5)];
+    [self.faceImageView resetSize:CGSizeMake(100 / 2, 100 / 2)];
+    [self.faceImageView resetOrigin:CGPointMake(10, [self.seekoutDetailView getHeight] - [self.faceImageView getHeight] - 10)];
     
     //make the face image to be circle
     [self.faceImageView.layer setMasksToBounds:YES];
@@ -132,16 +130,29 @@
     [self.seekoutAuthorNameLabel setText:self.seekoutData.author];
     self.seekoutAuthorNameLabel.numberOfLines = 0;
 
-    [self.seekoutAuthorNameLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17]];
+    [self.seekoutAuthorNameLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
     [self.seekoutAuthorNameLabel sizeToFit];
-    [self.seekoutAuthorNameLabel resetOrigin:CGPointMake([self.faceImageView getWidth]+10,0)];
+    [self.seekoutAuthorNameLabel resetOrigin:CGPointMake([self.faceImageView getOriginX]+[self.faceImageView getWidth]+5,[self.faceImageView getOriginY]+10)];
     [self.seekoutDetailView addSubview:self.seekoutAuthorNameLabel];
 
+    
+    // Seekout Detail Content Label
+    
+    self.seekoutContentLabel = [[UILabel alloc] init];
+    [self.seekoutContentLabel setBackgroundColor:[UIColor clearColor]];
+    [self.seekoutContentLabel resetSize:CGSizeMake([self.seekoutDetailView getWidth]-2*10, [self.seekoutDetailView getHeight])];
+    self.seekoutContentLabel.numberOfLines = 4;
+    [self.seekoutContentLabel setText:self.seekoutData.content];
+    
+    [self.seekoutContentLabel setTextColor:[UIColor colorWithRed:144.0f/255.0f green:150.0f/255.0f blue:157.0f/255.0f alpha:1]];
+    [self.seekoutContentLabel setFont:[UIFont systemFontOfSize:18]];
+    [self.seekoutContentLabel sizeToFit];
+    [self.seekoutContentLabel setCenter:CGPointMake([self.seekoutDetailView getWidth]/2, [self.faceImageView getOriginY]/2)];
+    [self.seekoutDetailView addSubview:self.seekoutContentLabel];
     
     
     
     // Add to Seekout Detail View
-    [self.seekoutDetailView addSubview:seekoutDetailContentView];
     [self.seekoutDetailView addSubview:self.faceImageView];
     [self.seekoutDetailView addSubview:self.seekoutAuthorNameLabel];
     
@@ -173,7 +184,6 @@
 {
     // init Seekout Reply View
     self.seekoutReplyView = [[UIView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 40, [UIScreen mainScreen].bounds.size.width, 40)];
-    self.seekoutDetailView.backgroundColor = [UIColor clearColor];
     
     // Seekout Reply View Bg Image View
     UIImageView *seekoutReplyBgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HPSeekoutReplyBgImage"]];
