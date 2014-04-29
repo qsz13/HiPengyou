@@ -13,6 +13,7 @@
 #import "UIView+Resize.h"
 #import "UIImageView+AFNetworking.h"
 #import "HPProfileSeekoutTableViewCell.h"
+#import "HPSeekoutDetailViewController.h"
 
 
 @interface HPProfileViewController ()
@@ -145,7 +146,7 @@
     
 }
 
-#pragma mark - table
+#pragma mark - Table View Data Source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.seekoutArray.count;
@@ -170,6 +171,20 @@
     return cell;
 
 }
+
+#pragma merk - Table View delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    HPSeekout *seekoutData = [self.seekoutArray objectAtIndex:indexPath.row];
+    HPSeekoutDetailViewController *vc = [[HPSeekoutDetailViewController alloc] initWithSeekoutData:seekoutData];
+
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
 
 #pragma mark - Network Request
 - (void)requestForSeekoutList

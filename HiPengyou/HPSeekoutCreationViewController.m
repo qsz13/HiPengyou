@@ -309,20 +309,7 @@
     
     
     
-    //content=test%20test%20test&towhom=All&towhere=All%20cities&country=China&city=Shanghai&type=0&hasmedia=0&
-//    NSDictionary *postDictionary = @{
-//                                     @"content":seekoutContentText,
-//                                     @"towhom":@"All",
-//                                     @"towhere":@"Allcities",
-//                                     @"country":@"China",
-//                                     @"city":@"Shanghai",
-//                                     @"type":@0,
-//                                     @"hasmedia":@0
-//                                     };
-    
-//    NSData *postData = [NSKeyedArchiver ar:postDictionary];
-//    NSString *strData = [[NSString alloc]initWithData:postData encoding:NSUTF8StringEncoding];
-//    NSLog(@"!!!%@",strData);
+
     NSData *postData = [[NSString stringWithFormat:@"content=%@&towhom=%@&towhere=%@&country=%@&city=%@&type=%d&hasmedia=%@&",seekoutContentText,@"All",@"All cities",@"China",@"Shanghai",self.seekoutType,@0] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
