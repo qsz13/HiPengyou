@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HPSeekout.h"
 
-@interface HPSeekoutDetailViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface HPSeekoutDetailViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 - (id)initWithSeekoutData:(HPSeekout *)seekoutData;
 

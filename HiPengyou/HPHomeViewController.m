@@ -38,7 +38,7 @@
 @property NSInteger scrollIndex;
 @property NSInteger slideWay;
 
-// TODO
+
 @property (strong, atomic) UIView *CategoriesView;
 
 @end
@@ -222,10 +222,7 @@
 - (void)initSeekoutCards
 {
     self.seekoutArray = [[NSMutableArray alloc] init];
-    
-//    self.seekoutCardsArray = [[NSMutableArray alloc] init];
-
-        [self requestForNewSeekout];
+    [self requestForNewSeekout];
 
 }
 
@@ -357,7 +354,6 @@
                     
                     NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
                     [seekout setFaceImageURL:faceURL];
-//                    [self.seekoutArray addObject: seekout];
                     [self.seekoutArray insertObject:seekout atIndex:0];
                     [self.seekoutTableView reloadData];
                 }

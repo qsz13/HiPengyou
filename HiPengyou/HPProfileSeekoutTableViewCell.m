@@ -94,13 +94,13 @@
     }
     else if(self.seekout.type == tips)
     {
-        
+        self.seekoutTypeImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"HPSeekoutTypeTipsImage"]];
     }
     else if(self.seekout.type == events)
     {
-        
+        self.seekoutTypeImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"HPSeekoutTypeEventsImage"]];
     }
-    NSLog(@"%d",self.seekout.type);
+//    NSLog(@"%d",self.seekout.type);
     [self.contentView addSubview:self.seekoutTypeImage];
     
 }

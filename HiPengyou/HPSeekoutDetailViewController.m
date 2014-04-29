@@ -8,13 +8,16 @@
 
 #import "HPSeekoutDetailViewController.h"
 #import "UIView+Resize.h"
-#import "HPSeekoutReplyTableViewCell.h"
+#import "HPSeekoutCommentTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
+#import "HPSeekoutComment.h"
+#import "HPAPIURL.h"
 
 @interface HPSeekoutDetailViewController ()
 
 // Data
 @property (strong, atomic) HPSeekout *seekoutData;
+@property (strong, atomic) NSString *sid;
 
 // UI
 @property (strong, atomic) UIView *customNavBarView;
@@ -24,10 +27,16 @@
 @property (strong, atomic) UIImageView *faceImageView;
 @property (strong, atomic) UILabel *seekoutAuthorNameLabel;
 
-@property (strong, atomic) UITableView *seekoutReplyTableView;
+@property (strong, atomic) UITableView *seekoutCommentTableView;
+@property (strong, atomic) NSMutableArray *seekoutCommentArray;
 
 @property (strong, atomic) UIView *seekoutReplyView;
 @property (strong, atomic) UITextField *seekoutReplyTextField;
+@property (strong, atomic) UIButton *replyButton;
+
+@property (strong, atomic) UIAlertView *connectionFaiedAlertView;
+@property (strong, atomic) UIAlertView *replyAlertView;
+
 
 @end
 
@@ -54,12 +63,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //Data Method
+    [self initData];
+    [self initCommentData];
     // UI Mehtods
     [self initView];
     [self initCustomNavBar];
     [self initSeekoutDetailView];
-    [self initSeekoutReplyTableView];
+    [self initSeekoutCommentTableView];
     [self initSeekoutReplyView];
+    
+    
+
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -145,7 +161,7 @@
     [self.seekoutContentLabel setText:self.seekoutData.content];
     
     [self.seekoutContentLabel setTextColor:[UIColor colorWithRed:144.0f/255.0f green:150.0f/255.0f blue:157.0f/255.0f alpha:1]];
-    [self.seekoutContentLabel setFont:[UIFont systemFontOfSize:18]];
+    [self.seekoutContentLabel setFont:[UIFont systemFontOfSize:20]];
     [self.seekoutContentLabel sizeToFit];
     [self.seekoutContentLabel setCenter:CGPointMake([self.seekoutDetailView getWidth]/2, [self.faceImageView getOriginY]/2)];
     [self.seekoutDetailView addSubview:self.seekoutContentLabel];
@@ -160,46 +176,164 @@
     [self.view addSubview:self.seekoutDetailView];
 }
 
-- (void)initSeekoutReplyTableView
+- (void)initSeekoutCommentTableView
 {
     // init Seekout Reply Table View
-    self.seekoutReplyTableView = [[UITableView alloc] initWithFrame:CGRectMake([self.seekoutDetailView getOriginX],
+    self.seekoutCommentTableView = [[UITableView alloc] initWithFrame:CGRectMake([self.seekoutDetailView getOriginX],
                                                                                [self.seekoutDetailView getOriginY] + [self.seekoutDetailView getHeight] + 35 / 2,
                                                                                [self.seekoutDetailView getWidth],
                                                                                [UIScreen mainScreen].bounds.size.height - 40 - [self.seekoutDetailView getOriginY] - [self.seekoutDetailView getHeight] - 35 / 2 - 8)
                                                               style:UITableViewStylePlain];
     
     // Set Delegate
-    self.seekoutReplyTableView.delegate = self;
-    self.seekoutReplyTableView.dataSource = self;
+    self.seekoutCommentTableView.delegate = self;
+    self.seekoutCommentTableView.dataSource = self;
     
-    [self.seekoutReplyTableView setSeparatorInset:UIEdgeInsetsZero];
-
+    [self.seekoutCommentTableView setSeparatorInset:UIEdgeInsetsZero];
+    self.seekoutCommentTableView.tableFooterView = [[UIView alloc]init];
     
     // Add to View
-    [self.view addSubview:self.seekoutReplyTableView];
+    [self.view addSubview:self.seekoutCommentTableView];
 }
 
 - (void)initSeekoutReplyView
 {
     // init Seekout Reply View
     self.seekoutReplyView = [[UIView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 40, [UIScreen mainScreen].bounds.size.width, 40)];
+    [self.seekoutReplyView setBackgroundColor:[UIColor colorWithRed:49.0f / 255.0f
+                                                             green:188.0f / 255.0f
+                                                              blue:234.0f / 255.0f
+                                                              alpha:1]];
+
     
-    // Seekout Reply View Bg Image View
-    UIImageView *seekoutReplyBgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HPSeekoutReplyBgImage"]];
-    [seekoutReplyBgImageView setFrame:self.seekoutReplyView.bounds];
+    
+    
+    // Seekout Reply Button
+    self.replyButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.replyButton setTitle:@"Send" forState:UIControlStateNormal];
+    [self.replyButton sizeToFit];
+    [self.replyButton setCenter:CGPointMake([self.view getWidth]-[self.replyButton getWidth]/2 - 10, [self.seekoutReplyView getHeight]/2)];
+    [self.replyButton setTintColor:[UIColor whiteColor]];
+    [self.replyButton addTarget:self action:@selector(didClickReplyButton) forControlEvents:UIControlEventTouchUpInside];
     
     // Seekout Reply Text Field
-    self.seekoutReplyTextField = [[UITextField alloc] initWithFrame:self.seekoutReplyView.bounds];
-    
+    self.seekoutReplyTextField = [[UITextField alloc] init];
+    [self.seekoutReplyTextField setFrame:CGRectMake(10, 5, [self.seekoutReplyView getWidth]-20 - [self.replyButton getWidth] - 10, [self.seekoutReplyView getHeight]-10)];
+    self.seekoutReplyTextField.delegate = self;
+    [self.seekoutReplyTextField setPlaceholder:@"I can help it"];
+    [self.seekoutReplyTextField setBackgroundColor:[UIColor whiteColor]];
     
     // Add to Seekout Reply View
-    [self.seekoutReplyView addSubview:seekoutReplyBgImageView];
     [self.seekoutReplyView addSubview:self.seekoutReplyTextField];
+    [self.seekoutReplyView addSubview:self.replyButton];
+    
     
     // Add to View
     [self.view addSubview:self.seekoutReplyView];
 }
+
+#pragma mark - init Data
+- (void)initData
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.sid = [userDefaults objectForKey:@"sid"];
+    
+
+}
+
+- (void)initCommentData
+{
+    self.seekoutCommentArray = [[NSMutableArray alloc] init];
+    [self requestForComment];
+
+    
+    
+}
+
+
+#pragma mark - network request
+- (void)requestForComment
+{
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@&&seekoutId=%d&pageId=%d",COMMENT_LIST_URL,self.sid,self.seekoutData.seekoutID,0]];
+    NSLog(@"%d",self.seekoutData.seekoutID);
+
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        
+        
+        //connection successed
+        if([data length] > 0 && connectionError == nil)
+        {
+            
+            NSError *e = nil;
+            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+            NSLog(@"%@",dataDict);
+
+            //request success
+            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+            {
+                
+                NSDictionary *resultDict = [dataDict objectForKey:@"result"];
+
+                NSArray *seekoutList = [resultDict objectForKey:@"Comment.list"];
+                for (NSDictionary *c in seekoutList)
+                {
+                    HPSeekoutComment *comment = [[HPSeekoutComment alloc]init];
+                    [comment setCommentID:[[c objectForKey:@"id"] integerValue]];
+                    NSURL* faceURL = [[NSURL alloc] initWithString:[c objectForKey:@"face"]];
+                    [comment setFaceImageURL:faceURL];
+                    [comment setContent:[c objectForKey:@"content"]];
+                    [comment setAuthor:[c objectForKey:@"author"]];
+                    [comment setAuthorID:[[c objectForKey:@"authorid"] integerValue]];
+                    
+                    
+                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [c objectForKey:@"uptime"]] doubleValue]];
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+                    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+                    [comment setTime:[dateFormatter stringFromDate:date]];
+//                    NSLog(@"%d",[[c objectForKey:@"uptime"] integerValue]);
+//                    NSLog(@"%@",date);
+                    
+                    [comment setLikeNumber:[[c objectForKey:@"likes"] integerValue]];
+                    [comment setHasMedia:[[c objectForKey:@"hasmedia"] boolValue]];
+                    NSURL* mediaURL = [[NSURL alloc] initWithString:[c objectForKey:@"mediaurl"]];
+                    [comment setMediaURL:mediaURL];
+
+                    
+                    [self.seekoutCommentArray addObject:comment];
+                    [self.seekoutCommentTableView reloadData];
+                }
+                
+            }
+            //login failed
+            else if([[dataDict objectForKey:@"code"] isEqualToString:@"10001"])
+            {
+                //please login first
+            }
+        }
+        //connection failed
+        else if (connectionError != nil)
+        {
+            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.connectionFaiedAlertView show];
+            
+        }
+        //unknow error
+        else
+        {
+            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.connectionFaiedAlertView show];
+        }
+        
+        
+    }];
+    
+    //callback
+}
+
+
+
 
 #pragma mark - Button Event
 - (void)didClickBackButton
@@ -214,21 +348,145 @@
 }
 
 #pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 70.0f;
+}
+
 
 
 // TODO - Add Data Source
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return self.seekoutCommentArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HPSeekoutReplyTableViewCell *cell = [[HPSeekoutReplyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SeekoutReply"];
+
+    
+    HPSeekoutComment *comment = [self.seekoutCommentArray objectAtIndex:indexPath.row];
+
+    
+    HPSeekoutCommentTableViewCell *cell = [[HPSeekoutCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SeekoutComment" frame:CGRectMake(0, 0, [self.view getWidth], 10) data:comment];
     
     
+
+
     return cell;
 }
+
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField;
+{
+    [self animateTextField: textField up: YES];
+
+    
+    
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self animateTextField: textField up: NO];
+}
+
+
+- (void)animateTextField: (UITextField*) textField up: (BOOL) up
+{
+    const int movementDistance = 215; // tweak as needed
+    const float movementDuration = 0.3f; // tweak as needed
+    
+    int movement = (up ? -movementDistance : movementDistance);
+    
+    [UIView beginAnimations: @"anim" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    [UIView commitAnimations];
+}
+
+#pragma mark - Button event
+- (void)didClickReplyButton
+{
+    [self createComment];
+}
+
+#pragma mark - network request
+- (void)createComment
+{
+    
+    NSString *replyContent = self.seekoutReplyTextField.text;
+    if(replyContent.length <= 0)
+    {
+        self.replyAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"reply content cannot be empty" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.replyAlertView show];
+
+    }
+    else
+    {
+        NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@",CREATE_COMMENT_URL,self.sid]];
+        
+        
+        NSData *postData = [[NSString stringWithFormat:@"seekoutId=%d&content=%@&hasmedia=%d&",self.seekoutData.seekoutID,replyContent,0] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:postData];
+        
+        NSLog(@"%@",replyContent);
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            //connection successed
+            if([data length] > 0 && connectionError == nil)
+            {
+                NSError *e = nil;
+                NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+                //login successed
+                if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+                {
+                    self.replyAlertView = [[UIAlertView alloc]initWithTitle:@"thanks" message:@"your reply has been sent" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [self.replyAlertView show];
+                }
+                //login failed
+                else if([[dataDict objectForKey:@"code"] isEqualToString:@"10009"])
+                {
+                    self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"Seekout not exist" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [self.connectionFaiedAlertView show];
+                }
+            }
+            //connection failed
+            else if (connectionError != nil)
+            {
+                self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [self.connectionFaiedAlertView show];
+                
+            }
+            //unknow error
+            else
+            {
+                NSLog(@"%@",data);
+                self.connectionFaiedAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [self.connectionFaiedAlertView show];
+            }
+            
+            
+        }];
+
+    }
+    
+    
+    
+    
+    
+}
+
+
+
+
 
 @end

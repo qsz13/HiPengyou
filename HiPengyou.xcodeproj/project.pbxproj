@@ -16,7 +16,7 @@
 		20144A6118EFFB8500D3553C /* HPSeekoutTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20144A6018EFFB8500D3553C /* HPSeekoutTableView.m */; };
 		201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 201E96BF18E6D63900F5A907 /* UIView+Resize.m */; };
 		203234FC18EEAED800385725 /* HPSeekoutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 203234FB18EEAED800385725 /* HPSeekoutTableViewCell.m */; };
-		2057323B18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2057323A18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m */; };
+		2057323B18F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2057323A18F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.m */; };
 		3529060818EFB69D004D73EA /* HPSeekout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3529060718EFB69D004D73EA /* HPSeekout.m */; };
 		354457DC190E4A9700FFAA79 /* HPRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 354457DB190E4A9700FFAA79 /* HPRefresh.bundle */; };
 		354457E0190E4C4C00FFAA79 /* HPRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 354457DF190E4C4C00FFAA79 /* HPRefreshConst.m */; };
@@ -33,6 +33,7 @@
 		354E1AD818E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 354E1AD718E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		354E1AE118E840C2007F2DF4 /* HPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */; };
 		354E1AE618E85850007F2DF4 /* HPSeekoutCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */; };
+		3577E6B9190F521500242EB2 /* HPSeekoutComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3577E6B8190F521500242EB2 /* HPSeekoutComment.m */; };
 		357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 357D7D8D18E70F53002A3166 /* HiPengyou.xcdatamodeld */; };
 		35B5E59B190B71E400392CD9 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 35B5E59A190B71E400392CD9 /* UIImage+ImageEffects.m */; };
 		35C1022A18EFEAA900A6EA29 /* HPProfileSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */; };
@@ -90,8 +91,8 @@
 		201E96BE18E6D63900F5A907 /* UIView+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Resize.h"; sourceTree = "<group>"; };
 		201E96BF18E6D63900F5A907 /* UIView+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Resize.m"; sourceTree = "<group>"; };
 		203234FB18EEAED800385725 /* HPSeekoutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutTableViewCell.m; sourceTree = "<group>"; };
-		2057323918F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutReplyTableViewCell.h; sourceTree = "<group>"; };
-		2057323A18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutReplyTableViewCell.m; sourceTree = "<group>"; };
+		2057323918F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCommentTableViewCell.h; sourceTree = "<group>"; };
+		2057323A18F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCommentTableViewCell.m; sourceTree = "<group>"; };
 		3529060618EFB69D004D73EA /* HPSeekout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekout.h; sourceTree = "<group>"; };
 		3529060718EFB69D004D73EA /* HPSeekout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekout.m; sourceTree = "<group>"; };
 		354457DB190E4A9700FFAA79 /* HPRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HPRefresh.bundle; sourceTree = "<group>"; };
@@ -114,6 +115,8 @@
 		354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPHomeViewController.m; sourceTree = "<group>"; };
 		354E1AE418E85850007F2DF4 /* HPSeekoutCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCreationViewController.h; sourceTree = "<group>"; };
 		354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCreationViewController.m; sourceTree = "<group>"; };
+		3577E6B7190F521500242EB2 /* HPSeekoutComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutComment.h; sourceTree = "<group>"; };
+		3577E6B8190F521500242EB2 /* HPSeekoutComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutComment.m; sourceTree = "<group>"; };
 		357D7D8E18E70F53002A3166 /* HiPengyou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HiPengyou.xcdatamodel; sourceTree = "<group>"; };
 		35B5E599190B71E400392CD9 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		35B5E59A190B71E400392CD9 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
@@ -264,8 +267,8 @@
 				203234FB18EEAED800385725 /* HPSeekoutTableViewCell.m */,
 				20144A5F18EFFB8500D3553C /* HPSeekoutTableView.h */,
 				20144A6018EFFB8500D3553C /* HPSeekoutTableView.m */,
-				2057323918F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.h */,
-				2057323A18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m */,
+				2057323918F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.h */,
+				2057323A18F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.m */,
 				35F0674919093408007B3CDB /* HPProfileSeekoutTableViewCell.h */,
 				35F0674A19093408007B3CDB /* HPProfileSeekoutTableViewCell.m */,
 			);
@@ -280,6 +283,8 @@
 				3529060618EFB69D004D73EA /* HPSeekout.h */,
 				3529060718EFB69D004D73EA /* HPSeekout.m */,
 				35C1023618F0FB2200A6EA29 /* HPAPIURL.h */,
+				3577E6B7190F521500242EB2 /* HPSeekoutComment.h */,
+				3577E6B8190F521500242EB2 /* HPSeekoutComment.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -532,6 +537,7 @@
 				35F268C318E2C14B00AC55CD /* HPMessageViewController.m in Sources */,
 				200DBF3B18F10B1F00AF6AD0 /* UIView+Animation.m in Sources */,
 				357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */,
+				3577E6B9190F521500242EB2 /* HPSeekoutComment.m in Sources */,
 				20144A6118EFFB8500D3553C /* HPSeekoutTableView.m in Sources */,
 				35F268C618E2C17200AC55CD /* HPProfileViewController.m in Sources */,
 				200DBF3E18F1346600AF6AD0 /* HPSeekoutDetailViewController.m in Sources */,
@@ -550,7 +556,7 @@
 				35F2689318E27EC100AC55CD /* main.m in Sources */,
 				354457E3190E5EEC00FFAA79 /* HPSeekoutTableViewController.m in Sources */,
 				35F0674B19093408007B3CDB /* HPProfileSeekoutTableViewCell.m in Sources */,
-				2057323B18F7C1CB00FCCD52 /* HPSeekoutReplyTableViewCell.m in Sources */,
+				2057323B18F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
