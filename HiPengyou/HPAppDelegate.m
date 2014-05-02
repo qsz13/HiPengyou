@@ -8,7 +8,6 @@
 
 #import "HPAppDelegate.h"
 #import "HPLoginViewController.h"
-#import "HPMessageViewController.h"
 #import "HPProfileViewController.h"
 #import "HPRegisterViewController.h"
 

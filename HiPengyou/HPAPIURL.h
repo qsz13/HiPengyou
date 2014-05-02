@@ -30,3 +30,7 @@
 #define PERSONAL_SEEKOUT_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/seekout/personalseekoutList?"]
 #define COMMENT_LIST_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/comment/commentwithlikeList?"]
 #define CREATE_COMMENT_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/comment/commentwithvoiceCreate?"]
+#define UPLOAD_FACE_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/user/userEdit?"]
+#define MESSAGE_LIST_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/message/allmessageList?"]
+
+

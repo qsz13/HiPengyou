@@ -14,18 +14,22 @@
 #import "UIImageView+AFNetworking.h"
 #import "HPProfileSeekoutTableViewCell.h"
 #import "HPSeekoutDetailViewController.h"
+#import "HPNaviBar.h"
 
 
 @interface HPProfileViewController ()
 @property (strong, atomic) UIButton *backButton;
 @property (strong, atomic) UIButton *settingButton;
 @property (strong, atomic) UILabel *usernameLabel;
+@property (strong, atomic) UILabel *titleLable;
 @property (strong, atomic) NSString *username;
+@property (strong, atomic) UIView *personalInfoView;
 @property (strong, atomic) UIImageView *faceImageView;
 @property (strong, atomic) UIImageView *faceBackgroundImageView;
 @property (strong, atomic) UITableView *seekoutListTableView;
 @property (strong, atomic) NSMutableArray *seekoutArray;
 @property (strong, atomic) UIAlertView *connectionFaiedAlertView;
+@property (strong, atomic) HPNaviBar *naviBar;
 @property NSInteger userID;
 @property NSInteger pageID;
 @property (strong, atomic) NSString *sid;
@@ -40,8 +44,7 @@
     [self initData];
     [self initView];
     [self initNaviBar];
-    [self initFace];
-    [self requestForSeekoutList];
+    [self initPersonalInfoView];
     [self initSeekoutListTableView];
 
     
@@ -56,6 +59,7 @@
     self.sid = [userDefaults objectForKey:@"sid"];
     self.pageID = 0;
     self.seekoutArray = [[NSMutableArray alloc]init];
+    [self requestForSeekoutList];
 
 }
 
@@ -72,12 +76,61 @@
 
 - (void)initNaviBar
 {
+    self.naviBar = [[HPNaviBar alloc]init];
+    [self.naviBar setFrame:CGRectMake(0, 20, [self.view getWidth], 40)];
+    
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.backButton setBackgroundImage:[UIImage imageNamed:@"HPBackButton"] forState:UIControlStateNormal];
     [self.backButton resetSize:CGSizeMake(20, 20)];
-    [self.backButton setCenter:CGPointMake(19/2+10, 43)];
+    [self.backButton setCenter:CGPointMake(19/2+10, [self.naviBar getHeight]/2)];
     [self.backButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.backButton];
+    [self.naviBar addSubview:self.backButton];
+    
+    
+    self.titleLable = [[UILabel alloc]init];
+    [self.titleLable resetSize:CGSizeMake(500, 30)];
+    [self.titleLable setText:@"Your Page"];
+    self.titleLable.numberOfLines = 1;
+    [self.titleLable setTextColor:[UIColor colorWithRed:48.0f / 255.0f
+                                                     green:188.0f / 255.0f
+                                                      blue:235.0f / 255.0f
+                                                     alpha:1]];
+    [self.titleLable setBackgroundColor:[UIColor clearColor]];
+    [self.titleLable setFont:[UIFont fontWithName:@"Helvetica" size:17]];
+    [self.titleLable sizeToFit];
+    [self.titleLable setCenter:CGPointMake([self.view getWidth]/2, [self.naviBar getHeight]/2)];
+    [self.naviBar addSubview:self.titleLable];
+    
+
+    
+    self.settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.settingButton setImage:[UIImage imageNamed:@"HPProfileSettingButton"] forState:UIControlStateNormal];
+    [self.settingButton resetSize:CGSizeMake(31, 31)];
+    [self.settingButton setCenter:CGPointMake(560/2+[self.settingButton getWidth]/2, [self.naviBar getHeight]/2)];
+    [self.settingButton addTarget:self action:@selector(didClickSettingButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.naviBar addSubview:self.settingButton];
+    
+    [self.view addSubview:self.naviBar];
+    
+}
+
+- (void)initPersonalInfoView
+{
+    self.personalInfoView = [[UIView alloc] init];
+    [self.personalInfoView setBackgroundColor:[UIColor whiteColor]];
+    [self.personalInfoView setFrame:CGRectMake(0, [self.naviBar getOriginY]+[self.naviBar getHeight], [self.view getWidth], [self.view getHeight]/3)];
+    
+    //init face image view
+    self.faceImageView = [[UIImageView alloc]init];
+    NSURL *faceImageURL = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%d.png",FACE_IMAGE_URL,self.userID]];
+    [self.faceImageView setImageWithURL:faceImageURL];
+    [self.faceImageView resetSize:CGSizeMake(98, 99)];
+    [self.faceImageView setCenter:CGPointMake([self.view getWidth]/2, [self.personalInfoView getHeight]/3)];
+    [self.faceImageView.layer setMasksToBounds:YES];
+    [self.faceImageView.layer setCornerRadius:[self.faceImageView getWidth]/2];
+    [self.personalInfoView addSubview:self.faceImageView];
+    [self.view addSubview:self.personalInfoView];
+    
     
     self.usernameLabel = [[UILabel alloc]init];
     [self.usernameLabel resetSize:CGSizeMake(500, 30)];
@@ -88,32 +141,16 @@
                                                       blue:235.0f / 255.0f
                                                      alpha:1]];
     [self.usernameLabel setBackgroundColor:[UIColor clearColor]];
-    [self.usernameLabel setFont:[UIFont fontWithName:@"Helvetica" size:17]];
+    [self.usernameLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17]];
     [self.usernameLabel sizeToFit];
-    [self.usernameLabel setCenter:CGPointMake([self.view getWidth]/2, 87.5/2)];
-    [self.view addSubview:self.usernameLabel];
+    [self.usernameLabel setCenter:CGPointMake([self.view getWidth]/2, [self.faceImageView getOriginY]+[self.faceImageView getHeight]+[self.usernameLabel getHeight]/2 + 10)];
+    [self.personalInfoView addSubview:self.usernameLabel];
     
-    self.settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.settingButton setImage:[UIImage imageNamed:@"HPProfileSettingButton"] forState:UIControlStateNormal];
-    [self.settingButton resetSize:CGSizeMake(31, 31)];
-    [self.settingButton setCenter:CGPointMake(560/2+[self.settingButton getWidth]/2, 87.5/2)];
-    [self.settingButton addTarget:self action:@selector(didClickSettingButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.settingButton];
-    
+
+
 }
 
-- (void)initFace
-{
-    self.faceImageView = [[UIImageView alloc]init];
-    NSURL *faceImageURL = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%d.png",FACE_IMAGE_URL,self.userID]];
-    [self.faceImageView setImageWithURL:faceImageURL];
-    [self.faceImageView resetSize:CGSizeMake(98, 99)];
-    [self.faceImageView setCenter:CGPointMake([self.view getWidth]/2, 157/2+[self.faceImageView getHeight]/2)];
-    [self.faceImageView.layer setMasksToBounds:YES];
-    [self.faceImageView.layer setCornerRadius:[self.faceImageView getWidth]/2];
-    [self.view addSubview:self.faceImageView];
-    
-}
+
 
 
 - (void)initSeekoutListTableView
@@ -121,8 +158,12 @@
     self.seekoutListTableView = [[UITableView alloc]init];
     self.seekoutListTableView.delegate = self;
     self.seekoutListTableView.dataSource = self;
-    [self.seekoutListTableView setFrame:CGRectMake(0, [self.faceImageView getCenterY]+[self.faceImageView getHeight], [self.view getWidth], [self.view getHeight] - ([self.faceImageView getCenterY]+[self.faceImageView getHeight]) - 30)];
+    [self.seekoutListTableView setFrame:CGRectMake(0, [self.personalInfoView getOriginY]+[self.personalInfoView getHeight] + 10, [self.view getWidth], [self.view getHeight] - ([self.faceImageView getCenterY] + [self.faceImageView getHeight]) - 30)];
+    self.seekoutListTableView.tableFooterView = [[UIView alloc]init];
+    
     [self.view addSubview:self.seekoutListTableView];
+    
+
     
 }
 
@@ -225,10 +266,9 @@
                     NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
                     [seekout setFaceImageURL:faceURL];
                     [self.seekoutArray addObject: seekout];
-//                    NSLog(@"%@",seekout);
                     [self.seekoutListTableView reloadData];
                 }
-//                NSLog(@"%@",self.seekoutArray);
+
                
                 
             }

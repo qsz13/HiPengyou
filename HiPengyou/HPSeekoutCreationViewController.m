@@ -213,7 +213,9 @@
     self.seekoutTypeTableView.scrollEnabled = NO;
     self.seekoutTypeTableView.delegate = self;
     self.seekoutTypeTableView.dataSource = self;
-    [self.seekoutTypeTableView setSeparatorInset:UIEdgeInsetsZero];
+    if ([self.seekoutTypeTableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.seekoutTypeTableView setSeparatorInset:UIEdgeInsetsZero];
+    }
     
     UIView *headerView = [[UIView alloc] init];
     [headerView setFrame:CGRectMake(0, 0, [self.seekoutTypeTableView getWidth], [self.seekoutTypeTableView getHeight]/4)];

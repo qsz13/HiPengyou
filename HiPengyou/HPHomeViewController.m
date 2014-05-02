@@ -7,7 +7,7 @@
 //
 
 #import "HPHomeViewController.h"
-#import "HPMessageViewController.h"
+#import "HPMessageListViewController.h"
 #import "HPProfileViewController.h"
 #import "HPSeekoutCreationViewController.h"
 #import "HPSeekoutCardView.h"
@@ -27,7 +27,7 @@
 @property (strong, atomic) UIButton *messageButton;
 @property (strong, atomic) UIButton *profileButton;
 @property (strong, atomic) UIButton *addSeekoutButton;
-@property (strong, atomic) HPMessageViewController *messageViewController;
+@property (strong, atomic) HPMessageListViewController *messageViewController;
 @property (strong, atomic) HPProfileViewController *profileViewController;
 @property (strong, atomic) HPSeekoutCreationViewController *seekoutCreationViewController;
 @property (strong, atomic) HPSeekoutTableView *seekoutTableView;
@@ -229,7 +229,7 @@
 #pragma mark - Button Event
 - (void)didClickMessageButton:(UIButton *)sender
 {
-    self.messageViewController = [[HPMessageViewController alloc] init];
+    self.messageViewController = [[HPMessageListViewController alloc] init];
     [self.navigationController pushViewController:self.messageViewController animated:YES];
 }
 

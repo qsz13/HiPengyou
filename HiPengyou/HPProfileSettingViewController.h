@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPProfileSettingViewController : UIViewController
+@interface HPProfileSettingViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 @end

@@ -189,7 +189,9 @@
     self.seekoutCommentTableView.delegate = self;
     self.seekoutCommentTableView.dataSource = self;
     
-    [self.seekoutCommentTableView setSeparatorInset:UIEdgeInsetsZero];
+    if ([self.seekoutCommentTableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.seekoutCommentTableView setSeparatorInset:UIEdgeInsetsZero];
+    }
     self.seekoutCommentTableView.tableFooterView = [[UIView alloc]init];
     
     // Add to View
@@ -209,7 +211,7 @@
     
     
     // Seekout Reply Button
-    self.replyButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.replyButton setTitle:@"Send" forState:UIControlStateNormal];
     [self.replyButton sizeToFit];
     [self.replyButton setCenter:CGPointMake([self.view getWidth]-[self.replyButton getWidth]/2 - 10, [self.seekoutReplyView getHeight]/2)];
