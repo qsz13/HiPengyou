@@ -18,6 +18,7 @@
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (strong, nonatomic) UIButton *uploadButton;
 @property (strong, nonatomic) NSString *sid;
+@property  NSInteger userID;
 @property (strong, nonatomic) UIAlertView *postSuccessAlertView;
 @property (strong, nonatomic) UIAlertView *postFailedAlertView;
 
@@ -43,6 +44,7 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.sid = [userDefaults objectForKey:@"sid"];
+    self.userID = [userDefaults integerForKey:@"id"];
 
 }
 
@@ -176,15 +178,61 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *image= self.faceUploadImageView.image;
     NSData *imageData = UIImagePNGRepresentation(image);
-    NSString *postLength = [NSString stringWithFormat:@"%d", [imageData length]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setHTTPMethod:@"POST"];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@sid=%@",UPLOAD_FACE_URL,self.sid]];
-    [request setURL:url];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setHTTPBody:imageData];
+
+
+    NSURL *requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@sid=%@",UPLOAD_FACE_URL,self.sid]];
     
+    // create request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setTimeoutInterval:30];
+    [request setHTTPMethod:@"POST"];
+    NSString *boundary = @"boundary";
+    // set Content-Type in HTTP header
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    // post body
+    NSMutableData *body = [NSMutableData data];
+    
+    // add image data
+    if (imageData) {
+        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%d\"; filename=\"image.png\"\r\n", self.userID] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[@"Content-Type: image/png\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:imageData];
+        [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // setting the body of the post to the reqeust
+    [request setHTTPBody:body];
+    
+    // set the content-length
+    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    // set URL
+    [request setURL:requestURL];
+    
+    
+    
+    
+    
+    
+//    UIImage *image= self.faceUploadImageView.image;
+//    NSData *imageData = UIImagePNGRepresentation(image);
+//    NSString *postLength = [NSString stringWithFormat:@"%d", [imageData length]];
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+//    [request setHTTPMethod:@"POST"];
+//    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@sid=%@",UPLOAD_FACE_URL,self.sid]];
+//    [request setURL:url];
+//    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+//    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+//    [request setHTTPBody:imageData];
+//    
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         
         //connection successed

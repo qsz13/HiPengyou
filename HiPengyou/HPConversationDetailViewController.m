@@ -25,6 +25,8 @@
 @property (strong, nonatomic) UIAlertView *replyAlertView;
 @property (strong, nonatomic) UIAlertView *connectionFaiedAlertView;
 @property (strong, nonatomic) NSString *sid;
+@property (strong, nonatomic) NSMutableArray *messageArray;
+@property (strong, nonatomic) NSMutableArray *conversationThreadArray;
 
 @property NSInteger userID;
 @end
@@ -53,7 +55,7 @@
 
 }
 
-#pragma mark - Data init
+#pragma mark - Data method
 - (void)initData
 {
     
@@ -61,9 +63,75 @@
     
     self.sid = [userDefaults objectForKey:@"sid"];
     self.userID = [userDefaults integerForKey:@"id"];
-
+    
 
     
+}
+
+- (void)manageMessageData
+{
+    for(HPMessage *m in self.messageArray)
+    {
+        if(m.sender.userID == self.userID)
+        {
+            m.sentByMe = YES;
+            BOOL isNewThread = YES;
+            for(HPConversationThread *t in self.conversationThreadArray)
+            {
+                if(t.chatter.userID == m.reciever.userID)
+                {
+                    isNewThread = NO;
+                    [t addMessage:m];
+                }
+                
+            }
+            if (isNewThread)
+            {
+                HPConversationThread *conversationThread = [[HPConversationThread alloc]init];
+                [conversationThread setChatter:m.reciever];
+                [conversationThread addMessage:m];
+                [self.conversationThreadArray addObject:conversationThread];
+            }
+            
+            
+            
+        }
+        else if(m.reciever.userID == self.userID)
+        {
+            
+            m.sentByMe = YES;
+            BOOL isNewThread = YES;
+            for(HPConversationThread *t in self.conversationThreadArray)
+            {
+                if(t.chatter.userID == m.sender.userID)
+                {
+                    isNewThread = NO;
+                    [t addMessage:m];
+                }
+                
+            }
+            if (isNewThread)
+            {
+                HPConversationThread *conversationThread = [[HPConversationThread alloc]init];
+                [conversationThread setChatter:m.sender];
+                [conversationThread addMessage:m];
+                [self.conversationThreadArray addObject:conversationThread];
+            }
+            
+            
+        }
+        
+        
+    }
+    
+    
+    for(HPConversationThread *t in self.conversationThreadArray)
+    {
+        if(t.chatter.userID == self.conversationThread.chatter.userID)
+        {
+            self.conversationThread = t;
+        }
+    }
 }
 
 
@@ -310,6 +378,82 @@
     }
 
 }
+
+- (void)requestForMessageList
+{
+    NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@sid=%@&uptime=%d&userId=%d&pageId=%d&",MESSAGE_LIST_URL, self.sid, 0 ,self.userID,0]];
+
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        
+        //connection successed
+        if([data length] > 0 && connectionError == nil)
+        {
+            NSError *e = nil;
+            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+            NSLog(@"%@", dataDict);
+            //request success
+            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+            {
+                NSDictionary *resultDict = [dataDict objectForKey:@"result"];
+                NSArray *messageList = [resultDict objectForKey:@"message.list"];
+                for (NSDictionary *m in messageList)
+                {
+                    HPMessage *message = [[HPMessage alloc]init];
+                    [message setMessageID:[[m objectForKey:@"id"] integerValue]];
+                    HPUser *sender = [[HPUser alloc] init];
+                    [sender setUserID:[[m objectForKey:@"sender"] integerValue]];
+                    [sender setUsername:[m objectForKey:@"sendername"]];
+                    [sender setUserFaceURL:[NSURL URLWithString:[m objectForKey:@"senderface"]]];
+                    [message setSender:sender];
+                    
+                    HPUser *reciever = [[HPUser alloc]init];
+                    [reciever setUserID:[[m objectForKey:@"reciever"] integerValue]];
+                    [reciever setUsername:[m objectForKey:@"recievername"]];
+                    [reciever setUserFaceURL:[NSURL URLWithString:[m objectForKey:@"recieverface"]]];
+                    [message setReciever:reciever];
+                    
+                    [message setContent:[m objectForKey:@"content"]];
+                    
+                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [m objectForKey:@"uptime"]] doubleValue]];
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+                    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+                    [message setTime:[dateFormatter stringFromDate:date]];
+                    [message setStatus:[[m objectForKey:@"status"] integerValue]];
+                    [message setHasMedia:[[m objectForKey:@"hasmedia"] boolValue]];
+                    
+                    [self.messageArray addObject:message];
+                    
+                }
+                [self manageMessageData];
+                
+            }
+            //login failed
+            else if([[dataDict objectForKey:@"code"] isEqualToString:@"10001"])
+            {
+                //please login first
+            }
+        }
+        //connection failed
+        else if (connectionError != nil)
+        {
+            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.connectionFaiedAlertView show];
+            
+        }
+        //unknow error
+        else
+        {
+            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.connectionFaiedAlertView show];
+        }
+        
+        
+    }];
+    
+}
+
 
 
 

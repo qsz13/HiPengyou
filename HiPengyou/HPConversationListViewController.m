@@ -202,7 +202,7 @@
 - (void)requestForMessageList
 {
     NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@sid=%@&uptime=%d&userId=%d&pageId=%d&",MESSAGE_LIST_URL, self.sid, self.upTime ,self.userID,self.pageID]];
-    self.pageID++;
+
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         
