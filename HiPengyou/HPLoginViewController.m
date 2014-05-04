@@ -17,19 +17,19 @@
 
 @interface HPLoginViewController ()
 
-@property (strong, atomic) UIImageView *logo;
-@property (strong, atomic) UIView *loginFrame;
-@property (strong, atomic) UITextField *usernameTextField;
-@property (strong, atomic) UITextField *passwordTextField;
-@property (strong, atomic) UIButton *loginButton;
-@property (strong, atomic) UIButton *registerButton;
-@property (strong, atomic) UIButton *qqLoginButton;
-@property (strong, atomic) UIButton *fbLoginButton;
-@property (strong, atomic) UILabel *socialAccountLabel;
-@property (strong, atomic) UIAlertView *loginFailedAlertView;
-@property (strong, atomic) UIView *socialLoginButtonView;
-@property (strong, atomic) TencentOAuth *tencentOAuth;
-@property (strong, atomic) NSArray *qqPermission;
+@property (strong, nonatomic) UIImageView *logo;
+@property (strong, nonatomic) UIView *loginFrame;
+@property (strong, nonatomic) UITextField *usernameTextField;
+@property (strong, nonatomic) UITextField *passwordTextField;
+@property (strong, nonatomic) UIButton *loginButton;
+@property (strong, nonatomic) UIButton *registerButton;
+@property (strong, nonatomic) UIButton *qqLoginButton;
+@property (strong, nonatomic) UIButton *fbLoginButton;
+@property (strong, nonatomic) UILabel *socialAccountLabel;
+@property (strong, nonatomic) UIAlertView *loginFailedAlertView;
+@property (strong, nonatomic) UIView *socialLoginButtonView;
+@property (strong, nonatomic) TencentOAuth *tencentOAuth;
+@property (strong, nonatomic) NSArray *qqPermission;
 @property BOOL keyboardOnScreen;
 
 @end

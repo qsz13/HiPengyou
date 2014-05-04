@@ -7,19 +7,23 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HPUser.h"
 
 @interface HPMessage : NSObject
 
 @property NSInteger messageID;
-@property NSInteger senderID;
-@property (strong, atomic) NSString *senderName;
-@property (strong, atomic) NSURL *senderFaceURL;
-@property NSInteger recieverID;
-@property (strong, atomic) NSString *recieverName;
-@property (strong, atomic) NSURL *recieverFaceURL;
-@property (strong, atomic) NSString *content;
-@property (strong, atomic) NSString *time;
-@property NSInteger status;
-@property BOOL hasMedis;
+//@property NSInteger senderID;
+//@property (strong, nonatomic) NSString *senderName;
+//@property (strong, nonatomic) NSURL *senderFaceURL;
+//@property NSInteger recieverID;
+//@property (strong, nonatomic) NSString *recieverName;
+//@property (strong, nonatomic) NSURL *recieverFaceURL;
 
+@property (strong, nonatomic) HPUser *sender;
+@property (strong, nonatomic) HPUser *reciever;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *time;
+@property NSInteger status;
+@property BOOL hasMedia;
+@property BOOL sentByMe;
 @end

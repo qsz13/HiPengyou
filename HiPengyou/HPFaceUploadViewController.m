@@ -12,7 +12,7 @@
 
 @interface HPFaceUploadViewController ()
 
-@property (strong, atomic) UIButton *skipButton;
+@property (strong, nonatomic) UIButton *skipButton;
 
 @end
 

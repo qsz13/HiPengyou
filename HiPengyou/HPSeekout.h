@@ -12,12 +12,12 @@
 @interface HPSeekout : NSObject
 
 @property NSInteger seekoutID;
-@property (strong, atomic) NSString *content;
-@property (strong, atomic) NSString *author;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *author;
 @property NSInteger commentNumber;
-@property (strong, atomic) NSString *state;
+@property (strong, nonatomic) NSString *state;
 @property HPSeekoutType type;
-@property (strong, atomic) NSString *time;
-@property (strong, atomic) NSURL *faceImageURL;
+@property (strong, nonatomic) NSString *time;
+@property (strong, nonatomic) NSURL *faceImageURL;
 
 @end

@@ -13,14 +13,14 @@
 
 @interface HPSeekoutCardView ()
 
-@property (strong, atomic) UIButton *viewMoreButton;
-@property (strong, atomic) UIView *seekoutContentView;
-@property (strong, atomic) UILabel *seekoutAuthorNameLabel;
-@property (strong, atomic) UILabel *seekoutTimeLabel;
-@property (strong, atomic) UILabel *seekoutContentLabel;
-@property (strong, atomic) UIImageView *seekoutAuthorFaceImageView;
-@property (strong, atomic) UIImageView *seekoutTypeImageView;
-@property (strong, atomic) UIButton *bgButton;
+@property (strong, nonatomic) UIButton *viewMoreButton;
+@property (strong, nonatomic) UIView *seekoutContentView;
+@property (strong, nonatomic) UILabel *seekoutAuthorNameLabel;
+@property (strong, nonatomic) UILabel *seekoutTimeLabel;
+@property (strong, nonatomic) UILabel *seekoutContentLabel;
+@property (strong, nonatomic) UIImageView *seekoutAuthorFaceImageView;
+@property (strong, nonatomic) UIImageView *seekoutTypeImageView;
+@property (strong, nonatomic) UIButton *bgButton;
 
 @end
 

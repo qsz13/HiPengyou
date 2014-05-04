@@ -18,21 +18,21 @@
 
 
 @interface HPProfileViewController ()
-@property (strong, atomic) UIButton *backButton;
-@property (strong, atomic) UIButton *settingButton;
-@property (strong, atomic) UILabel *usernameLabel;
-@property (strong, atomic) UILabel *titleLable;
-@property (strong, atomic) NSString *username;
-@property (strong, atomic) UIView *personalInfoView;
-@property (strong, atomic) UIImageView *faceImageView;
-@property (strong, atomic) UIImageView *faceBackgroundImageView;
-@property (strong, atomic) UITableView *seekoutListTableView;
-@property (strong, atomic) NSMutableArray *seekoutArray;
-@property (strong, atomic) UIAlertView *connectionFaiedAlertView;
-@property (strong, atomic) HPNaviBar *naviBar;
+@property (strong, nonatomic) UIButton *backButton;
+@property (strong, nonatomic) UIButton *settingButton;
+@property (strong, nonatomic) UILabel *usernameLabel;
+@property (strong, nonatomic) UILabel *titleLable;
+@property (strong, nonatomic) NSString *username;
+@property (strong, nonatomic) UIView *personalInfoView;
+@property (strong, nonatomic) UIImageView *faceImageView;
+@property (strong, nonatomic) UIImageView *faceBackgroundImageView;
+@property (strong, nonatomic) UITableView *seekoutListTableView;
+@property (strong, nonatomic) NSMutableArray *seekoutArray;
+@property (strong, nonatomic) UIAlertView *connectionFaiedAlertView;
+@property (strong, nonatomic) HPNaviBar *naviBar;
 @property NSInteger userID;
 @property NSInteger pageID;
-@property (strong, atomic) NSString *sid;
+@property (strong, nonatomic) NSString *sid;
 @end
 
 @implementation HPProfileViewController

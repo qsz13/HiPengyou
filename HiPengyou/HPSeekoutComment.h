@@ -10,12 +10,12 @@
 
 @interface HPSeekoutComment : NSObject
 @property NSInteger commentID;
-@property (strong, atomic) NSURL *faceImageURL;
-@property (strong, atomic) NSString *content;
-@property (strong, atomic) NSString *author;
+@property (strong, nonatomic) NSURL *faceImageURL;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *author;
 @property NSInteger authorID;
-@property (strong, atomic) NSString *time;
+@property (strong, nonatomic) NSString *time;
 @property NSInteger likeNumber;
 @property BOOL hasMedia;
-@property  (strong, atomic) NSURL *mediaURL;
+@property  (strong, nonatomic) NSURL *mediaURL;
 @end

@@ -12,9 +12,9 @@
 
 @interface HPProfileSeekoutTableViewCell ()
 
-@property (strong, atomic) UIImageView *seekoutTypeImage;
-@property (strong, atomic) HPSeekout *seekout;
-@property (strong, atomic) UILabel *seekoutContentLabel;
+@property (strong, nonatomic) UIImageView *seekoutTypeImage;
+@property (strong, nonatomic) HPSeekout *seekout;
+@property (strong, nonatomic) UILabel *seekoutContentLabel;
     
 @end
 

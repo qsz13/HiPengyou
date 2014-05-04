@@ -13,7 +13,7 @@
 
 @interface HPSeekoutCardView : UIView
 
-@property (strong, atomic) HPSeekout *seekoutData;
+@property (strong, nonatomic) HPSeekout *seekoutData;
 @property HPSeekoutType seekoutType;
 
 -(void)loadData:(HPSeekout*)seekout;

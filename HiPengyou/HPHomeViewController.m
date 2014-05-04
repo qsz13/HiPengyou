@@ -7,7 +7,7 @@
 //
 
 #import "HPHomeViewController.h"
-#import "HPMessageListViewController.h"
+#import "HPConversationListViewController.h"
 #import "HPProfileViewController.h"
 #import "HPSeekoutCreationViewController.h"
 #import "HPSeekoutCardView.h"
@@ -22,24 +22,24 @@
 
 @interface HPHomeViewController ()
 
-@property (strong, atomic) NSString *sid;
-@property (strong, atomic) UIButton *categoryButton;
-@property (strong, atomic) UIButton *messageButton;
-@property (strong, atomic) UIButton *profileButton;
-@property (strong, atomic) UIButton *addSeekoutButton;
-@property (strong, atomic) HPMessageListViewController *messageViewController;
-@property (strong, atomic) HPProfileViewController *profileViewController;
-@property (strong, atomic) HPSeekoutCreationViewController *seekoutCreationViewController;
-@property (strong, atomic) HPSeekoutTableView *seekoutTableView;
-@property (strong, atomic) UIAlertView *connectionFaiedAlertView;
-@property (strong, atomic) NSMutableArray *seekoutArray;
+@property (strong, nonatomic) NSString *sid;
+@property (strong, nonatomic) UIButton *categoryButton;
+@property (strong, nonatomic) UIButton *messageButton;
+@property (strong, nonatomic) UIButton *profileButton;
+@property (strong, nonatomic) UIButton *addSeekoutButton;
+@property (strong, nonatomic) HPConversationListViewController *messageViewController;
+@property (strong, nonatomic) HPProfileViewController *profileViewController;
+@property (strong, nonatomic) HPSeekoutCreationViewController *seekoutCreationViewController;
+@property (strong, nonatomic) HPSeekoutTableView *seekoutTableView;
+@property (strong, nonatomic) UIAlertView *connectionFaiedAlertView;
+@property (strong, nonatomic) NSMutableArray *seekoutArray;
 @property HPSeekoutType seekoutType;
 @property NSInteger pageID;
 @property NSInteger scrollIndex;
 @property NSInteger slideWay;
 
 
-@property (strong, atomic) UIView *CategoriesView;
+@property (strong, nonatomic) UIView *CategoriesView;
 
 @end
 
@@ -229,7 +229,7 @@
 #pragma mark - Button Event
 - (void)didClickMessageButton:(UIButton *)sender
 {
-    self.messageViewController = [[HPMessageListViewController alloc] init];
+    self.messageViewController = [[HPConversationListViewController alloc] init];
     [self.navigationController pushViewController:self.messageViewController animated:YES];
 }
 
@@ -480,6 +480,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
+    
     HPSeekoutTableViewCell *cell = [[HPSeekoutTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                                  reuseIdentifier:@"seekout"
                                                                            frame:CGRectMake(0,

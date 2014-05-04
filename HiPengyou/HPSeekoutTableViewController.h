@@ -11,6 +11,6 @@
 
 @interface HPSeekoutTableViewController : UITableViewController
 
-@property (strong, atomic) NSMutableArray *seekoutArray;
+@property (strong, nonatomic) NSMutableArray *seekoutArray;
 
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPMessageListViewController : UIViewController
+@interface HPConversationListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

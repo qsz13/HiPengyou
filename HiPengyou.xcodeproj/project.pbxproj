@@ -18,6 +18,10 @@
 		203234FC18EEAED800385725 /* HPSeekoutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 203234FB18EEAED800385725 /* HPSeekoutTableViewCell.m */; };
 		2057323B18F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2057323A18F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.m */; };
 		350D93271913518A00742C83 /* HPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 350D93261913518A00742C83 /* HPMessage.m */; };
+		350D932A1913592100742C83 /* HPUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 350D93291913592100742C83 /* HPUser.m */; };
+		350D932D191392A900742C83 /* HPConversationThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 350D932C191392A900742C83 /* HPConversationThread.m */; };
+		350D933019139FA700742C83 /* HPConversationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 350D932F19139FA700742C83 /* HPConversationDetailViewController.m */; };
+		350D93331913A4D300742C83 /* HPMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 350D93321913A4D300742C83 /* HPMessageTableViewCell.m */; };
 		3529060818EFB69D004D73EA /* HPSeekout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3529060718EFB69D004D73EA /* HPSeekout.m */; };
 		354457DC190E4A9700FFAA79 /* HPRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 354457DB190E4A9700FFAA79 /* HPRefresh.bundle */; };
 		354457E0190E4C4C00FFAA79 /* HPRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 354457DF190E4C4C00FFAA79 /* HPRefreshConst.m */; };
@@ -56,7 +60,7 @@
 		35F268AA18E27EC100AC55CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35F268A818E27EC100AC55CD /* InfoPlist.strings */; };
 		35F268AC18E27EC100AC55CD /* HiPengyouTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F268AB18E27EC100AC55CD /* HiPengyouTests.m */; };
 		35F268B718E29BC200AC55CD /* HPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F268B618E29BC200AC55CD /* HPLoginViewController.m */; };
-		35F268C318E2C14B00AC55CD /* HPMessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F268C218E2C14B00AC55CD /* HPMessageListViewController.m */; };
+		35F268C318E2C14B00AC55CD /* HPConversationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F268C218E2C14B00AC55CD /* HPConversationListViewController.m */; };
 		35F268C618E2C17200AC55CD /* HPProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F268C518E2C17200AC55CD /* HPProfileViewController.m */; };
 		AB6C0130D2DC402FAC64C14D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62BF896EA6DC499D8B968DF8 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -77,17 +81,17 @@
 		200DBF3A18F10B1F00AF6AD0 /* UIView+Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Animation.m"; sourceTree = "<group>"; };
 		200DBF3C18F1346600AF6AD0 /* HPSeekoutDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutDetailViewController.h; sourceTree = "<group>"; };
 		200DBF3D18F1346600AF6AD0 /* HPSeekoutDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutDetailViewController.m; sourceTree = "<group>"; };
-		20144A4818EFEFB300D3553C /* HPSeekoutCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCardView.h; sourceTree = "<group>"; };
-		20144A4918EFEFB300D3553C /* HPSeekoutCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCardView.m; sourceTree = "<group>"; };
+		20144A4818EFEFB300D3553C /* HPSeekoutCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HPSeekoutCardView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		20144A4918EFEFB300D3553C /* HPSeekoutCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPSeekoutCardView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		20144A4A18EFEFB300D3553C /* HPSeekoutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutTableViewCell.h; sourceTree = "<group>"; };
 		20144A4C18EFEFC600D3553C /* HPLoginType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLoginType.h; sourceTree = "<group>"; };
 		20144A4D18EFEFC600D3553C /* HPSeekoutType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutType.h; sourceTree = "<group>"; };
-		20144A5218EFF4B900D3553C /* HPRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRefreshBaseView.h; sourceTree = "<group>"; };
+		20144A5218EFF4B900D3553C /* HPRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HPRefreshBaseView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		20144A5318EFF4B900D3553C /* HPRefreshBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRefreshBaseView.m; sourceTree = "<group>"; };
 		20144A5618EFF4B900D3553C /* HPRefreshFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRefreshFooterView.h; sourceTree = "<group>"; };
 		20144A5718EFF4B900D3553C /* HPRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRefreshFooterView.m; sourceTree = "<group>"; };
 		20144A5818EFF4B900D3553C /* HPRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRefreshHeaderView.h; sourceTree = "<group>"; };
-		20144A5918EFF4B900D3553C /* HPRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRefreshHeaderView.m; sourceTree = "<group>"; };
+		20144A5918EFF4B900D3553C /* HPRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPRefreshHeaderView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		20144A5F18EFFB8500D3553C /* HPSeekoutTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutTableView.h; sourceTree = "<group>"; };
 		20144A6018EFFB8500D3553C /* HPSeekoutTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutTableView.m; sourceTree = "<group>"; };
 		201E96BE18E6D63900F5A907 /* UIView+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Resize.h"; sourceTree = "<group>"; };
@@ -95,9 +99,17 @@
 		203234FB18EEAED800385725 /* HPSeekoutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutTableViewCell.m; sourceTree = "<group>"; };
 		2057323918F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCommentTableViewCell.h; sourceTree = "<group>"; };
 		2057323A18F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCommentTableViewCell.m; sourceTree = "<group>"; };
-		350D93251913518A00742C83 /* HPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPMessage.h; sourceTree = "<group>"; };
+		350D93251913518A00742C83 /* HPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HPMessage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		350D93261913518A00742C83 /* HPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPMessage.m; sourceTree = "<group>"; };
-		3529060618EFB69D004D73EA /* HPSeekout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekout.h; sourceTree = "<group>"; };
+		350D93281913592100742C83 /* HPUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUser.h; sourceTree = "<group>"; };
+		350D93291913592100742C83 /* HPUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUser.m; sourceTree = "<group>"; };
+		350D932B191392A900742C83 /* HPConversationThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HPConversationThread.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		350D932C191392A900742C83 /* HPConversationThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPConversationThread.m; sourceTree = "<group>"; };
+		350D932E19139FA700742C83 /* HPConversationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConversationDetailViewController.h; sourceTree = "<group>"; };
+		350D932F19139FA700742C83 /* HPConversationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPConversationDetailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		350D93311913A4D300742C83 /* HPMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPMessageTableViewCell.h; sourceTree = "<group>"; };
+		350D93321913A4D300742C83 /* HPMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPMessageTableViewCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		3529060618EFB69D004D73EA /* HPSeekout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HPSeekout.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3529060718EFB69D004D73EA /* HPSeekout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekout.m; sourceTree = "<group>"; };
 		354457DB190E4A9700FFAA79 /* HPRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HPRefresh.bundle; sourceTree = "<group>"; };
 		354457DD190E4BA200FFAA79 /* HPRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRefresh.h; sourceTree = "<group>"; };
@@ -116,7 +128,7 @@
 		354E1AD518E7F7C0007F2DF4 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = HiPengyou/external/FacebookSDK.framework; sourceTree = "<group>"; };
 		354E1AD718E7F7E3007F2DF4 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = external/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		354E1ADF18E840C2007F2DF4 /* HPHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPHomeViewController.h; sourceTree = "<group>"; };
-		354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPHomeViewController.m; sourceTree = "<group>"; };
+		354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPHomeViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		354E1AE418E85850007F2DF4 /* HPSeekoutCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutCreationViewController.h; sourceTree = "<group>"; };
 		354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekoutCreationViewController.m; sourceTree = "<group>"; };
 		3577E6B7190F521500242EB2 /* HPSeekoutComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSeekoutComment.h; sourceTree = "<group>"; };
@@ -127,16 +139,16 @@
 		35B5E599190B71E400392CD9 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		35B5E59A190B71E400392CD9 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		35C1022818EFEAA900A6EA29 /* HPProfileSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPProfileSettingViewController.h; sourceTree = "<group>"; };
-		35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPProfileSettingViewController.m; sourceTree = "<group>"; };
+		35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPProfileSettingViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		35C1022D18F0075C00A6EA29 /* HPRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRegisterViewController.h; sourceTree = "<group>"; };
-		35C1022E18F0075C00A6EA29 /* HPRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRegisterViewController.m; sourceTree = "<group>"; };
+		35C1022E18F0075C00A6EA29 /* HPRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPRegisterViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		35C1023318F0FA1000A6EA29 /* NSString+Contains.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Contains.h"; sourceTree = "<group>"; };
 		35C1023418F0FA1000A6EA29 /* NSString+Contains.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Contains.m"; sourceTree = "<group>"; };
 		35C1023618F0FB2200A6EA29 /* HPAPIURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAPIURL.h; sourceTree = "<group>"; };
 		35C1023918F0FD5D00A6EA29 /* HPFaceUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPFaceUploadViewController.h; sourceTree = "<group>"; };
-		35C1023A18F0FD5D00A6EA29 /* HPFaceUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFaceUploadViewController.m; sourceTree = "<group>"; };
+		35C1023A18F0FD5D00A6EA29 /* HPFaceUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPFaceUploadViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		35F0674919093408007B3CDB /* HPProfileSeekoutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPProfileSeekoutTableViewCell.h; sourceTree = "<group>"; };
-		35F0674A19093408007B3CDB /* HPProfileSeekoutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPProfileSeekoutTableViewCell.m; sourceTree = "<group>"; };
+		35F0674A19093408007B3CDB /* HPProfileSeekoutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPProfileSeekoutTableViewCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		35F2688318E27EC100AC55CD /* HiPengyou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiPengyou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35F2688618E27EC100AC55CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		35F2688818E27EC100AC55CD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -145,7 +157,7 @@
 		35F2689018E27EC100AC55CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		35F2689218E27EC100AC55CD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		35F2689418E27EC100AC55CD /* HiPengyou-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HiPengyou-Prefix.pch"; sourceTree = "<group>"; };
-		35F2689518E27EC100AC55CD /* HPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPAppDelegate.h; sourceTree = "<group>"; };
+		35F2689518E27EC100AC55CD /* HPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HPAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		35F2689618E27EC100AC55CD /* HPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPAppDelegate.m; sourceTree = "<group>"; };
 		35F2689818E27EC100AC55CD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		35F2689E18E27EC100AC55CD /* HiPengyouTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HiPengyouTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,11 +166,11 @@
 		35F268A918E27EC100AC55CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		35F268AB18E27EC100AC55CD /* HiPengyouTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HiPengyouTests.m; sourceTree = "<group>"; };
 		35F268B518E29BC200AC55CD /* HPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLoginViewController.h; sourceTree = "<group>"; };
-		35F268B618E29BC200AC55CD /* HPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPLoginViewController.m; sourceTree = "<group>"; };
-		35F268C118E2C14B00AC55CD /* HPMessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPMessageListViewController.h; sourceTree = "<group>"; };
-		35F268C218E2C14B00AC55CD /* HPMessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPMessageListViewController.m; sourceTree = "<group>"; };
+		35F268B618E29BC200AC55CD /* HPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPLoginViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		35F268C118E2C14B00AC55CD /* HPConversationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConversationListViewController.h; sourceTree = "<group>"; };
+		35F268C218E2C14B00AC55CD /* HPConversationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPConversationListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		35F268C418E2C17200AC55CD /* HPProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPProfileViewController.h; sourceTree = "<group>"; };
-		35F268C518E2C17200AC55CD /* HPProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPProfileViewController.m; sourceTree = "<group>"; };
+		35F268C518E2C17200AC55CD /* HPProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPProfileViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		62BF896EA6DC499D8B968DF8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -242,8 +254,10 @@
 			children = (
 				35F268B518E29BC200AC55CD /* HPLoginViewController.h */,
 				35F268B618E29BC200AC55CD /* HPLoginViewController.m */,
-				35F268C118E2C14B00AC55CD /* HPMessageListViewController.h */,
-				35F268C218E2C14B00AC55CD /* HPMessageListViewController.m */,
+				35F268C118E2C14B00AC55CD /* HPConversationListViewController.h */,
+				35F268C218E2C14B00AC55CD /* HPConversationListViewController.m */,
+				350D932E19139FA700742C83 /* HPConversationDetailViewController.h */,
+				350D932F19139FA700742C83 /* HPConversationDetailViewController.m */,
 				35F268C418E2C17200AC55CD /* HPProfileViewController.h */,
 				35F268C518E2C17200AC55CD /* HPProfileViewController.m */,
 				354E1ADF18E840C2007F2DF4 /* HPHomeViewController.h */,
@@ -279,6 +293,8 @@
 				35F0674A19093408007B3CDB /* HPProfileSeekoutTableViewCell.m */,
 				3577E6BA190F9A5C00242EB2 /* HPNaviBar.h */,
 				3577E6BB190F9A5C00242EB2 /* HPNaviBar.m */,
+				350D93311913A4D300742C83 /* HPMessageTableViewCell.h */,
+				350D93321913A4D300742C83 /* HPMessageTableViewCell.m */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -295,6 +311,10 @@
 				3577E6B8190F521500242EB2 /* HPSeekoutComment.m */,
 				350D93251913518A00742C83 /* HPMessage.h */,
 				350D93261913518A00742C83 /* HPMessage.m */,
+				350D93281913592100742C83 /* HPUser.h */,
+				350D93291913592100742C83 /* HPUser.m */,
+				350D932B191392A900742C83 /* HPConversationThread.h */,
+				350D932C191392A900742C83 /* HPConversationThread.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -544,7 +564,7 @@
 				20144A5E18EFF4B900D3553C /* HPRefreshHeaderView.m in Sources */,
 				201E96C018E6D63900F5A907 /* UIView+Resize.m in Sources */,
 				35C1023518F0FA1000A6EA29 /* NSString+Contains.m in Sources */,
-				35F268C318E2C14B00AC55CD /* HPMessageListViewController.m in Sources */,
+				35F268C318E2C14B00AC55CD /* HPConversationListViewController.m in Sources */,
 				200DBF3B18F10B1F00AF6AD0 /* UIView+Animation.m in Sources */,
 				357D7D8F18E70F53002A3166 /* HiPengyou.xcdatamodeld in Sources */,
 				3577E6B9190F521500242EB2 /* HPSeekoutComment.m in Sources */,
@@ -554,7 +574,9 @@
 				35F2689718E27EC100AC55CD /* HPAppDelegate.m in Sources */,
 				3577E6BC190F9A5C00242EB2 /* HPNaviBar.m in Sources */,
 				203234FC18EEAED800385725 /* HPSeekoutTableViewCell.m in Sources */,
+				350D93331913A4D300742C83 /* HPMessageTableViewCell.m in Sources */,
 				354E1AE118E840C2007F2DF4 /* HPHomeViewController.m in Sources */,
+				350D932A1913592100742C83 /* HPUser.m in Sources */,
 				35B5E59B190B71E400392CD9 /* UIImage+ImageEffects.m in Sources */,
 				35C1022A18EFEAA900A6EA29 /* HPProfileSettingViewController.m in Sources */,
 				35C1023B18F0FD5D00A6EA29 /* HPFaceUploadViewController.m in Sources */,
@@ -563,9 +585,11 @@
 				20144A4B18EFEFB300D3553C /* HPSeekoutCardView.m in Sources */,
 				20144A5B18EFF4B900D3553C /* HPRefreshBaseView.m in Sources */,
 				35F268B718E29BC200AC55CD /* HPLoginViewController.m in Sources */,
+				350D933019139FA700742C83 /* HPConversationDetailViewController.m in Sources */,
 				354457E0190E4C4C00FFAA79 /* HPRefreshConst.m in Sources */,
 				3529060818EFB69D004D73EA /* HPSeekout.m in Sources */,
 				35F2689318E27EC100AC55CD /* main.m in Sources */,
+				350D932D191392A900742C83 /* HPConversationThread.m in Sources */,
 				354457E3190E5EEC00FFAA79 /* HPSeekoutTableViewController.m in Sources */,
 				35F0674B19093408007B3CDB /* HPProfileSeekoutTableViewCell.m in Sources */,
 				2057323B18F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.m in Sources */,

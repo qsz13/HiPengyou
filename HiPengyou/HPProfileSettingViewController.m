@@ -12,14 +12,14 @@
 
 @interface HPProfileSettingViewController ()
 
-@property (strong, atomic) UIButton *backButton;
-@property (strong, atomic) UILabel *settingTitleLabel;
-@property (strong, atomic) UIImageView *faceUploadImageView;
-@property (strong, atomic) UIImagePickerController *imagePickerController;
-@property (strong, atomic) UIButton *uploadButton;
-@property (strong, atomic) NSString *sid;
-@property (strong, atomic) UIAlertView *postSuccessAlertView;
-@property (strong, atomic) UIAlertView *postFailedAlertView;
+@property (strong, nonatomic) UIButton *backButton;
+@property (strong, nonatomic) UILabel *settingTitleLabel;
+@property (strong, nonatomic) UIImageView *faceUploadImageView;
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
+@property (strong, nonatomic) UIButton *uploadButton;
+@property (strong, nonatomic) NSString *sid;
+@property (strong, nonatomic) UIAlertView *postSuccessAlertView;
+@property (strong, nonatomic) UIAlertView *postFailedAlertView;
 
 @end
 

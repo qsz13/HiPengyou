@@ -16,26 +16,26 @@
 @interface HPSeekoutDetailViewController ()
 
 // Data
-@property (strong, atomic) HPSeekout *seekoutData;
-@property (strong, atomic) NSString *sid;
+@property (strong, nonatomic) HPSeekout *seekoutData;
+@property (strong, nonatomic) NSString *sid;
 
 // UI
-@property (strong, atomic) UIView *customNavBarView;
+@property (strong, nonatomic) UIView *customNavBarView;
 
-@property (strong, atomic) UIView *seekoutDetailView;
-@property (strong, atomic) UILabel *seekoutContentLabel;
-@property (strong, atomic) UIImageView *faceImageView;
-@property (strong, atomic) UILabel *seekoutAuthorNameLabel;
+@property (strong, nonatomic) UIView *seekoutDetailView;
+@property (strong, nonatomic) UILabel *seekoutContentLabel;
+@property (strong, nonatomic) UIImageView *faceImageView;
+@property (strong, nonatomic) UILabel *seekoutAuthorNameLabel;
 
-@property (strong, atomic) UITableView *seekoutCommentTableView;
-@property (strong, atomic) NSMutableArray *seekoutCommentArray;
+@property (strong, nonatomic) UITableView *seekoutCommentTableView;
+@property (strong, nonatomic) NSMutableArray *seekoutCommentArray;
 
-@property (strong, atomic) UIView *seekoutReplyView;
-@property (strong, atomic) UITextField *seekoutReplyTextField;
-@property (strong, atomic) UIButton *replyButton;
+@property (strong, nonatomic) UIView *seekoutReplyView;
+@property (strong, nonatomic) UITextField *seekoutReplyTextField;
+@property (strong, nonatomic) UIButton *replyButton;
 
-@property (strong, atomic) UIAlertView *connectionFaiedAlertView;
-@property (strong, atomic) UIAlertView *replyAlertView;
+@property (strong, nonatomic) UIAlertView *connectionFaiedAlertView;
+@property (strong, nonatomic) UIAlertView *replyAlertView;
 
 
 @end
@@ -294,8 +294,6 @@
                     [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
                     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
                     [comment setTime:[dateFormatter stringFromDate:date]];
-//                    NSLog(@"%d",[[c objectForKey:@"uptime"] integerValue]);
-//                    NSLog(@"%@",date);
                     
                     [comment setLikeNumber:[[c objectForKey:@"likes"] integerValue]];
                     [comment setHasMedia:[[c objectForKey:@"hasmedia"] boolValue]];

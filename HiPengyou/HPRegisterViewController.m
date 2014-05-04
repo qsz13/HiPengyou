@@ -14,12 +14,12 @@
 
 @interface HPRegisterViewController ()
 
-@property (strong, atomic) UITextField *usernameTextField;
-@property (strong, atomic) UITextField *passwordTextField;
-@property (strong, atomic) UITextField *emailTextField;
-@property (strong, atomic) UIButton *registerButton;
+@property (strong, nonatomic) UITextField *usernameTextField;
+@property (strong, nonatomic) UITextField *passwordTextField;
+@property (strong, nonatomic) UITextField *emailTextField;
+@property (strong, nonatomic) UIButton *registerButton;
 
-@property (strong, atomic) UIAlertView *registerAlertView;
+@property (strong, nonatomic) UIAlertView *registerAlertView;
 
 @end
 

@@ -13,11 +13,11 @@
 
 @interface HPSeekoutCommentTableViewCell ()
 
-@property (strong, atomic) HPSeekoutComment *comment;
-@property (strong, atomic) UIImageView *faceImageView;
-@property (strong, atomic) UILabel *authorNameLabel;
-@property (strong, atomic) UILabel *timeLabel;
-@property (strong, atomic) UILabel *contentLabel;
+@property (strong, nonatomic) HPSeekoutComment *comment;
+@property (strong, nonatomic) UIImageView *faceImageView;
+@property (strong, nonatomic) UILabel *authorNameLabel;
+@property (strong, nonatomic) UILabel *timeLabel;
+@property (strong, nonatomic) UILabel *contentLabel;
 
 
 @end

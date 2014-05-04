@@ -14,24 +14,24 @@
 
 @interface HPSeekoutCreationViewController ()
 
-@property (strong, atomic) UIButton *backButton;
-@property (strong, atomic) UILabel *titleButton;
-@property (strong, atomic) UITextView *seekoutContentTextView;
-@property (strong, atomic) UIButton *seekoutTypeButton;
-@property (strong, atomic) UIButton *seekoutLanguageButton;
-@property (strong, atomic) UIButton *seekoutLocationButton;
-@property (strong, atomic) UILabel *seekoutTypeLabel;
-@property (strong, atomic) UITableView *seekoutTypeTableView;
-@property (strong, atomic) NSArray *seekoutTypeArray;
-@property (strong, atomic) UIImageView *seekoutTypeIcon;
-@property (strong, atomic) UIImageView *seekoutLanguageIcon;
-@property (strong, atomic) UIImageView *seekoutLocationIcon;
-@property (strong, atomic) UIButton *seekoutPostButton;
-//@property (strong, atomic) UITableView *seekoutTypeTable;
-@property (strong, atomic) UIAlertView *postSuccessAlertView;
-@property (strong, atomic) UIAlertView *postFailedAlertView;
-@property (strong, atomic) UIImageView *blurredBackgroundImageView;
-@property (strong, atomic) NSString *sid;
+@property (strong, nonatomic) UIButton *backButton;
+@property (strong, nonatomic) UILabel *titleButton;
+@property (strong, nonatomic) UITextView *seekoutContentTextView;
+@property (strong, nonatomic) UIButton *seekoutTypeButton;
+@property (strong, nonatomic) UIButton *seekoutLanguageButton;
+@property (strong, nonatomic) UIButton *seekoutLocationButton;
+@property (strong, nonatomic) UILabel *seekoutTypeLabel;
+@property (strong, nonatomic) UITableView *seekoutTypeTableView;
+@property (strong, nonatomic) NSArray *seekoutTypeArray;
+@property (strong, nonatomic) UIImageView *seekoutTypeIcon;
+@property (strong, nonatomic) UIImageView *seekoutLanguageIcon;
+@property (strong, nonatomic) UIImageView *seekoutLocationIcon;
+@property (strong, nonatomic) UIButton *seekoutPostButton;
+//@property (strong, nonatomic) UITableView *seekoutTypeTable;
+@property (strong, nonatomic) UIAlertView *postSuccessAlertView;
+@property (strong, nonatomic) UIAlertView *postFailedAlertView;
+@property (strong, nonatomic) UIImageView *blurredBackgroundImageView;
+@property (strong, nonatomic) NSString *sid;
 @property HPSeekoutType seekoutType;
 
 @end
