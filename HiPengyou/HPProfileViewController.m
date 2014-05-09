@@ -89,7 +89,15 @@
     
     self.titleLable = [[UILabel alloc]init];
     [self.titleLable resetSize:CGSizeMake(500, 30)];
-    [self.titleLable setText:@"Your Page"];
+    if(self.isSelfUser)
+    {
+        [self.titleLable setText:@"Your Page"];
+    }
+    else
+    {
+//        [self.titleLable setText:self.];
+    }
+    
     self.titleLable.numberOfLines = 1;
     [self.titleLable setTextColor:[UIColor colorWithRed:48.0f / 255.0f
                                                      green:188.0f / 255.0f
@@ -101,16 +109,19 @@
     [self.titleLable setCenter:CGPointMake([self.view getWidth]/2, [self.naviBar getHeight]/2)];
     [self.naviBar addSubview:self.titleLable];
     
+    if(self.isSelfUser)
+    {
+        self.settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.settingButton setImage:[UIImage imageNamed:@"HPProfileSettingButton"] forState:UIControlStateNormal];
+        [self.settingButton resetSize:CGSizeMake(31, 31)];
+        [self.settingButton setCenter:CGPointMake(560/2+[self.settingButton getWidth]/2, [self.naviBar getHeight]/2)];
+        [self.settingButton addTarget:self action:@selector(didClickSettingButton) forControlEvents:UIControlEventTouchUpInside];
+        [self.naviBar addSubview:self.settingButton];
+        
+        [self.view addSubview:self.naviBar];
 
+    }
     
-    self.settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.settingButton setImage:[UIImage imageNamed:@"HPProfileSettingButton"] forState:UIControlStateNormal];
-    [self.settingButton resetSize:CGSizeMake(31, 31)];
-    [self.settingButton setCenter:CGPointMake(560/2+[self.settingButton getWidth]/2, [self.naviBar getHeight]/2)];
-    [self.settingButton addTarget:self action:@selector(didClickSettingButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.naviBar addSubview:self.settingButton];
-    
-    [self.view addSubview:self.naviBar];
     
 }
 
@@ -164,7 +175,6 @@
     [self.view addSubview:self.seekoutListTableView];
     
 
-    
 }
 
 
@@ -213,7 +223,7 @@
 
 }
 
-#pragma merk - Table View delegate
+#pragma mark - Table View delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -231,7 +241,6 @@
 - (void)requestForSeekoutList
 {
     
-    
     NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@sid=%@&pageid=%d",PERSONAL_SEEKOUT_URL, self.sid, self.pageID]];
     self.pageID++;
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
@@ -242,7 +251,7 @@
         {
             NSError *e = nil;
             NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            
+            NSLog(@"%@",dataDict);
             //request success
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {

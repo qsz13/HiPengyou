@@ -109,6 +109,7 @@
 		350D932F19139FA700742C83 /* HPConversationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPConversationDetailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		350D93311913A4D300742C83 /* HPMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPMessageTableViewCell.h; sourceTree = "<group>"; };
 		350D93321913A4D300742C83 /* HPMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HPMessageTableViewCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		35140274191CA1A50004BAF0 /* HPConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConfiguration.h; sourceTree = "<group>"; };
 		3529060618EFB69D004D73EA /* HPSeekout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HPSeekout.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3529060718EFB69D004D73EA /* HPSeekout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSeekout.m; sourceTree = "<group>"; };
 		354457DB190E4A9700FFAA79 /* HPRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HPRefresh.bundle; sourceTree = "<group>"; };
@@ -252,26 +253,11 @@
 		201E96BD18E6D58B00F5A907 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				35F268B518E29BC200AC55CD /* HPLoginViewController.h */,
-				35F268B618E29BC200AC55CD /* HPLoginViewController.m */,
-				35F268C118E2C14B00AC55CD /* HPConversationListViewController.h */,
-				35F268C218E2C14B00AC55CD /* HPConversationListViewController.m */,
-				350D932E19139FA700742C83 /* HPConversationDetailViewController.h */,
-				350D932F19139FA700742C83 /* HPConversationDetailViewController.m */,
-				35F268C418E2C17200AC55CD /* HPProfileViewController.h */,
-				35F268C518E2C17200AC55CD /* HPProfileViewController.m */,
-				354E1ADF18E840C2007F2DF4 /* HPHomeViewController.h */,
-				354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */,
-				354E1AE418E85850007F2DF4 /* HPSeekoutCreationViewController.h */,
-				354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */,
-				35C1022818EFEAA900A6EA29 /* HPProfileSettingViewController.h */,
-				35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */,
-				35C1022D18F0075C00A6EA29 /* HPRegisterViewController.h */,
-				35C1022E18F0075C00A6EA29 /* HPRegisterViewController.m */,
-				35C1023918F0FD5D00A6EA29 /* HPFaceUploadViewController.h */,
-				35C1023A18F0FD5D00A6EA29 /* HPFaceUploadViewController.m */,
-				200DBF3C18F1346600AF6AD0 /* HPSeekoutDetailViewController.h */,
-				200DBF3D18F1346600AF6AD0 /* HPSeekoutDetailViewController.m */,
+				35140278191CA2830004BAF0 /* Login-Registration */,
+				3514027A191CA3100004BAF0 /* Home */,
+				35140279191CA2BC0004BAF0 /* Profile */,
+				35140277191CA2570004BAF0 /* Conversation */,
+				3514027E191CA4E60004BAF0 /* Create */,
 				354457E1190E5EEC00FFAA79 /* HPSeekoutTableViewController.h */,
 				354457E2190E5EEC00FFAA79 /* HPSeekoutTableViewController.m */,
 			);
@@ -281,40 +267,120 @@
 		203234F918EEAEAE00385725 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				20144A4818EFEFB300D3553C /* HPSeekoutCardView.h */,
-				20144A4918EFEFB300D3553C /* HPSeekoutCardView.m */,
+				3514027C191CA3EA0004BAF0 /* Seekout */,
+				3514027B191CA3890004BAF0 /* Cell */,
+				3577E6BA190F9A5C00242EB2 /* HPNaviBar.h */,
+				3577E6BB190F9A5C00242EB2 /* HPNaviBar.m */,
+			);
+			name = CustomViews;
+			sourceTree = "<group>";
+		};
+		35140277191CA2570004BAF0 /* Conversation */ = {
+			isa = PBXGroup;
+			children = (
+				35F268C118E2C14B00AC55CD /* HPConversationListViewController.h */,
+				35F268C218E2C14B00AC55CD /* HPConversationListViewController.m */,
+				350D932E19139FA700742C83 /* HPConversationDetailViewController.h */,
+				350D932F19139FA700742C83 /* HPConversationDetailViewController.m */,
+			);
+			name = Conversation;
+			sourceTree = "<group>";
+		};
+		35140278191CA2830004BAF0 /* Login-Registration */ = {
+			isa = PBXGroup;
+			children = (
+				35F268B518E29BC200AC55CD /* HPLoginViewController.h */,
+				35F268B618E29BC200AC55CD /* HPLoginViewController.m */,
+				35C1022D18F0075C00A6EA29 /* HPRegisterViewController.h */,
+				35C1022E18F0075C00A6EA29 /* HPRegisterViewController.m */,
+				35C1023918F0FD5D00A6EA29 /* HPFaceUploadViewController.h */,
+				35C1023A18F0FD5D00A6EA29 /* HPFaceUploadViewController.m */,
+			);
+			name = "Login-Registration";
+			sourceTree = "<group>";
+		};
+		35140279191CA2BC0004BAF0 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				35F268C418E2C17200AC55CD /* HPProfileViewController.h */,
+				35F268C518E2C17200AC55CD /* HPProfileViewController.m */,
+				35C1022818EFEAA900A6EA29 /* HPProfileSettingViewController.h */,
+				35C1022918EFEAA900A6EA29 /* HPProfileSettingViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		3514027A191CA3100004BAF0 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				354E1ADF18E840C2007F2DF4 /* HPHomeViewController.h */,
+				354E1AE018E840C2007F2DF4 /* HPHomeViewController.m */,
+				200DBF3C18F1346600AF6AD0 /* HPSeekoutDetailViewController.h */,
+				200DBF3D18F1346600AF6AD0 /* HPSeekoutDetailViewController.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		3514027B191CA3890004BAF0 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				350D93311913A4D300742C83 /* HPMessageTableViewCell.h */,
+				350D93321913A4D300742C83 /* HPMessageTableViewCell.m */,
 				20144A4A18EFEFB300D3553C /* HPSeekoutTableViewCell.h */,
 				203234FB18EEAED800385725 /* HPSeekoutTableViewCell.m */,
-				20144A5F18EFFB8500D3553C /* HPSeekoutTableView.h */,
-				20144A6018EFFB8500D3553C /* HPSeekoutTableView.m */,
 				2057323918F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.h */,
 				2057323A18F7C1CB00FCCD52 /* HPSeekoutCommentTableViewCell.m */,
 				35F0674919093408007B3CDB /* HPProfileSeekoutTableViewCell.h */,
 				35F0674A19093408007B3CDB /* HPProfileSeekoutTableViewCell.m */,
-				3577E6BA190F9A5C00242EB2 /* HPNaviBar.h */,
-				3577E6BB190F9A5C00242EB2 /* HPNaviBar.m */,
-				350D93311913A4D300742C83 /* HPMessageTableViewCell.h */,
-				350D93321913A4D300742C83 /* HPMessageTableViewCell.m */,
 			);
-			name = CustomViews;
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		3514027C191CA3EA0004BAF0 /* Seekout */ = {
+			isa = PBXGroup;
+			children = (
+				20144A4818EFEFB300D3553C /* HPSeekoutCardView.h */,
+				20144A4918EFEFB300D3553C /* HPSeekoutCardView.m */,
+				20144A5F18EFFB8500D3553C /* HPSeekoutTableView.h */,
+				20144A6018EFFB8500D3553C /* HPSeekoutTableView.m */,
+			);
+			name = Seekout;
+			sourceTree = "<group>";
+		};
+		3514027D191CA40F0004BAF0 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				350D93281913592100742C83 /* HPUser.h */,
+				350D93291913592100742C83 /* HPUser.m */,
+				3529060618EFB69D004D73EA /* HPSeekout.h */,
+				3529060718EFB69D004D73EA /* HPSeekout.m */,
+				3577E6B7190F521500242EB2 /* HPSeekoutComment.h */,
+				3577E6B8190F521500242EB2 /* HPSeekoutComment.m */,
+				350D93251913518A00742C83 /* HPMessage.h */,
+				350D93261913518A00742C83 /* HPMessage.m */,
+				350D932B191392A900742C83 /* HPConversationThread.h */,
+				350D932C191392A900742C83 /* HPConversationThread.m */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		3514027E191CA4E60004BAF0 /* Create */ = {
+			isa = PBXGroup;
+			children = (
+				354E1AE418E85850007F2DF4 /* HPSeekoutCreationViewController.h */,
+				354E1AE518E85850007F2DF4 /* HPSeekoutCreationViewController.m */,
+			);
+			name = Create;
 			sourceTree = "<group>";
 		};
 		3529060518EFB687004D73EA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3514027D191CA40F0004BAF0 /* Data */,
 				20144A4C18EFEFC600D3553C /* HPLoginType.h */,
 				20144A4D18EFEFC600D3553C /* HPSeekoutType.h */,
-				3529060618EFB69D004D73EA /* HPSeekout.h */,
-				3529060718EFB69D004D73EA /* HPSeekout.m */,
 				35C1023618F0FB2200A6EA29 /* HPAPIURL.h */,
-				3577E6B7190F521500242EB2 /* HPSeekoutComment.h */,
-				3577E6B8190F521500242EB2 /* HPSeekoutComment.m */,
-				350D93251913518A00742C83 /* HPMessage.h */,
-				350D93261913518A00742C83 /* HPMessage.m */,
-				350D93281913592100742C83 /* HPUser.h */,
-				350D93291913592100742C83 /* HPUser.m */,
-				350D932B191392A900742C83 /* HPConversationThread.h */,
-				350D932C191392A900742C83 /* HPConversationThread.m */,
+				35140274191CA1A50004BAF0 /* HPConfiguration.h */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -650,6 +716,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Tingzhi Yang (YU353S7ZMW)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -668,6 +735,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "A2D0DA49-0989-4D2C-BAD7-2A503C038517";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -688,6 +756,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Tingzhi Yang (YU353S7ZMW)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -699,6 +768,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PROVISIONING_PROFILE = "A2D0DA49-0989-4D2C-BAD7-2A503C038517";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

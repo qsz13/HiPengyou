@@ -14,11 +14,15 @@
 
 @interface HPRegisterViewController ()
 
+//UITextField
 @property (strong, nonatomic) UITextField *usernameTextField;
 @property (strong, nonatomic) UITextField *passwordTextField;
 @property (strong, nonatomic) UITextField *emailTextField;
+
+//UIbutton
 @property (strong, nonatomic) UIButton *registerButton;
 
+//UIAlertView
 @property (strong, nonatomic) UIAlertView *registerAlertView;
 
 @end
@@ -37,7 +41,7 @@
 
 - (void)initView
 {
-    
+    //Set background
     [self.view setBackgroundColor:[UIColor colorWithRed:49.0f / 255.0f
                                                   green:188.0f / 255.0f
                                                    blue:234.0f / 255.0f
@@ -46,6 +50,7 @@
 
 - (void)initTextField
 {
+    //Username Text Field
     self.usernameTextField = [[UITextField alloc]init];
     [self.usernameTextField setDelegate:self];
     [self.usernameTextField resetSize:CGSizeMake(240, 30)];
@@ -61,6 +66,7 @@
     [self.usernameTextField setFont:[UIFont fontWithName:@"HelveticaNeue" size:13]];
     [self.view addSubview: self.usernameTextField];
     
+    //Password Text Field
     self.passwordTextField = [[UITextField alloc]init];
     [self.passwordTextField setDelegate:self];
     [self.passwordTextField resetSize:CGSizeMake(240, 30)];
@@ -77,6 +83,7 @@
     [self.passwordTextField setFont:[UIFont fontWithName:@"HelveticaNeue" size:13]];
     [self.view addSubview: self.passwordTextField];
     
+    //Email Text Field
     self.emailTextField = [[UITextField alloc]init];
     [self.emailTextField setDelegate:self];
     [self.emailTextField resetSize:CGSizeMake(240, 30)];
@@ -96,8 +103,8 @@
 
 - (void)initButton
 {
-    self.registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     // Init register button
+    self.registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.registerButton setTitle:@"register" forState:UIControlStateNormal];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -120,7 +127,7 @@
     NSString *usernameText = self.usernameTextField.text;
     NSString *passwordText = self.passwordTextField.text;
     NSString *emailText = self.emailTextField.text;
-    //
+    
     if([usernameText length] < 4)
     {
         self.registerAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"username should be no less than 4 characters." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -143,6 +150,7 @@
     
 }
 
+#pragma mark - Network Request
 
 - (void)registerRequest
 {

@@ -27,6 +27,8 @@
 @property (strong, nonatomic) NSString *sid;
 @property (strong, nonatomic) NSMutableArray *messageArray;
 @property (strong, nonatomic) NSMutableArray *conversationThreadArray;
+@property (strong, nonatomic) NSTimer *timer;
+
 
 @property NSInteger userID;
 @end
@@ -38,6 +40,7 @@
     self = [super init];
     if (self) {
         self.conversationThread = conversationThread;
+        self.conversationThread.messageList = [[[self.conversationThread.messageList reverseObjectEnumerator] allObjects] mutableCopy];
     }
     return self;
 }
@@ -63,13 +66,16 @@
     
     self.sid = [userDefaults objectForKey:@"sid"];
     self.userID = [userDefaults integerForKey:@"id"];
-    
+    self.conversationThreadArray = [[NSMutableArray alloc]init];
+    self.messageArray = [[NSMutableArray alloc]init];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(requestForMessageList) userInfo:nil repeats:YES];
 
     
 }
 
 - (void)manageMessageData
 {
+    
     for(HPMessage *m in self.messageArray)
     {
         if(m.sender.userID == self.userID)
@@ -92,7 +98,6 @@
                 [conversationThread addMessage:m];
                 [self.conversationThreadArray addObject:conversationThread];
             }
-            
             
             
         }
@@ -124,14 +129,21 @@
         
     }
     
-    
+    NSLog(@"askdjfhalksdfj");
     for(HPConversationThread *t in self.conversationThreadArray)
     {
+        NSLog(@"%d",t.chatter.userID);
+
         if(t.chatter.userID == self.conversationThread.chatter.userID)
         {
             self.conversationThread = t;
+            self.conversationThread.messageList = [[[self.conversationThread.messageList reverseObjectEnumerator] allObjects] mutableCopy];
         }
     }
+    
+    [self.messageTableView reloadData];
+    CGFloat height = self.messageTableView.contentSize.height - self.messageTableView.bounds.size.height;
+    [self.messageTableView setContentOffset:CGPointMake(0, height) animated:YES];
 }
 
 
@@ -194,6 +206,8 @@
                                                                          green:230.0f / 255.0f
                                                                           blue:230.0f / 255.0f
                                                                          alpha:1]];
+    CGFloat height = self.messageTableView.contentSize.height - self.messageTableView.bounds.size.height;
+    [self.messageTableView setContentOffset:CGPointMake(0, height) animated:YES];
     [self.view addSubview:self.messageTableView];
 }
 
@@ -242,6 +256,7 @@
 - (void)didClickSendButton
 {
     NSLog(@"request");
+    [self requestForSendMessage];
     
     
 }
@@ -343,11 +358,16 @@
             {
                 NSError *e = nil;
                 NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+                NSLog(@"%@",dataDict);
                 //successed
-                if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+                if([[dataDict objectForKey:@"code"] isEqualToString:@"14000"])
                 {
-                    self.replyAlertView = [[UIAlertView alloc]initWithTitle:@"thanks" message:@"your reply has been sent" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                    [self.replyAlertView show];
+//                    self.replyAlertView = [[UIAlertView alloc]initWithTitle:@"thanks" message:@"your reply has been sent" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//                    [self.replyAlertView show];
+                    self.messageTextField.text = @"";
+                    [self.messageTextField resignFirstResponder];
+
+                    [self requestForMessageList];
                     
                 }
 //                //login failed
@@ -376,11 +396,13 @@
         }];
         
     }
+    [self requestForMessageList];
 
 }
 
 - (void)requestForMessageList
 {
+
     NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@sid=%@&uptime=%d&userId=%d&pageId=%d&",MESSAGE_LIST_URL, self.sid, 0 ,self.userID,0]];
 
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
@@ -389,9 +411,11 @@
         //connection successed
         if([data length] > 0 && connectionError == nil)
         {
+            self.conversationThreadArray = [[NSMutableArray alloc]init];
+            self.messageArray = [[NSMutableArray alloc]init];
             NSError *e = nil;
             NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            NSLog(@"%@", dataDict);
+//            NSLog(@"%@", dataDict);
             //request success
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {
@@ -454,8 +478,23 @@
     
 }
 
+#pragma mark - Keyboard Dismiss
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.messageTextField resignFirstResponder];
+}
 
 
 
+- (void)viewWillDisappear:(BOOL)animated {
+    //BEFORE DOING SO CHECK THAT TIMER MUST NOT BE ALREADY INVALIDATED
+    //Always nil your timer after invalidating so that
+    //it does not cause crash due to duplicate invalidate
+    if(self.timer)
+    {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+}
 
 @end

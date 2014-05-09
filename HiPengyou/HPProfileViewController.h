@@ -10,4 +10,6 @@
 
 @interface HPProfileViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+@property BOOL isSelfUser;
+
 @end

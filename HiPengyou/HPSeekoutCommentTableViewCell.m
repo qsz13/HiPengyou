@@ -8,6 +8,7 @@
 
 #import "HPSeekoutCommentTableViewCell.h"
 #import "UIView+Resize.h"
+#import "HPAPIURL.h"
 #import "UIImageView+AFNetworking.h"
 
 
@@ -18,7 +19,11 @@
 @property (strong, nonatomic) UILabel *authorNameLabel;
 @property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UILabel *contentLabel;
-
+@property (strong, nonatomic) UIButton *likeButton;
+@property (strong, nonatomic) UILabel *likeNumberLabel;
+@property (strong, nonatomic) NSString *sid;
+@property NSInteger userID;
+@property (strong, nonatomic) UIAlertView *likeFailedAlertView;
 
 @end
 
@@ -57,41 +62,27 @@
     if (self) {
         
         self.comment = comment;
+        [self setSelectionStyle:UITableViewCellSelectionStyleNone];
+        [self initData];
         [self initFaceImageView];
         [self initAuthorNameLabel];
         [self initTimeLabel];
         [self initContent];
-        
-//        [self.]
-        
-        
-        // Set Style
-//        self.transform = CGAffineTransformMakeRotation(M_PI / 2);
-//        [self resetWidthByOffset:20];
-//        self.frame = frame;
-//        self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.frame];
-//        self.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-//        [self setSelectionStyle:UITableViewCellSelectionStyleNone];s
-        
-//        HPSeekoutCardView *seekoutCardView = [[HPSeekoutCardView alloc] initWithFrame:frame];
-//        [seekoutCardView resetOriginXByOffset:10];
-//        [seekoutCardView loadData:seekout];
-        
-        // Clear Background Color
-//        self.contentView.backgroundColor = [UIColor clearColor];
-//        self.backgroundColor = [UIColor clearColor];
-        
-//        // Bg View
-//        UIView *bgView = [[UIView alloc] initWithFrame:frame];
-//        [bgView resetWidthByOffset:20];
-//        bgView.backgroundColor = [UIColor clearColor];
-        
-        // Add Seekout Card View To Content View
-//        [bgView addSubview:seekoutCardView];
-//        [self.contentView addSubview:bgView];
+        [self initButton];
+        [self initLikeNumberLabel];
         
     }
     return self;
+}
+
+- (void)initData
+{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.sid = [userDefaults objectForKey:@"sid"];
+    NSLog(@"%@",self.sid);
+    self.userID = [userDefaults integerForKey:@"id"];
+    
 }
 
 
@@ -131,7 +122,7 @@
     [self.timeLabel setBackgroundColor:[UIColor clearColor]];
     [self.timeLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:8]];
     [self.timeLabel sizeToFit];
-    [self.timeLabel resetOrigin:CGPointMake([self.authorNameLabel getOriginX]+[self.authorNameLabel getWidth] + 10, [self getHeight]/10)];
+    [self.timeLabel resetOrigin:CGPointMake([self.authorNameLabel getOriginX]+[self.authorNameLabel getWidth] + 10, [self.authorNameLabel getOriginY] + 2)];
     [self addSubview:self.timeLabel];
     
 }
@@ -139,7 +130,6 @@
 - (void)initContent
 {
     
-    self.contentLabel = [[UILabel alloc]init];
     self.contentLabel = [[UILabel alloc] init];
     [self.contentLabel resetSize:CGSizeMake(500, 30)];
     [self.contentLabel setText:self.comment.content];
@@ -152,6 +142,114 @@
     [self addSubview:self.contentLabel];
     
     
+}
+
+- (void)initButton
+{
+    self.likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.likeButton setFrame:CGRectMake([self.timeLabel getOriginX] + [self.timeLabel getWidth] + 50, [self getHeight]/2, 23, 20)];
+    
+    [self.likeButton addTarget:self action:@selector(didClickLikeButton) forControlEvents:UIControlEventTouchUpInside];
+    
+    if(self.comment.ifLike)
+    {
+        [self.likeButton setImage:[UIImage imageNamed:@"HPLikeButton"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.likeButton setImage:[UIImage imageNamed:@"HPUnlikeButton"] forState:UIControlStateNormal];
+    }
+    
+    
+    [self addSubview:self.likeButton];
+
+}
+
+- (void)initLikeNumberLabel
+{
+    self.likeNumberLabel = [[UILabel alloc]init];
+    self.likeNumberLabel = [[UILabel alloc] init];
+    [self.likeNumberLabel resetSize:CGSizeMake(500, 30)];
+    [self.likeNumberLabel setText:[NSString stringWithFormat:@"%d",self.comment.likeNumber]];
+    self.likeNumberLabel.numberOfLines = 1;
+    [self.likeNumberLabel setTextColor:[UIColor colorWithRed:144.0f/255.0f green:150.0f/255.0f blue:157.0f/255.0f alpha:1]];
+    [self.likeNumberLabel setBackgroundColor:[UIColor clearColor]];
+    [self.likeNumberLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12]];
+    [self.likeNumberLabel sizeToFit];
+    [self.likeNumberLabel resetOrigin:CGPointMake([self.likeButton getOriginX]+[self.likeButton getWidth]+5, [self getHeight]/2)];
+    [self addSubview:self.likeNumberLabel];
+
+}
+
+
+- (void)didClickLikeButton
+{
+
+    [self.likeButton setImage:[UIImage imageNamed:@"HPLikeButton"] forState:UIControlStateNormal];
+    self.comment.likeNumber++;
+    [self.likeNumberLabel setText:[NSString stringWithFormat:@"%d",self.comment.likeNumber]];
+    [self likeRequest];
+    
+
+
+}
+
+
+- (void)likeRequest
+{
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@",LIKE_CREATE_URL, self.sid]];
+    NSLog(@"%@",[NSString stringWithFormat:@"%@sid=%@",LIKE_CREATE_URL, self.sid]);
+
+    NSData *postData = [[NSString stringWithFormat:@"commentid=%d&giverid=%d&",self.comment.commentID,self.userID] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
+        //connection successed
+        if([data length] > 0 && connectionError == nil)
+        {
+            NSError *e = nil;
+            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+
+            NSLog(@"%@",dataDict);
+            //register successed
+            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+            {
+            
+            }
+
+            //reigister failed
+            else if([[dataDict objectForKey:@"code"] isEqualToString:@"14009"])
+            {
+                self.likeFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"failed" message:@"Create seekout failed" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [self.likeFailedAlertView show];
+            }
+        }
+        //connection failed
+        else if (connectionError != nil)
+        {
+            self.likeFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.likeFailedAlertView show];
+
+        }
+        //unknow error
+        else
+        {
+            self.likeFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.likeFailedAlertView show];
+        }
+        
+        
+    }];
+
 }
 
 @end

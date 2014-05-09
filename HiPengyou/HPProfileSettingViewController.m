@@ -7,6 +7,8 @@
 //
 
 #import "HPProfileSettingViewController.h"
+#import "AFHTTPRequestOperationManager.h"
+#import "UIImageView+AFNetworking.h"
 #import "HPAPIURL.h"
 #import "UIView+Resize.h"
 
@@ -17,6 +19,7 @@
 @property (strong, nonatomic) UIImageView *faceUploadImageView;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (strong, nonatomic) UIButton *uploadButton;
+@property (strong, nonatomic) UIButton *logoutButton;
 @property (strong, nonatomic) NSString *sid;
 @property  NSInteger userID;
 @property (strong, nonatomic) UIAlertView *postSuccessAlertView;
@@ -36,7 +39,7 @@
     [self initNaviBar];
     [self initImagePicker];
     [self initFaceUploadImageView];
-    [self initUploadButton];
+    [self initButton];
 }
 
 #pragma mark - Data Init
@@ -102,16 +105,27 @@
 {
     self.faceUploadImageView = [[UIImageView alloc]init];
     [self.faceUploadImageView resetSize:CGSizeMake(150, 150)];
-    [self.faceUploadImageView resetCenter:CGPointMake([self.view getWidth]/2, [self.view getHeight]/4)];
+    [self.faceUploadImageView resetCenter:CGPointMake([self.view getWidth]/2, [self.view getHeight]/3)];
     [self.faceUploadImageView setBackgroundColor:[UIColor colorWithRed:48.0f / 255.0f
                                                                  green:188.0f / 255.0f
                                                                   blue:235.0f / 255.0f
                                                                  alpha:1]];
 
+    NSURL *faceImageURL = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%d.png",FACE_IMAGE_URL,self.userID]];
+    [self.faceUploadImageView setImageWithURL:faceImageURL];
+    
+
+    
+    
     UIButton *maskButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [maskButton setFrame:CGRectMake(0, 0, [self.faceUploadImageView getWidth], [self.faceUploadImageView getHeight])];
+    [maskButton setBackgroundColor:[UIColor colorWithRed:255.0f / 255.0f
+                                                  green:255.0f / 255.0f
+                                                   blue:255.0f / 255.0f
+                                                  alpha:0.7]];
     [maskButton addTarget:self action:@selector(didClickSelectImage) forControlEvents:UIControlEventTouchUpInside];
-    
+    [maskButton setTitle:@"Select Image" forState:UIControlStateNormal];
+    [maskButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [maskButton setFrame:self.faceUploadImageView.frame];
     [self.view addSubview:self.faceUploadImageView];
     [self.view addSubview:maskButton];
@@ -119,12 +133,14 @@
     
 }
 
-- (void)initUploadButton
+- (void)initButton
 {
     self.uploadButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.uploadButton setTitle:@"upload" forState:UIControlStateNormal];
+    [self.uploadButton setTitle:@"Upload" forState:UIControlStateNormal];
     [self.uploadButton sizeToFit];
-    [self.uploadButton setCenter:CGPointMake([self.view getWidth]/2, [self.view getHeight]/2)];
+    [self.uploadButton resetSize:CGSizeMake(self.faceUploadImageView.frame.size.width+50, self.uploadButton.frame.size.height)];
+    [self.uploadButton setCenter:CGPointMake([self.view getWidth]/2, [self.faceUploadImageView getOriginY]+[self.faceUploadImageView getHeight]+40)];
+    
     [self.uploadButton setBackgroundColor:[UIColor colorWithRed:48.0f / 255.0f
                                                                  green:188.0f / 255.0f
                                                                   blue:235.0f / 255.0f
@@ -132,6 +148,19 @@
 
     [self.uploadButton addTarget:self action:@selector(didClickUploadButton) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.uploadButton];
+    
+    
+    
+    self.logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
+    [self.logoutButton sizeToFit];
+    [self.logoutButton resetSize:CGSizeMake(self.faceUploadImageView.frame.size.width+50, self.uploadButton.frame.size.height)];
+    [self.logoutButton setCenter:CGPointMake([self.view getWidth]/2, [self.uploadButton getOriginY]+[self.uploadButton getHeight]+30)];
+    [self.logoutButton setBackgroundColor:[UIColor redColor]];
+    [self.view addSubview:self.logoutButton];
+    
+    
+    
 }
 
 
@@ -164,6 +193,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
     self.faceUploadImageView.image = chosenImage;
+    NSLog(@"%@",info);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -173,108 +203,38 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - NSData
-- (void)uploadImageRequest
-{
-    UIImage *image= self.faceUploadImageView.image;
-    NSData *imageData = UIImagePNGRepresentation(image);
+#pragma mark - Image upload
 
+-(void)uploadImageRequest{
+    UIImage *oldImage = self.faceUploadImageView.image;
+    CGSize newSize = CGSizeMake(80, 80);
+    UIGraphicsBeginImageContext(newSize);
+    [oldImage drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFHTTPRequestOperation *op = [manager POST:[NSString stringWithFormat:@"%@sid=%@",UPLOAD_FACE_URL,self.sid] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:UIImagePNGRepresentation(image) name:@"file" fileName:[NSString stringWithFormat:@"%d.png",self.userID] mimeType:@"image/png"];
 
-    NSURL *requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@sid=%@",UPLOAD_FACE_URL,self.sid]];
-    
-    // create request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
-    [request setHTTPShouldHandleCookies:NO];
-    [request setTimeoutInterval:30];
-    [request setHTTPMethod:@"POST"];
-    NSString *boundary = @"boundary";
-    // set Content-Type in HTTP header
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
-    
-    // post body
-    NSMutableData *body = [NSMutableData data];
-    
-    // add image data
-    if (imageData) {
-        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%d\"; filename=\"image.png\"\r\n", self.userID] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[@"Content-Type: image/png\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:imageData];
-        [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-    }
-    
-    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    // setting the body of the post to the reqeust
-    [request setHTTPBody:body];
-    
-    // set the content-length
-    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    
-    // set URL
-    [request setURL:requestURL];
-    
-    
-    
-    
-    
-    
-//    UIImage *image= self.faceUploadImageView.image;
-//    NSData *imageData = UIImagePNGRepresentation(image);
-//    NSString *postLength = [NSString stringWithFormat:@"%d", [imageData length]];
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-//    [request setHTTPMethod:@"POST"];
-//    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@sid=%@",UPLOAD_FACE_URL,self.sid]];
-//    [request setURL:url];
-//    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-//    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-//    [request setHTTPBody:imageData];
-//    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        
-        //connection successed
-        if([data length] > 0 && connectionError == nil)
-        {
-            NSError *e = nil;
-            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            
-            NSLog(@"%@",dataDict);
-            //register successed
-            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
-            {
-                self.postSuccessAlertView = [[UIAlertView alloc]  initWithTitle:@"success" message:@"upload Image ok" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [self.postSuccessAlertView show];
-            }
-            
-            //reigister failed
-            else if([[dataDict objectForKey:@"code"] isEqualToString:@"14009"])
-            {
-                self.postFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"failed" message:@"upload failed" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [self.postFailedAlertView show];
-            }
-        }
-        //connection failed
-        else if (connectionError != nil)
-        {
-            self.postFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.postFailedAlertView show];
-            
-        }
-        //unknow error
-        else
-        {
-            NSLog(@"%@",data);
-            self.postFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.postFailedAlertView show];
-        }
-        
-        
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
     }];
+    op.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [op start];
 
     
 }
+
+
+    
+
+
+
+
+
 
 @end

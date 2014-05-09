@@ -18,6 +18,7 @@
 // Data
 @property (strong, nonatomic) HPSeekout *seekoutData;
 @property (strong, nonatomic) NSString *sid;
+@property NSInteger userID;
 
 // UI
 @property (strong, nonatomic) UIView *customNavBarView;
@@ -194,6 +195,7 @@
     }
     self.seekoutCommentTableView.tableFooterView = [[UIView alloc]init];
     
+
     // Add to View
     [self.view addSubview:self.seekoutCommentTableView];
 }
@@ -239,8 +241,8 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.sid = [userDefaults objectForKey:@"sid"];
+    self.userID = [userDefaults integerForKey:@"id"];
     
-
 }
 
 - (void)initCommentData
@@ -256,7 +258,7 @@
 #pragma mark - network request
 - (void)requestForComment
 {
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@&&seekoutId=%d&pageId=%d",COMMENT_LIST_URL,self.sid,self.seekoutData.seekoutID,0]];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@&&seekoutId=%d&pageId=%d&giverid=%d&",COMMENT_LIST_URL,self.sid,self.seekoutData.seekoutID,0,self.userID]];
     NSLog(@"%d",self.seekoutData.seekoutID);
 
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
@@ -274,7 +276,6 @@
             //request success
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {
-                
                 NSDictionary *resultDict = [dataDict objectForKey:@"result"];
 
                 NSArray *seekoutList = [resultDict objectForKey:@"Comment.list"];
@@ -287,7 +288,7 @@
                     [comment setContent:[c objectForKey:@"content"]];
                     [comment setAuthor:[c objectForKey:@"author"]];
                     [comment setAuthorID:[[c objectForKey:@"authorid"] integerValue]];
-                    
+                    [comment setIfLike:[[c objectForKey:@"iflike"] boolValue]];
                     
                     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [c objectForKey:@"uptime"]] doubleValue]];
                     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -355,7 +356,6 @@
 
 
 
-// TODO - Add Data Source
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

@@ -13,26 +13,39 @@
 #import "UIView+Resize.h"
 #import "HPLoginType.h"
 #import "HPAppDelegate.h"
+#import "HPConfiguration.h"
 
 
 @interface HPLoginViewController ()
 
-@property (strong, nonatomic) UIImageView *logo;
+//UIView
 @property (strong, nonatomic) UIView *loginFrame;
+@property (strong, nonatomic) UIView *socialLoginButtonView;
+@property (strong, nonatomic) UIImageView *logo;
+@property (strong, nonatomic) UIAlertView *loginFailedAlertView;
+
+//UITextField
 @property (strong, nonatomic) UITextField *usernameTextField;
 @property (strong, nonatomic) UITextField *passwordTextField;
+
+//UIButon
 @property (strong, nonatomic) UIButton *loginButton;
 @property (strong, nonatomic) UIButton *registerButton;
 @property (strong, nonatomic) UIButton *qqLoginButton;
 @property (strong, nonatomic) UIButton *fbLoginButton;
+
+//UILabel
 @property (strong, nonatomic) UILabel *socialAccountLabel;
-@property (strong, nonatomic) UIAlertView *loginFailedAlertView;
-@property (strong, nonatomic) UIView *socialLoginButtonView;
+
+//QQ
 @property (strong, nonatomic) TencentOAuth *tencentOAuth;
 @property (strong, nonatomic) NSArray *qqPermission;
+
+//BOOL
 @property BOOL keyboardOnScreen;
 
 @end
+
 
 @implementation HPLoginViewController
 
@@ -40,10 +53,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //hide navigationBar
     [self initNaviBar];
     
     [self checkLogin];
     
+    //init UI
     [self initView];
     [self initLogo];
     [self initLabel];
@@ -52,6 +68,8 @@
     [self initLoginFrame];
     [self initTencent];
 }
+
+#pragma mark - check login
 - (void)checkLogin
 {
     
@@ -62,14 +80,7 @@
         HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
         [self.navigationController pushViewController:homeViewController animated:NO];
     }
-
     
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
 }
 
 #pragma mark - UI Method
@@ -79,8 +90,10 @@
     self.navigationController.navigationBarHidden = YES;
 }
 
+
 -(void)initView
 {
+    //Set background
     [self.view setBackgroundColor:[UIColor colorWithRed:49.0f / 255.0f
                                                   green:188.0f / 255.0f
                                                    blue:234.0f / 255.0f
@@ -131,6 +144,7 @@
 
 - (void)initSocialLoginButton
 {
+    //view containing social login buttons
     self.socialLoginButtonView = [[UIView alloc] init];
     [self.socialLoginButtonView resetSize:CGSizeMake(65 * 2 + 25, 66)];
     [self.socialLoginButtonView resetCenter:CGPointMake([self.socialAccountLabel getCenterX], [self.socialAccountLabel getCenterY] + 66 / 2 + 15)];
@@ -296,6 +310,8 @@
     [self.tencentOAuth authorize:self.qqPermission inSafari:NO];
 }
 
+
+//TODO
 - (void)didClickFBLoginButton
 {
     // If the session state is any of the two "open" states when the button is clicked
@@ -330,7 +346,7 @@
 // init Tencent OAuth
 - (void)initTencent
 {
-    NSString *appid = @"100529471";
+    NSString *appid = QQAPPID;
     self.tencentOAuth = [[TencentOAuth alloc]initWithAppId:appid andDelegate:self];
 }
 
@@ -428,8 +444,6 @@
                                                          @"username":[userDict objectForKey:@"name"],
                                                          };
                     [self saveLoginState:hiAccount userData:hiAccountLoginData OAuth:nil];
-                    //dismiss login view
-//                    [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
                     HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
                     [self.navigationController pushViewController:homeViewController animated:YES];
                 }

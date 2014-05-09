@@ -17,5 +17,6 @@
 @property (strong, nonatomic) NSString *time;
 @property NSInteger likeNumber;
 @property BOOL hasMedia;
-@property  (strong, nonatomic) NSURL *mediaURL;
+@property (strong, nonatomic) NSURL *mediaURL;
+@property BOOL ifLike;
 @end

@@ -180,8 +180,7 @@
     [self.CategoriesView addSubview:lifeTipsSeekoutButton];
     [self.CategoriesView addSubview:eventsSeekoutButton];
     
-    // Add to View?
-//    [self.view addSubview:self.CategoriesView];
+    
 }
 
 
@@ -193,14 +192,6 @@
                                                                           [self.view getHeight] - 168,
                                                                           [self.view getWidth])
                                                          style:UITableViewStylePlain];
-    
-//    UITableViewController *tableViewController = [[UITableViewController alloc] init];
-//    tableViewController.tableView = self.seekoutTableView;
-//    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-//    [refreshControl addTarget:self action:@selector(requestForNewSeekout) forControlEvents:UIControlEventValueChanged];
-////    [self.seekoutTableView addSubview:refreshControl];
-//    tableViewController.refreshControl = refreshControl;
-    
     
     // Set Style
     self.seekoutTableView.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
@@ -236,6 +227,7 @@
 - (void)didClickProfileButton:(UIButton *)sender
 {
     self.profileViewController = [[HPProfileViewController alloc] init];
+    [self.profileViewController setIsSelfUser:YES];
 
     [self.navigationController pushViewController:self.profileViewController animated:YES];
 }
@@ -246,7 +238,6 @@
     [self.navigationController pushViewController:self.seekoutCreationViewController animated:YES];
 }
 
-// TODO - Animation, Show Categories View
 - (void)didClickCategoryButton:(UIButton *)sender
 {
 
@@ -480,16 +471,27 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    HPSeekoutTableViewCell *cell;
     
-    HPSeekoutTableViewCell *cell = [[HPSeekoutTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+    if(indexPath.row <= self.seekoutArray.count)
+    {
+        HPSeekout *seekoutData = [self.seekoutArray objectAtIndex:indexPath.row];
+    
+    
+    
+        cell = [[HPSeekoutTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                                  reuseIdentifier:@"seekout"
                                                                            frame:CGRectMake(0,
                                                                                             0,
                                                                                             512 / 2,
                                                                                             [tableView getHeight])
-                                                                            data:[self.seekoutArray objectAtIndex:indexPath.row]];
+                                                                            data:seekoutData];
     
+    }
+    else
+    {
+        cell = [[HPSeekoutTableViewCell alloc] init];
+    }
     return cell;
 }
 

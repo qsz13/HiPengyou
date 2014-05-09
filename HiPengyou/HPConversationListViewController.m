@@ -58,7 +58,6 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.sid = [userDefaults objectForKey:@"sid"];
     self.userID = [userDefaults integerForKey:@"id"];
-    NSLog(@"%d",self.userID);
     self.pageID = 0;
     self.upTime = 0;
     self.conversationThreadArray = [[NSMutableArray alloc]init];
@@ -211,7 +210,7 @@
         {
             NSError *e = nil;
             NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            NSLog(@"%@", dataDict);
+
             //request success
             if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
             {
