@@ -16,7 +16,7 @@
 #import "HPAPIURL.h"
 #import "UIView+Resize.h"
 #import "UIView+Animation.h"
-#import "HPSeekoutTableViewCell.h"
+#import "HPHomeSeekoutTableViewCell.h"
 #import "HPSeekoutTableView.h"
 #import "HPSeekoutDetailViewController.h"
 
@@ -89,29 +89,31 @@
     // Set Bg Color
     customNavbarView.backgroundColor = [UIColor clearColor];
     
-    // init Add Seekout Button
-    self.addSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.addSeekoutButton setImage:[UIImage imageNamed:@"HPAddSeekoutButton"] forState:UIControlStateNormal];
-    [self.addSeekoutButton setFrame: CGRectMake(553 / 2, 8, 28, 28)];
-    [self.addSeekoutButton addTarget:self
-                              action:@selector(didClickAddSeekoutButton:)
-                    forControlEvents:UIControlEventTouchUpInside];
+    // init Profile Button
+    self.profileButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.profileButton setImage:[UIImage imageNamed:@"HPProfileButton"] forState:UIControlStateNormal];
+    [self.profileButton setFrame:CGRectMake(553 / 2, 8, 28, 28)];
+    [self.profileButton addTarget:self
+                           action:@selector(didClickProfileButton:)
+                 forControlEvents:UIControlEventTouchUpInside];
+    
+    
     
     // init MessageButton
     self.messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.messageButton setImage:[UIImage imageNamed:@"HPChatButton"] forState:UIControlStateNormal];
-    [self.messageButton setFrame: CGRectMake([self.addSeekoutButton getOriginX] - 41.5, 8, 31, 31)];
+    [self.messageButton setFrame: CGRectMake([self.profileButton getOriginX] - 41.5, 8, 31, 31)];
     [self.messageButton addTarget:self
                            action:@selector(didClickMessageButton:)
                  forControlEvents:UIControlEventTouchUpInside];
 
-    // init Profile Button
-    self.profileButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.profileButton setImage:[UIImage imageNamed:@"HPProfileButton"] forState:UIControlStateNormal];
-    [self.profileButton setFrame: CGRectMake([self.messageButton getOriginX] - 41.5, 8, 31, 31)];
-    [self.profileButton addTarget:self
-                           action:@selector(didClickProfileButton:)
-                 forControlEvents:UIControlEventTouchUpInside];
+    // init Add Seekout Button
+    self.addSeekoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.addSeekoutButton setImage:[UIImage imageNamed:@"HPAddSeekoutButton"] forState:UIControlStateNormal];
+    [self.addSeekoutButton setFrame:  CGRectMake([self.messageButton getOriginX] - 41.5, 8, 31, 31)];
+    [self.addSeekoutButton addTarget:self
+                              action:@selector(didClickAddSeekoutButton:)
+                    forControlEvents:UIControlEventTouchUpInside];
     
     // Add to Custome Nav Bar View
     [customNavbarView addSubview:self.profileButton];
@@ -332,7 +334,14 @@
                     HPSeekout *seekout = [[HPSeekout alloc]init];
                     [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
                     [seekout setContent:[s objectForKey:@"content"]];
-                    [seekout setAuthor:[s objectForKey:@"author"]];
+                    
+                    HPUser *user = [[HPUser alloc]init];
+                    [user setUserID:[[s objectForKey:@"authorfaceid"]integerValue ]];
+                    [user setUsername:[s objectForKey:@"author"]];
+                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
+                    [user setUserFaceURL:faceURL];
+                    [seekout setAuthor:user];
+                    
                     [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
                     [seekout setState:[s objectForKey:@"seekoutstatu"]];
                     [seekout setType:[[s objectForKey:@"type"] integerValue]];
@@ -343,8 +352,6 @@
                     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
                     [seekout setTime:[dateFormatter stringFromDate:date]];
                     
-                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
-                    [seekout setFaceImageURL:faceURL];
                     [self.seekoutArray insertObject:seekout atIndex:0];
                     [self.seekoutTableView reloadData];
                 }
@@ -407,13 +414,25 @@
                     HPSeekout *seekout = [[HPSeekout alloc]init];
                     [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
                     [seekout setContent:[s objectForKey:@"content"]];
-                    [seekout setAuthor:[s objectForKey:@"author"]];
+                    
+                    HPUser *user = [[HPUser alloc]init];
+                    [user setUserID:[[s objectForKey:@"authorfaceid"]integerValue ]];
+                    [user setUsername:[s objectForKey:@"author"]];
+                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
+                    [user setUserFaceURL:faceURL];
+                    [seekout setAuthor:user];
+                    
                     [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
                     [seekout setState:[s objectForKey:@"seekoutstatu"]];
                     [seekout setType:[[s objectForKey:@"type"] integerValue]];
-                    [seekout setTime:[s objectForKey:@"uptime"]];
-                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
-                    [seekout setFaceImageURL:faceURL];
+                    
+                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [s objectForKey:@"uptime"]] doubleValue]];
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+                    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+                    [seekout setTime:[dateFormatter stringFromDate:date]];
+                    
+
 
                     [self.seekoutArray addObject: seekout];
 
@@ -471,7 +490,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HPSeekoutTableViewCell *cell;
+    HPHomeSeekoutTableViewCell *cell;
     
     if(indexPath.row <= self.seekoutArray.count)
     {
@@ -479,7 +498,7 @@
     
     
     
-        cell = [[HPSeekoutTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+        cell = [[HPHomeSeekoutTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                                  reuseIdentifier:@"seekout"
                                                                            frame:CGRectMake(0,
                                                                                             0,
@@ -490,7 +509,7 @@
     }
     else
     {
-        cell = [[HPSeekoutTableViewCell alloc] init];
+        cell = [[HPHomeSeekoutTableViewCell alloc] init];
     }
     return cell;
 }

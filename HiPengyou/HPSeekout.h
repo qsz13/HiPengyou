@@ -8,16 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "HPSeekoutType.h"
-
+#import "HPUser.h"
 @interface HPSeekout : NSObject
 
 @property NSInteger seekoutID;
 @property (strong, nonatomic) NSString *content;
-@property (strong, nonatomic) NSString *author;
+@property (strong, nonatomic) HPUser *author;
 @property NSInteger commentNumber;
 @property (strong, nonatomic) NSString *state;
 @property HPSeekoutType type;
 @property (strong, nonatomic) NSString *time;
-@property (strong, nonatomic) NSURL *faceImageURL;
+//@property (strong, nonatomic) NSURL *faceImageURL;
 
 @end

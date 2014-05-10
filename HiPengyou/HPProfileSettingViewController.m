@@ -157,6 +157,7 @@
     [self.logoutButton resetSize:CGSizeMake(self.faceUploadImageView.frame.size.width+50, self.uploadButton.frame.size.height)];
     [self.logoutButton setCenter:CGPointMake([self.view getWidth]/2, [self.uploadButton getOriginY]+[self.uploadButton getHeight]+30)];
     [self.logoutButton setBackgroundColor:[UIColor redColor]];
+    [self.logoutButton addTarget:self action:@selector(didClickLogout) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.logoutButton];
     
     
@@ -185,6 +186,13 @@
 {
 
     [self presentViewController:self.imagePickerController animated:YES completion:nil];
+}
+
+- (void)didClickLogout
+{
+    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(void)imagePickerController:

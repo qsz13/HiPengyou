@@ -30,5 +30,6 @@
 #define MESSAGE_LIST_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/message/allmessageList?"]
 #define SEND_MESSAGE_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/message/messagewithvoiceCreate?"]
 #define LIKE_CREATE_URL [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/like/likeCreate?"]
+#define USER_INFO [NSString stringWithFormat:@"%@%@%@",BASE_URL,PORT,@"/user/userView?"]
 
 

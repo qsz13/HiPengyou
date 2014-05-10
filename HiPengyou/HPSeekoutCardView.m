@@ -10,6 +10,7 @@
 #import "UIView+Resize.h"
 #import "HPSeekoutDetailViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import "HPProfileViewController.h"
 
 @interface HPSeekoutCardView ()
 
@@ -19,8 +20,11 @@
 @property (strong, nonatomic) UILabel *seekoutTimeLabel;
 @property (strong, nonatomic) UILabel *seekoutContentLabel;
 @property (strong, nonatomic) UIImageView *seekoutAuthorFaceImageView;
+@property (strong, nonatomic) UIButton *seekoutAuthorFaceButton;
 @property (strong, nonatomic) UIImageView *seekoutTypeImageView;
 @property (strong, nonatomic) UIButton *bgButton;
+@property NSInteger userID;
+
 
 @end
 
@@ -38,6 +42,9 @@
     return self;
 }
 
+
+
+
 #pragma mark - UI init
 - (void)initBackground
 {
@@ -52,7 +59,7 @@
 {
     self.seekoutAuthorNameLabel = [[UILabel alloc] init];
     [self.seekoutAuthorNameLabel resetSize:CGSizeMake(500, 30)];
-    [self.seekoutAuthorNameLabel setText:self.seekoutData.author];
+    [self.seekoutAuthorNameLabel setText:self.seekoutData.author.username];
     self.seekoutAuthorNameLabel.numberOfLines = 0;
     [self.seekoutAuthorNameLabel setTextColor:[UIColor colorWithRed:171.0f/255.0f green:104.0f/255.0f blue:102.0f/255.0f alpha:1]];
     [self.seekoutAuthorNameLabel setBackgroundColor:[UIColor clearColor]];
@@ -60,9 +67,11 @@
     [self.seekoutAuthorNameLabel sizeToFit];
     [self.seekoutAuthorNameLabel setCenter:CGPointMake([self getWidth]/2, [self getHeight]*0.1)];
     [self addSubview:self.seekoutAuthorNameLabel];
-    
+
     self.seekoutTimeLabel = [[UILabel alloc] init];
+    NSLog(@"%@",self.seekoutData.time);
     [self.seekoutTimeLabel setText:self.seekoutData.time];
+    
     [self.seekoutTimeLabel resetSize:CGSizeMake(200, 30)];
     self.seekoutTimeLabel.numberOfLines = 1;
     
@@ -93,8 +102,7 @@
     [self addSubview:self.seekoutTypeImageView];
     
     self.seekoutAuthorFaceImageView = [[UIImageView alloc] init];
-    [self.seekoutAuthorFaceImageView setImageWithURL:self.seekoutData.faceImageURL];
-    NSLog(@"%@",self.seekoutData.faceImageURL);
+    [self.seekoutAuthorFaceImageView setImageWithURL:self.seekoutData.author.userFaceURL];
     [self.seekoutAuthorFaceImageView resetSize:CGSizeMake(78,78)];
     
     //make the face image to be circle
@@ -137,6 +145,15 @@
 
 - (void)initButton
 {
+    //face button
+    self.seekoutAuthorFaceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.seekoutAuthorFaceButton setFrame:self.seekoutAuthorFaceImageView.frame];
+    [self.seekoutAuthorFaceButton.layer setMasksToBounds:YES];
+    [self.seekoutAuthorFaceButton.layer setCornerRadius:self.seekoutAuthorFaceImageView.frame.size.width / 2];
+    [self.seekoutAuthorFaceButton addTarget:self action:@selector(didClickAuthorFaceButton) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.seekoutAuthorFaceButton];
+    
+    //view more button
     self.viewMoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.viewMoreButton setBackgroundImage:[UIImage imageNamed:@"HPReplyButton"] forState:UIControlStateNormal];
     [self.viewMoreButton setTitle:@"View More" forState:UIControlStateNormal];
@@ -153,7 +170,9 @@
     [self.viewMoreButton addTarget:self
                             action:@selector(didClickViewMoreButton:)
                   forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:self.viewMoreButton];
+    [self addSubview:self.viewMoreButton];
+    
+    
 }
 
 #pragma mark - Load Seekout Data
@@ -161,10 +180,18 @@
 {
     self.seekoutData = seekout;
     
+    [self initData];
     [self initLabel];
     [self initImageView];
     [self initContentView];
     [self initButton];
+}
+
+- (void)initData
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.userID = [userDefaults integerForKey:@"id"];
+
 }
 
 #pragma mark - Add Button Event
@@ -180,6 +207,28 @@
     HPSeekoutDetailViewController *vc = [[HPSeekoutDetailViewController alloc] initWithSeekoutData:self.seekoutData];
     UINavigationController *nc = (UINavigationController *)[[UIApplication sharedApplication] delegate].window.rootViewController;
     [nc pushViewController:vc animated:YES];
+    
+}
+
+- (void)didClickAuthorFaceButton
+{
+    HPProfileViewController *profileViewController = [[HPProfileViewController alloc]init];
+    if(self.userID == self.seekoutData.author.userID)
+    {
+        [profileViewController setIsSelfUser:YES];
+    }
+    else
+    {
+        [profileViewController setIsSelfUser:NO];
+        [profileViewController setProfileUserID:self.seekoutData.author.userID];
+
+    }
+//    HPUser *user = [[HPUser alloc]init];
+//    [user setUsername:self.seekoutData.author];
+//    [user setUserFaceURL:self.seekoutData.faceImageURL];
+//    [profileViewController setProfileUserID:self.seekoutData.authorID];
+    UINavigationController *navigationController = (UINavigationController *)[[UIApplication sharedApplication] delegate].window.rootViewController;
+    [navigationController pushViewController:profileViewController animated:YES];
     
 }
 

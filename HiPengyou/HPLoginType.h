@@ -10,8 +10,8 @@
 
 
 typedef enum LoginType : NSInteger {
-    qq,
-    facebook,
-    hiAccount
+    NormalLogin,
+    QQLogin,
+    FacebookLogin,
 } LoginType;
 

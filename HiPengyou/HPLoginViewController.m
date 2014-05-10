@@ -14,6 +14,8 @@
 #import "HPLoginType.h"
 #import "HPAppDelegate.h"
 #import "HPConfiguration.h"
+#import "AFHTTPRequestOperationManager.h"
+
 
 
 @interface HPLoginViewController ()
@@ -38,8 +40,9 @@
 @property (strong, nonatomic) UILabel *socialAccountLabel;
 
 //QQ
-@property (strong, nonatomic) TencentOAuth *tencentOAuth;
+@property (strong, nonatomic) TencentOAuth *qqOAuth;
 @property (strong, nonatomic) NSArray *qqPermission;
+
 
 //BOOL
 @property BOOL keyboardOnScreen;
@@ -158,7 +161,7 @@
     [self.fbLoginButton setBackgroundImage:[UIImage imageNamed:@"HPLoginFacebookButton"] forState:UIControlStateNormal];
     
     // Set social button frame
-    [self.qqLoginButton setFrame:CGRectMake(0, 0, 65, 66)];
+    [self.qqLoginButton setFrame:CGRectMake([self.socialLoginButtonView getWidth]/2 - 33,[self.socialLoginButtonView getHeight]/2 -33 , 65, 66)];
     [self.fbLoginButton setFrame:CGRectMake([self.qqLoginButton getOriginX] + [self.qqLoginButton getWidth] + 25, 0, 65, 66)];
     
     // Add target to button
@@ -167,7 +170,7 @@
     
     // Add to social login button view
     [self.socialLoginButtonView addSubview:self.qqLoginButton];
-    [self.socialLoginButtonView addSubview:self.fbLoginButton];
+//    [self.socialLoginButtonView addSubview:self.fbLoginButton];
     
     // Add to subview
     [self.view addSubview:self.socialLoginButtonView];
@@ -307,7 +310,7 @@
 - (void)didClickQQLoginButton
 {
     self.qqPermission = @[kOPEN_PERMISSION_GET_SIMPLE_USER_INFO];
-    [self.tencentOAuth authorize:self.qqPermission inSafari:NO];
+    [self.qqOAuth authorize:self.qqPermission inSafari:NO];
 }
 
 
@@ -347,48 +350,43 @@
 - (void)initTencent
 {
     NSString *appid = QQAPPID;
-    self.tencentOAuth = [[TencentOAuth alloc]initWithAppId:appid andDelegate:self];
+    self.qqOAuth = [[TencentOAuth alloc]initWithAppId:appid andDelegate:self];
 }
 
-//save login infomation to user default
-- (void)saveLoginState:(LoginType)loginType userData:(id)userData OAuth:(id)OAuth
+- (void)saveNormalLoginState:(NSDictionary *)userData
 {
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:YES forKey:@"isLoggedIn"];
-    NSString *username;
-    if(loginType == hiAccount)
-    {
-        NSDictionary *hiAccountUserData = (NSDictionary *)userData;
-        [userDefaults setObject:hiAccountUserData[@"id"] forKey:@"id"];
-        [userDefaults setObject:hiAccountUserData[@"sid"] forKey:@"sid"];
-        [userDefaults setObject:@"hiAccount" forKey:@"connectType"];
-        username = hiAccountUserData[@"username"];
-    }
-    else if(loginType == qq)
-    {
-        TencentOAuth *qqOAuth = (TencentOAuth*)OAuth;
-
-        [userDefaults setObject:[qqOAuth accessToken] forKey:@"qqAccessToken"];
-        [userDefaults setObject:[qqOAuth openId] forKey:@"qqOpenId"];
-        [userDefaults setObject:[qqOAuth expirationDate] forKey:@"qqExpirationDate"];
-        [userDefaults setObject:@"qq" forKey:@"connectType"];
-        NSError *e = nil;
-        NSData *qqUserData = [(NSString*)userData dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:qqUserData options:NSJSONReadingMutableContainers error:&e];
-        username = [dataDict objectForKey:@"nickname"];
-
-    }
-    else if(loginType == facebook)
-    {
-        
-    }
-    
+    [userDefaults setObject:userData[@"id"] forKey:@"id"];
+    [userDefaults setObject:userData[@"sid"] forKey:@"sid"];
+    [userDefaults setInteger:NormalLogin  forKey:@"connectType"];
+    NSString *username = userData[@"username"];
     [userDefaults setObject:username forKey:@"username"];
-    
     [userDefaults synchronize];
     
 }
+
+- (void)saveQQLoginState:(NSMutableDictionary *)userData OAuth:(TencentOAuth*)qqOAuth
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:YES forKey:@"isLoggedIn"];
+    
+    
+    [userDefaults setObject:[qqOAuth accessToken] forKey:@"qqAccessToken"];
+    [userDefaults setObject:[qqOAuth openId] forKey:@"qqOpenId"];
+    [userDefaults setObject:[qqOAuth expirationDate] forKey:@"qqExpirationDate"];
+    [userDefaults setObject:userData[@"figureurl_qq_2"] forKey:@"qqFace"];
+    [userDefaults setInteger:QQLogin forKey:@"connectType"];
+
+    
+    
+    [userDefaults setObject:userData[@"id"] forKey:@"id"];
+    [userDefaults setObject:userData[@"sid"] forKey:@"sid"];
+    [userDefaults setObject:userData[@"username"] forKey:@"username"];
+    [userDefaults synchronize];
+    
+}
+
 
 //hi account login request
 - (void)loginRequest
@@ -443,7 +441,8 @@
                                                          @"sid":[userDict objectForKey:@"sid"],
                                                          @"username":[userDict objectForKey:@"name"],
                                                          };
-                    [self saveLoginState:hiAccount userData:hiAccountLoginData OAuth:nil];
+                    NSLog(@"%@",[userDict objectForKey:@"sid"]);
+                    [self saveNormalLoginState: hiAccountLoginData];
                     HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
                     [self.navigationController pushViewController:homeViewController animated:YES];
                 }
@@ -477,11 +476,113 @@
     
 }
 
+//qq login request
+- (void)qqLoginRequest:(NSMutableDictionary *)userData OAuth:(TencentOAuth*)qqOAuth
+{
+    NSString *username = [userData objectForKey:@"nickname"];
+    NSString *password = [qqOAuth openId];
+    
+    
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    NSDictionary *params = @{@"name": username,
+                             @"pass": password,
+                             @"connecttype": @1};
+    [manager POST:LOGIN_URL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        if([responseObject[@"code"]  isEqual: @"14011"])
+        {
+            // login failed will register automatically
+            [self qqRegisterRequest:userData OAuth:qqOAuth];
+            
+        }
+        else if([responseObject[@"code"] isEqual:@"10000"])
+        {
+            NSDictionary *responseDict = responseObject[@"result"][@"user"];
+            NSLog(@"%@",responseDict[@"id"]);
+            
+            
+            
+            userData[@"id"] = responseDict[@"id"];
+            userData[@"sid"] = responseDict[@"sid"];
+
+            NSURL *faceURL = [NSURL URLWithString:userData[@"figureurl_qq_2"]];
+            [self uploadQQFace:faceURL withUserData:userData];
+            
+            [self saveQQLoginState:(NSMutableDictionary *)userData OAuth:(TencentOAuth*)qqOAuth];
+            HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
+            [self.navigationController pushViewController:homeViewController animated:NO];
+        }
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+}
+
+//qq register request
+- (void)qqRegisterRequest:(NSMutableDictionary *)userData OAuth:(TencentOAuth*)qqOAuth
+{
+    NSString *username = [userData objectForKey:@"nickname"];
+    NSString *password = [qqOAuth openId];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    
+    NSDictionary *params = @{@"name": username,
+                             @"pass": password,
+                             @"email": @"",
+                             @"connecttype": @1};
+    [manager POST:REGISTER_URL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         NSLog(@"json: %@", responseObject);
+        if ([responseObject[@"code"] isEqual:@"10000"])
+        {
+            [self qqLoginRequest:userData OAuth:qqOAuth];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        NSLog(@"%@",operation.responseString);
+    }];
+
+}
+
+- (void)uploadQQFace:(NSURL*)url withUserData:(NSMutableDictionary *)userData
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    __block UIImage *faceImage = [[UIImage alloc]init];
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    requestOperation.responseSerializer = [AFImageResponseSerializer serializer];
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Response: %@", responseObject);
+        faceImage = responseObject;
+        
+        
+        
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        AFHTTPRequestOperation *op = [manager POST:[NSString stringWithFormat:@"%@sid=%@",UPLOAD_FACE_URL,userData[@"sid"]] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+            [formData appendPartWithFileData:UIImagePNGRepresentation(faceImage) name:@"file" fileName:[NSString stringWithFormat:@"%@.png",userData[@"id"]] mimeType:@"image/png"];
+            
+        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSLog(@"Success: %@", responseObject);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+        }];
+        op.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+        [op start];
+
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Image error: %@", error);
+    }];
+    [requestOperation start];
+    
+}
 
 //qq did login
 - (void)tencentDidLogin
 {
-    BOOL isOAuthOK = [self.tencentOAuth getUserInfo];
+    BOOL isOAuthOK = [self.qqOAuth getUserInfo];
     if(isOAuthOK)
     {
         //waiting view
@@ -497,11 +598,14 @@
 - (void) getUserInfoResponse:(APIResponse *)response
 {
     NSLog(@"%@",response.message);
-    NSString *userData = response.message;
+    NSData *data = [response.message dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *userDataDictTemp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    NSMutableDictionary *userDataDict = [NSMutableDictionary dictionaryWithDictionary:userDataDictTemp];
+    
     if(response.retCode == 0)
     {
-        [self saveLoginState:qq userData:userData OAuth:nil];
-        [[[UIApplication sharedApplication] delegate].window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+
+        [self qqLoginRequest:userDataDict OAuth:self.qqOAuth];
     }
     else
     {

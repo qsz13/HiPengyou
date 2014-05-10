@@ -31,7 +31,7 @@
 
 
 #import "HPSeekoutTableViewController.h"
-#import "HPSeekoutTableViewCell.h"
+#import "HPHomeSeekoutTableViewCell.h"
 #import "UIView+Resize.h"
 
 @interface HPSeekoutTableViewController ()
@@ -110,7 +110,7 @@
 //    
 //    return cell;
     
-    HPSeekoutTableViewCell *cell = [[HPSeekoutTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+    HPHomeSeekoutTableViewCell *cell = [[HPHomeSeekoutTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                                  reuseIdentifier:@"seekout"
                                                                            frame:CGRectMake(0,
                                                                                             0,

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HPSeekout.h"
-@interface HPSeekoutTableViewCell : UITableViewCell
+@interface HPHomeSeekoutTableViewCell : UITableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier

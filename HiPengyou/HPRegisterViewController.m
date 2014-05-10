@@ -21,6 +21,7 @@
 
 //UIbutton
 @property (strong, nonatomic) UIButton *registerButton;
+@property (strong, nonatomic) UIButton *backButton;
 
 //UIAlertView
 @property (strong, nonatomic) UIAlertView *registerAlertView;
@@ -50,6 +51,11 @@
 
 - (void)initTextField
 {
+    UIView *usernameSpacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    UIView *passwordSpacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    UIView *emailSpacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+
+    
     //Username Text Field
     self.usernameTextField = [[UITextField alloc]init];
     [self.usernameTextField setDelegate:self];
@@ -62,8 +68,10 @@
     [self.usernameTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
     self.usernameTextField.tag = 1;
     [self.usernameTextField setBackgroundColor:[UIColor whiteColor]];
-    [self.usernameTextField setPlaceholder:@"My username"];
+    [self.usernameTextField setPlaceholder:@"  My username"];
     [self.usernameTextField setFont:[UIFont fontWithName:@"HelveticaNeue" size:13]];
+    [self.usernameTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [self.usernameTextField setLeftView:usernameSpacerView];
     [self.view addSubview: self.usernameTextField];
     
     //Password Text Field
@@ -79,8 +87,10 @@
     [self.passwordTextField setSecureTextEntry:YES];
     self.passwordTextField.tag = 1;
     [self.passwordTextField setBackgroundColor:[UIColor whiteColor]];
-    [self.passwordTextField setPlaceholder:@"password"];
+    [self.passwordTextField setPlaceholder:@"  Password"];
     [self.passwordTextField setFont:[UIFont fontWithName:@"HelveticaNeue" size:13]];
+    [self.passwordTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [self.passwordTextField setLeftView:passwordSpacerView];
     [self.view addSubview: self.passwordTextField];
     
     //Email Text Field
@@ -95,9 +105,13 @@
     [self.emailTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
     self.emailTextField.tag = 1;
     [self.emailTextField setBackgroundColor:[UIColor whiteColor]];
-    [self.emailTextField setPlaceholder:@"email (optional)"];
+    [self.emailTextField setPlaceholder:@"  Email (optional)"];
     [self.emailTextField setFont:[UIFont fontWithName:@"HelveticaNeue" size:13]];
+    [self.emailTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [self.emailTextField setLeftView:emailSpacerView];
     [self.view addSubview: self.emailTextField];
+    
+    
 }
 
 
@@ -105,8 +119,7 @@
 {
     // Init register button
     self.registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.registerButton setTitle:@"register" forState:UIControlStateNormal];
+    [self.registerButton setTitle:@"Register" forState:UIControlStateNormal];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"HPLoginButton"] forState:(UIControlStateNormal)];
     
@@ -116,6 +129,15 @@
                             action:@selector(didClickRegisterButton)
                   forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.registerButton];
+
+    //init back button
+    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.backButton setTitle:@"back" forState:UIControlStateNormal];
+    [self.backButton sizeToFit];
+    [self.backButton setCenter:CGPointMake([self.view getWidth]/2, [self.view getHeight]/2)];
+    [self.backButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backButton];
+    
 
   
 }
@@ -148,6 +170,11 @@
         [self registerRequest];
     }
     
+}
+
+- (void)didClickBackButton
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Network Request

@@ -10,8 +10,10 @@
 #import "UIView+Resize.h"
 #import "HPSeekoutCommentTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
+#import "HPProfileViewController.h"
 #import "HPSeekoutComment.h"
 #import "HPAPIURL.h"
+#import "HPUser.h"
 
 @interface HPSeekoutDetailViewController ()
 
@@ -26,6 +28,7 @@
 @property (strong, nonatomic) UIView *seekoutDetailView;
 @property (strong, nonatomic) UILabel *seekoutContentLabel;
 @property (strong, nonatomic) UIImageView *faceImageView;
+@property (strong, nonatomic) UIButton *faceImageButton;
 @property (strong, nonatomic) UILabel *seekoutAuthorNameLabel;
 
 @property (strong, nonatomic) UITableView *seekoutCommentTableView;
@@ -123,14 +126,21 @@
     
     // Author face
     self.faceImageView = [[UIImageView alloc] init];
-    [self.faceImageView setImageWithURL:self.seekoutData.faceImageURL];
+    [self.faceImageView setImageWithURL:self.seekoutData.author.userFaceURL];
     [self.faceImageView resetSize:CGSizeMake(100 / 2, 100 / 2)];
     [self.faceImageView resetOrigin:CGPointMake(10, [self.seekoutDetailView getHeight] - [self.faceImageView getHeight] - 10)];
     
     //make the face image to be circle
     [self.faceImageView.layer setMasksToBounds:YES];
     [self.faceImageView.layer setCornerRadius:self.faceImageView.frame.size.width / 2];
-    
+    [self.seekoutDetailView addSubview:self.faceImageView];
+
+    //face Button
+    self.faceImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.faceImageButton resetSize:CGSizeMake(100 / 2, 100 / 2)];
+    [self.faceImageButton resetOrigin:CGPointMake(10, [self.seekoutDetailView getHeight] - [self.faceImageView getHeight] - 10)];
+    [self.faceImageButton addTarget:self action:@selector(didClickFaceButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.seekoutDetailView addSubview:self.faceImageButton];
     
     // Author Name
     self.seekoutAuthorNameLabel = [[UILabel alloc] init];
@@ -144,7 +154,7 @@
     
 
     [self.seekoutAuthorNameLabel resetSize:CGSizeMake(500, 30)];
-    [self.seekoutAuthorNameLabel setText:self.seekoutData.author];
+    [self.seekoutAuthorNameLabel setText:self.seekoutData.author.username];
     self.seekoutAuthorNameLabel.numberOfLines = 0;
 
     [self.seekoutAuthorNameLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
@@ -170,7 +180,6 @@
     
     
     // Add to Seekout Detail View
-    [self.seekoutDetailView addSubview:self.faceImageView];
     [self.seekoutDetailView addSubview:self.seekoutAuthorNameLabel];
     
     // Add to View
@@ -258,6 +267,18 @@
 #pragma mark - network request
 - (void)requestForComment
 {
+    
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    NSDictionary *params = @{@"user[height]": height,
+//                             @"user[weight]": weight};
+//    [manager POST:@"https://mysite.com/myobject" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"JSON: %@", responseObject);
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"Error: %@", error);
+//    }];
+    
+    
+    
     NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@&&seekoutId=%d&pageId=%d&giverid=%d&",COMMENT_LIST_URL,self.sid,self.seekoutData.seekoutID,0,self.userID]];
     NSLog(@"%d",self.seekoutData.seekoutID);
 
@@ -282,12 +303,15 @@
                 for (NSDictionary *c in seekoutList)
                 {
                     HPSeekoutComment *comment = [[HPSeekoutComment alloc]init];
+                    HPUser *user = [[HPUser alloc]init];
                     [comment setCommentID:[[c objectForKey:@"id"] integerValue]];
                     NSURL* faceURL = [[NSURL alloc] initWithString:[c objectForKey:@"face"]];
-                    [comment setFaceImageURL:faceURL];
+                    
+                    [user setUserFaceURL:faceURL];
+                    [user setUserID:[[c objectForKey:@"authorid"] integerValue]];
+                    [user setUsername:[c objectForKey:@"author"]];
+                    [comment setAuthor:user];
                     [comment setContent:[c objectForKey:@"content"]];
-                    [comment setAuthor:[c objectForKey:@"author"]];
-                    [comment setAuthorID:[[c objectForKey:@"authorid"] integerValue]];
                     [comment setIfLike:[[c objectForKey:@"iflike"] boolValue]];
                     
                     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [c objectForKey:@"uptime"]] doubleValue]];
@@ -411,6 +435,26 @@
 - (void)didClickReplyButton
 {
     [self createComment];
+}
+
+- (void)didClickFaceButton
+{
+    HPProfileViewController *profileViewController = [[HPProfileViewController alloc]init];
+    
+    if(self.userID == self.seekoutData.author.userID)
+    {
+        [profileViewController setIsSelfUser:YES];
+    }
+    else
+    {
+        [profileViewController setIsSelfUser:NO];
+        [profileViewController setProfileUserID:self.seekoutData.author.userID];
+        
+    }
+    
+    UINavigationController *navigationController = (UINavigationController *)[[UIApplication sharedApplication] delegate].window.rootViewController;
+    [navigationController pushViewController:profileViewController animated:YES];
+
 }
 
 #pragma mark - network request

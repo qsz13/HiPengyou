@@ -10,6 +10,7 @@
 #import "UIView+Resize.h"
 #import "HPAPIURL.h"
 #import "UIImageView+AFNetworking.h"
+#import "HPProfileViewController.h"
 
 
 @interface HPSeekoutCommentTableViewCell ()
@@ -20,6 +21,7 @@
 @property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UILabel *contentLabel;
 @property (strong, nonatomic) UIButton *likeButton;
+@property (strong, nonatomic) UIButton *faceButton;
 @property (strong, nonatomic) UILabel *likeNumberLabel;
 @property (strong, nonatomic) NSString *sid;
 @property NSInteger userID;
@@ -90,7 +92,7 @@
 {
     self.faceImageView = [[UIImageView alloc]init];
    
-    [self.faceImageView setImageWithURL:self.comment.faceImageURL];
+    [self.faceImageView setImageWithURL:self.comment.author.userFaceURL];
     [self.faceImageView resetSize:CGSizeMake(40, 40)];
     [self.faceImageView setCenter:CGPointMake([self getWidth]/10, [self getHeight]/2)];
     [self.faceImageView.layer setMasksToBounds:YES];
@@ -102,7 +104,7 @@
 {
     self.authorNameLabel = [[UILabel alloc] init];
     [self.authorNameLabel resetSize:CGSizeMake(500, 30)];
-    [self.authorNameLabel setText:self.comment.author];
+    [self.authorNameLabel setText:self.comment.author.username];
     self.authorNameLabel.numberOfLines = 1;
     [self.authorNameLabel setTextColor:[UIColor colorWithRed:171.0f/255.0f green:104.0f/255.0f blue:102.0f/255.0f alpha:1]];
     [self.authorNameLabel setBackgroundColor:[UIColor clearColor]];
@@ -146,6 +148,19 @@
 
 - (void)initButton
 {
+    //face button
+    self.faceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.faceButton setFrame:self.faceImageView.frame];
+    [self.faceButton.layer setMasksToBounds:YES];
+    [self.faceButton.layer setCornerRadius:[self.faceImageView getWidth]/2];
+    [self.faceButton addTarget:self action:@selector(didClickFaceButton) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.faceButton];
+    
+    
+    
+    
+    
+    //like button
     self.likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.likeButton setFrame:CGRectMake([self.timeLabel getOriginX] + [self.timeLabel getWidth] + 50, [self getHeight]/2, 23, 20)];
     
@@ -181,7 +196,7 @@
 
 }
 
-
+#pragma mark - Button Event
 - (void)didClickLikeButton
 {
 
@@ -189,12 +204,28 @@
     self.comment.likeNumber++;
     [self.likeNumberLabel setText:[NSString stringWithFormat:@"%d",self.comment.likeNumber]];
     [self likeRequest];
-    
-
-
 }
 
+- (void)didClickFaceButton
+{
+    HPProfileViewController *profileViewController = [[HPProfileViewController alloc]init];
+    
+    if(self.userID == self.comment.author.userID)
+    {
+        [profileViewController setIsSelfUser:YES];
+    }
+    else
+    {
+        [profileViewController setIsSelfUser:NO];
+        [profileViewController setProfileUserID:self.comment.author.userID];
+        
+    }
 
+    UINavigationController *navigationController = (UINavigationController *)[[UIApplication sharedApplication] delegate].window.rootViewController;
+    [navigationController pushViewController:profileViewController animated:YES];
+}
+
+#pragma mark - Network Request
 - (void)likeRequest
 {
     NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@",LIKE_CREATE_URL, self.sid]];

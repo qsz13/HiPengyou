@@ -6,16 +6,16 @@
 //  Copyright (c) 2014 HiPengyou. All rights reserved.
 //
 
-#import "HPSeekoutTableViewCell.h"
+#import "HPHomeSeekoutTableViewCell.h"
 #import "HPSeekoutCardView.h"
 #import "UIView+Resize.h"
 
 
-@interface HPSeekoutTableViewCell ()
+@interface HPHomeSeekoutTableViewCell ()
 
 @end
 
-@implementation HPSeekoutTableViewCell
+@implementation HPHomeSeekoutTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

@@ -13,5 +13,11 @@
 @property NSInteger userID;
 @property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSURL *userFaceURL;
+@property (strong, nonatomic) NSString *firstLanguage;
+@property NSInteger likeNum;
+
 
 @end
+
+
+
