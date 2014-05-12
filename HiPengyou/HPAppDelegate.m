@@ -10,6 +10,7 @@
 #import "HPLoginViewController.h"
 #import "HPProfileViewController.h"
 #import "HPRegisterViewController.h"
+#import "HPFaceUploadViewController.h"
 
 @implementation HPAppDelegate
 
@@ -19,7 +20,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     HPLoginViewController *loginViewController = [[HPLoginViewController alloc] init];
-
+    
+    HPFaceUploadViewController *faceUploadViewController = [[HPFaceUploadViewController alloc] init];
+    
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     
     // Set window background color

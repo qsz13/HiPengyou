@@ -27,7 +27,6 @@
 @property (strong, nonatomic) UILabel *titleLable;
 @property (strong, nonatomic) UIView *personalInfoView;
 @property (strong, nonatomic) UIImageView *faceImageView;
-@property (strong, nonatomic) UIImageView *faceBackgroundImageView;
 @property (strong, nonatomic) UITableView *seekoutListTableView;
 @property (strong, nonatomic) NSMutableArray *seekoutArray;
 @property (strong, nonatomic) UIAlertView *connectionFaiedAlertView;
@@ -35,10 +34,7 @@
 @property (strong, nonatomic) UIButton *messageButton;
 @property (strong, nonatomic) UIImageView *likeImage;
 @property (strong, nonatomic) UILabel *likeNumLabel;
-
 @property (strong, nonatomic) HPUser *user;
-
-//@property NSInteger userID;
 @property NSInteger pageID;
 @property (strong, nonatomic) NSString *sid;
 @end
@@ -66,12 +62,12 @@
     {
 
         self.profileUserID = [userDefaults integerForKey:@"id"];
-        [self requestForUserInfo:self.profileUserID];
+        [self requestForUserInfo];
         
     }
     else
     {
-        [self requestForUserInfo:self.profileUserID];
+        [self requestForUserInfo];
     }
 
 
@@ -87,6 +83,10 @@
 - (void)reloadData
 {
     [self.faceImageView setImageWithURL:self.user.userFaceURL];
+    if(self.faceImageView.image == nil)
+    {
+        [self.faceImageView setImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
+    }
     [self.usernameLabel setText:self.user.username];
     [self.usernameLabel setText:self.user.username];
     self.usernameLabel.numberOfLines = 1;
@@ -153,10 +153,11 @@
     {
         self.settingButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.settingButton setImage:[UIImage imageNamed:@"HPProfileSettingButton"] forState:UIControlStateNormal];
-        [self.settingButton resetSize:CGSizeMake(31, 31)];
+        [self.settingButton resetSize:CGSizeMake(30, 30)];
         [self.settingButton setCenter:CGPointMake(560/2+[self.settingButton getWidth]/2, [self.naviBar getHeight]/2)];
         [self.settingButton addTarget:self action:@selector(didClickSettingButton) forControlEvents:UIControlEventTouchUpInside];
         [self.naviBar addSubview:self.settingButton];
+        NSLog(@"%f",[self.settingButton getHeight]);
         
         
 
@@ -171,9 +172,14 @@
     [self.personalInfoView setBackgroundColor:[UIColor whiteColor]];
     [self.personalInfoView setFrame:CGRectMake(0, [self.naviBar getOriginY]+[self.naviBar getHeight], [self.view getWidth], 190)];
     NSLog(@"%f",[self.view getHeight]);
+    
     //init face image view
     self.faceImageView = [[UIImageView alloc]init];
     [self.faceImageView setImageWithURL:self.user.userFaceURL];
+    if(self.faceImageView.image == nil)
+    {
+        [self.faceImageView setImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
+    }
     [self.faceImageView resetSize:CGSizeMake(98, 99)];
     [self.faceImageView setCenter:CGPointMake([self.view getWidth]/2, [self.personalInfoView getHeight]/3)];
     [self.faceImageView.layer setMasksToBounds:YES];
@@ -222,10 +228,11 @@
     if(!self.isSelfUser)
     {
         self.messageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.messageButton resetSize:CGSizeMake(136/2, 50/2)];
+        [self.messageButton setBackgroundColor:[UIColor redColor]];
         [self.messageButton setImage:[UIImage imageNamed:@"HPSendMessageButton"] forState:UIControlStateNormal];
 
-        [self.messageButton resetSize:CGSizeMake(136/2, 50/2)];
-        [self.messageButton setCenter:CGPointMake([self.usernameLabel getCenterX] + [self.messageButton getWidth] + 10, [self.usernameLabel getCenterX])];
+        [self.messageButton setCenter:CGPointMake([self.usernameLabel getCenterX] + [self.messageButton getWidth]/2 + 50, [self.likeImage getCenterY])];
         [self.messageButton addTarget:self action:@selector(didClickMessageButton) forControlEvents:UIControlEventTouchUpInside];
         [self.personalInfoView addSubview:self.messageButton];
     }
@@ -241,16 +248,17 @@
     self.seekoutListTableView = [[UITableView alloc]init];
     self.seekoutListTableView.delegate = self;
     self.seekoutListTableView.dataSource = self;
-    [self.seekoutListTableView setFrame:CGRectMake(0, [self.personalInfoView getOriginY]+[self.personalInfoView getHeight] + 10, [self.view getWidth], [self.view getHeight] - ([self.faceImageView getCenterY] + [self.faceImageView getHeight]) - 30)];
+    [self.seekoutListTableView setFrame:CGRectMake(0, [self.personalInfoView getOriginY]+[self.personalInfoView getHeight] + 5, [self.view getWidth], [self.view getHeight] - ([self.faceImageView getCenterY] + [self.faceImageView getHeight]) - 30)];
     self.seekoutListTableView.tableFooterView = [[UIView alloc]init];
+    if ([self.seekoutListTableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.seekoutListTableView setSeparatorInset:UIEdgeInsetsZero];
+    }
     
     
     [self.view addSubview:self.seekoutListTableView];
     
 
 }
-
-
 
 
 #pragma mark - button event
@@ -307,7 +315,7 @@
 
 }
 
-#pragma mark - Table View delegate
+#pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -320,176 +328,141 @@
     
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIFont   *font    = [UIFont fontWithName:@"Helvetica" size:17];
+    HPSeekout *seekout = [self.seekoutArray objectAtIndex:indexPath.row];
+    NSString *text    = seekout.content;
+
+    
+    CGSize boundingSize = CGSizeMake([self.view getWidth], CGFLOAT_MAX);
+    CGSize size;
+    
+    if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
+        size = [text boundingRectWithSize:boundingSize
+                                  options:NSStringDrawingUsesLineFragmentOrigin
+                               attributes:@{ NSFontAttributeName : font }
+                                  context:nil].size;
+    } else {
+        size = [text sizeWithFont:font
+                constrainedToSize:boundingSize
+                    lineBreakMode:NSLineBreakByWordWrapping];
+    }
+    
+    if (size.height < 50)
+    {
+        return 50;
+    }
+    else
+    {
+        return size.height + 10;
+    }
+    
+
+}
+
+
+
 
 #pragma mark - Network Request
 - (void)requestForSeekoutList
 {
     
-    NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@sid=%@&pageid=%d",PERSONAL_SEEKOUT_URL, self.sid, self.pageID]];
+    NSString *urlString = PERSONAL_SEEKOUT_URL;
+    NSString *sid = self.sid;
+    NSNumber *pageID = [NSNumber numberWithInteger:self.pageID];
     self.pageID++;
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        
-        //connection successed
-        if([data length] > 0 && connectionError == nil)
+    
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    
+    NSDictionary *params = @{@"sid": sid,
+                             @"pageid": pageID};
+    
+    [manager GET:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if([responseObject[@"code"] isEqual:@"10000"])
         {
-            NSError *e = nil;
-            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            NSLog(@"%@",dataDict);
-            //request success
-            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+            NSDictionary *resultDict = [responseObject objectForKey:@"result"];
+            NSArray *seekoutList = [resultDict objectForKey:@"Seekout.list"];
+            for (NSDictionary *s in seekoutList)
             {
-                NSDictionary *resultDict = [dataDict objectForKey:@"result"];
-                NSArray *seekoutList = [resultDict objectForKey:@"Seekout.list"];
-                for (NSDictionary *s in seekoutList)
-                {
-                    HPSeekout *seekout = [[HPSeekout alloc]init];
-                    [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
-                    [seekout setContent:[s objectForKey:@"content"]];
-                    HPUser *user = [[HPUser alloc]init];
-                    [user setUserID:[[s objectForKey:@"authorfaceid"]integerValue ]];
-                    [user setUsername:[s objectForKey:@"author"]];
-                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
-                    [user setUserFaceURL:faceURL];
-                    [seekout setAuthor:user];
-                    [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
-                    [seekout setState:[s objectForKey:@"seekoutstatu"]];
-                    [seekout setType:[[s objectForKey:@"type"] integerValue]];
-                    
-                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [s objectForKey:@"uptime"]] doubleValue]];
-                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-                    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-                    [seekout setTime:[dateFormatter stringFromDate:date]];
-                    
-                    [self.seekoutArray addObject: seekout];
-                    [self.seekoutListTableView reloadData];
-                }
-
-               
+                HPSeekout *seekout = [[HPSeekout alloc]init];
+                [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
+                [seekout setContent:[s objectForKey:@"content"]];
+                HPUser *user = [[HPUser alloc]init];
+                [user setUserID:[[s objectForKey:@"authorfaceid"]integerValue ]];
+                [user setUsername:[s objectForKey:@"author"]];
+                NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
+                [user setUserFaceURL:faceURL];
+                [seekout setAuthor:user];
+                [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
+                [seekout setState:[s objectForKey:@"seekoutstatu"]];
+                [seekout setType:[[s objectForKey:@"type"] integerValue]];
                 
+                NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [s objectForKey:@"uptime"]] doubleValue]];
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+                [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+                [seekout setTime:[dateFormatter stringFromDate:date]];
+                
+                [self.seekoutArray addObject: seekout];
+                [self.seekoutListTableView reloadData];
             }
-            //login failed
-            else if([[dataDict objectForKey:@"code"] isEqualToString:@"10001"])
-            {
-                //please login first
-            }
-        }
-        //connection failed
-        else if (connectionError != nil)
-        {
-            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.connectionFaiedAlertView show];
             
         }
-        //unknow error
         else
         {
-            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.connectionFaiedAlertView show];
+            NSLog(@"JSON: %@", responseObject);
         }
-
-    
-    
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.connectionFaiedAlertView show];
+        
     }];
-    
-    [self.seekoutListTableView reloadData];
+
 }
 
-- (void)requestForUserInfo:(NSInteger)userID
+- (void)requestForUserInfo
 {
 
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    NSDictionary *params = @{@"userId": [NSNumber numberWithInteger:self.profileUserID]};
-//
-//    [manager POST:[NSString stringWithFormat:@"%@sid=%@",USER_INFO, self.sid] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"JSON: %@", responseObject);
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSLog(@"Error: %@", error);
-//    }];
+    NSString *urlString = [NSString stringWithFormat:@"%@sid=%@",USER_INFO, self.sid];
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@sid=%@",USER_INFO, self.sid]];
+    NSNumber *userID = [NSNumber numberWithInteger:self.profileUserID];
 
-    
-    
-    
-    
-    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
 
-    NSData *postData = [[NSString stringWithFormat:@"userId=%d",self.profileUserID] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+    NSDictionary *params = @{@"userId": userID};
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postData];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        
-        //connection successed
-        if([data length] > 0 && connectionError == nil)
+    [manager POST:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if([responseObject[@"code"] isEqual:@"10000"])
         {
-            NSError *e = nil;
-            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-            NSLog(@"%@",dataDict);
-            //request success
-            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
-            {
-                NSDictionary *resultDict = [dataDict objectForKey:@"result"];
-                NSDictionary *userDict = [resultDict objectForKey:@"User"];
-                [self.user setUserID:[[userDict objectForKey:@"id"] integerValue]];
-                [self.user setUsername:[userDict objectForKey:@"name"]];
-                [self.user setFirstLanguage:[userDict objectForKey:@"firstlanguage"]];
-                NSURL
-                *faceURL = [[NSURL alloc]initWithString:[userDict objectForKey:@"faceurl"]];
-                [self.user setUserFaceURL:faceURL];
-                [self.user setLikeNum:[[userDict objectForKey:@"getlikes"] integerValue]];
-                
-                [self reloadData];
-
-                
-            }
-            //login failed
-            else if([[dataDict objectForKey:@"code"] isEqualToString:@"10001"])
-            {
-                //please login first
-            }
-        }
-        //connection failed
-        else if (connectionError != nil)
-        {
-            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.connectionFaiedAlertView show];
+            NSDictionary *resultDict = [responseObject objectForKey:@"result"];
+            NSDictionary *userDict = [resultDict objectForKey:@"User"];
+            [self.user setUserID:[[userDict objectForKey:@"id"] integerValue]];
+            [self.user setUsername:[userDict objectForKey:@"name"]];
+            [self.user setFirstLanguage:[userDict objectForKey:@"firstlanguage"]];
+            NSURL
+            *faceURL = [[NSURL alloc]initWithString:[userDict objectForKey:@"faceurl"]];
+            [self.user setUserFaceURL:faceURL];
+            [self.user setLikeNum:[[userDict objectForKey:@"getlikes"] integerValue]];
             
+            [self reloadData];
+
         }
-        //unknow error
         else
         {
-            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.connectionFaiedAlertView show];
+            NSLog(@"JSON: %@", responseObject);
         }
         
-        
-        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.connectionFaiedAlertView show];
+
     }];
+    
 
 }
 

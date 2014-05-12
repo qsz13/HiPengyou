@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "HPSendMessage.png"
+      "filename" : "HPDefaultFaceImage.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "HPSendMessage@2x.png"
+      "filename" : "HPDefaultFaceImage@2x.png"
     }
   ],
   "info" : {

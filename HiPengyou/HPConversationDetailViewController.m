@@ -71,6 +71,7 @@
     self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(requestForMessageList) userInfo:nil repeats:YES];
 
     
+    
 }
 
 - (void)manageMessageData

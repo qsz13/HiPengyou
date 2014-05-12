@@ -14,7 +14,7 @@
 @property (strong, nonatomic) HPMessage *message;
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *contentLabel;
-
+@property NSInteger userID;
 
 @end
 
@@ -31,6 +31,7 @@
     if (self) {
         self.message = message;
         self.frame = frame;
+        [self initData];
         [self initNameLabel];
         [self initContentLabel];
         
@@ -39,23 +40,42 @@
     return self;
 }
 
+- (void)initData
+{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.userID = [userDefaults integerForKey:@"id"];
+}
+
+
 
 - (void)initNameLabel
 {
     self.nameLabel = [[UILabel alloc]init];
 
-    [self.nameLabel resetSize:CGSizeMake(200, 30)];
+    [self.nameLabel resetSize:CGSizeMake([self getWidth], 30)];
     self.nameLabel.numberOfLines = 1;
     [self.nameLabel setText:self.message.sender.username];
-    [self.nameLabel sizeToFit];
+//    [self.nameLabel sizeToFit];
+    if(self.message.sender.userID == self.userID)
+    {
+        [self.nameLabel setTextAlignment:NSTextAlignmentRight];
+    }
     
+    else
+    {
+        [self.nameLabel setTextAlignment:NSTextAlignmentLeft];
+
+    }
 
     [self.nameLabel setFont:[UIFont systemFontOfSize:13]];
     [self.nameLabel setTextColor:[UIColor colorWithRed:48.0f / 255.0f
                                                  green:188.0f / 255.0f
                                                   blue:235.0f / 255.0f
                                                  alpha:1]];
-    [self.nameLabel setTextAlignment:NSTextAlignmentCenter];
+    
+    
+    
     [self.nameLabel setBackgroundColor:[UIColor clearColor]];
 
     [self.nameLabel resetOrigin:CGPointMake(0, 0)];
@@ -69,7 +89,7 @@
     [self.contentLabel resetSize:CGSizeMake([self getWidth], 30)];
     self.contentLabel.numberOfLines = 0;
     [self.contentLabel setText:self.message.content];
-    [self.contentLabel sizeToFit];
+//    [self.contentLabel sizeToFit];
     
     
     [self.contentLabel setFont:[UIFont systemFontOfSize:13]];
@@ -77,10 +97,20 @@
                                                  green:188.0f / 255.0f
                                                   blue:235.0f / 255.0f
                                                  alpha:1]];
-    [self.contentLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.contentLabel setBackgroundColor:[UIColor clearColor]];
+    if(self.message.sender.userID == self.userID)
+    {
+        [self.contentLabel setTextAlignment:NSTextAlignmentRight];
+    }
     
-    [self.contentLabel resetOrigin:CGPointMake(0, [self.nameLabel getHeight])];
+    else
+    {
+        [self.contentLabel setTextAlignment:NSTextAlignmentLeft];
+        
+    }
+    
+   
+    
+    [self.contentLabel resetOrigin:CGPointMake(0, [self.nameLabel getHeight]-5)];
     [self addSubview:self.contentLabel];
 }
 

@@ -37,8 +37,6 @@
 @property NSInteger pageID;
 @property NSInteger scrollIndex;
 @property NSInteger slideWay;
-
-
 @property (strong, nonatomic) UIView *CategoriesView;
 
 @end
@@ -158,9 +156,9 @@
 
     // Set Frame
     [allSeekoutButton setFrame:CGRectMake(0, 0, 25, 25)];
-    [peopleSeekoutButton setFrame:CGRectMake([allSeekoutButton getOriginX] + [allSeekoutButton getWidth] + 6, 0, 25, 25)];
-    [lifeTipsSeekoutButton setFrame:CGRectMake([peopleSeekoutButton getOriginX] + [peopleSeekoutButton getWidth] + 6, 0, 25, 25)];
-    [eventsSeekoutButton setFrame:CGRectMake([lifeTipsSeekoutButton getOriginX] + [lifeTipsSeekoutButton getWidth] + 6, 0, 25, 25)];
+    [peopleSeekoutButton setFrame:CGRectMake([allSeekoutButton getOriginX] + [allSeekoutButton getWidth] + 15, 0, 25, 25)];
+    [lifeTipsSeekoutButton setFrame:CGRectMake([peopleSeekoutButton getOriginX] + [peopleSeekoutButton getWidth] + 15, 0, 25, 25)];
+    [eventsSeekoutButton setFrame:CGRectMake([lifeTipsSeekoutButton getOriginX] + [lifeTipsSeekoutButton getWidth] + 15, 0, 25, 25)];
     
     // Add Actions
     [allSeekoutButton addTarget:self

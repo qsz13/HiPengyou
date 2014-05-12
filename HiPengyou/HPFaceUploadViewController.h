@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPFaceUploadViewController : UIViewController
+@interface HPFaceUploadViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+
 
 @end

@@ -15,6 +15,7 @@
 @property (strong, nonatomic) UIView *commentNumView;
 @property (strong, nonatomic) HPSeekout *seekout;
 @property (strong, nonatomic) UILabel *seekoutContentLabel;
+@property (strong, nonatomic) UILabel *timeLabel;
     
 @end
 
@@ -54,6 +55,7 @@
         self.frame = frame;
         [self initCommentNumView];
         [self initSeekoutContentLabel];
+        [self initTimeLabel];
 
     }
     return self;
@@ -62,7 +64,7 @@
 - (void)initCommentNumView
 {
     self.commentNumView = [[UIView alloc] init];
-    [self.commentNumView setFrame:CGRectMake(0, 0, 30, [self getHeight])];
+    [self.commentNumView setFrame:CGRectMake(0, 0, 60, [self getHeight])];
     [self.commentNumView setBackgroundColor:[UIColor colorWithRed:48.0f / 255.0f
                                                             green:188.0f / 255.0f
                                                              blue:235.0f / 255.0f
@@ -88,46 +90,29 @@
     
 }
 
-//- (void)initSeekoutTypeImage
-//{
-//    if(self.seekout.type == people)
-//    {
-//        self.seekoutTypeImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"HPSeekoutTypePeopleImage"]];
-//        
-//    }
-//    else if(self.seekout.type == tips)
-//    {
-//        self.seekoutTypeImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"HPSeekoutTypeTipsImage"]];
-//    }
-//    else if(self.seekout.type == events)
-//    {
-//        self.seekoutTypeImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"HPSeekoutTypeEventsImage"]];
-//    }
-////    NSLog(@"%d",self.seekout.type);
-//    [self.contentView addSubview:self.seekoutTypeImage];
-//    
-//}
 
 - (void)initSeekoutContentLabel
 {
     self.seekoutContentLabel = [[UILabel alloc] init];
 
     [self.seekoutContentLabel setBackgroundColor:[UIColor clearColor]];
-    [self.seekoutContentLabel resetSize:CGSizeMake([self.contentView getHeight],[self.contentView getWidth])];
+    [self.seekoutContentLabel resetSize:CGSizeMake([self getWidth] - 60,[self getHeight])];
     [self.seekoutContentLabel setText:self.seekout.content];
-    [self.seekoutContentLabel setNumberOfLines:1];
-    [self.seekoutContentLabel setTextColor:[UIColor colorWithRed:48.0f / 255.0f
-                                                            green:188.0f / 255.0f
-                                                             blue:235.0f / 255.0f
-                                                            alpha:1]];
+    [self.seekoutContentLabel setNumberOfLines:0];
+    [self.seekoutContentLabel setTextColor:[UIColor colorWithRed:144.0f/255.0f green:150.0f/255.0f blue:157.0f/255.0f alpha:1]];
     [self.seekoutContentLabel setFont:[UIFont fontWithName:@"Helvetica" size:17]];
     [self.seekoutContentLabel sizeToFit];
-    [self.seekoutContentLabel setCenter:CGPointMake([self.contentView getWidth]/2, [self.contentView getHeight]/2)];
+    [self.seekoutContentLabel resetOrigin:CGPointMake(65, 5)];
     [self.contentView addSubview:self.seekoutContentLabel];
+
+}
+
+- (void)initTimeLabel
+{
+    self.timeLabel = [[UILabel alloc]init];
     
     
-
-
+    
 }
 
 @end

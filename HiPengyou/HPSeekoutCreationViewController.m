@@ -273,8 +273,10 @@
 {
    
     [self.seekoutContentTextView resignFirstResponder];
+    [self removeTableView];
 
 }
+
 
 #pragma mark - button event
 - (void)didClickBackButton

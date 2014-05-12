@@ -113,7 +113,10 @@
 
     NSURL *faceImageURL = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%d.png",FACE_IMAGE_URL,self.userID]];
     [self.faceUploadImageView setImageWithURL:faceImageURL];
-    
+    if(self.faceUploadImageView.image == nil)
+    {
+        [self.faceUploadImageView setImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
+    }
 
     
     
@@ -213,35 +216,31 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 
 #pragma mark - Image upload
 
--(void)uploadImageRequest{
+-(void)uploadImageRequest
+{
     UIImage *oldImage = self.faceUploadImageView.image;
     CGSize newSize = CGSizeMake(80, 80);
     UIGraphicsBeginImageContext(newSize);
     [oldImage drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
     UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+    NSLog(@"%@",[NSString stringWithFormat:@"%@sid=%@",UPLOAD_FACE_URL,self.sid]);
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    AFHTTPRequestOperation *op = [manager POST:[NSString stringWithFormat:@"%@sid=%@",UPLOAD_FACE_URL,self.sid] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    
+    [manager POST:[NSString stringWithFormat:@"%@sid=%@",UPLOAD_FACE_URL,self.sid] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:UIImagePNGRepresentation(image) name:@"file" fileName:[NSString stringWithFormat:@"%d.png",self.userID] mimeType:@"image/png"];
-
+        
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        NSLog(@"%@",operation.responseString);
     }];
-    op.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [op start];
 
-    
+
 }
-
-
-    
-
-
-
 
 
 
