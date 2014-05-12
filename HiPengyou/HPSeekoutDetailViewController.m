@@ -126,7 +126,7 @@
     
     // Author face
     self.faceImageView = [[UIImageView alloc] init];
-    [self.faceImageView setImageWithURL:self.seekoutData.author.userFaceURL];
+    [self.faceImageView setImageWithURL:self.seekoutData.author.userFaceURL  placeholderImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
     [self.faceImageView resetSize:CGSizeMake(100 / 2, 100 / 2)];
     [self.faceImageView resetOrigin:CGPointMake(10, [self.seekoutDetailView getHeight] - [self.faceImageView getHeight] - 10)];
     

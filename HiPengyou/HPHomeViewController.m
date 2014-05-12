@@ -206,6 +206,8 @@
     
     self.scrollIndex = 0;
     
+
+    
     // Add to Subview
     [self.view addSubview:self.seekoutTableView];
 }

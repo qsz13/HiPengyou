@@ -15,6 +15,7 @@
 #import "HPAppDelegate.h"
 #import "HPConfiguration.h"
 #import "AFHTTPRequestOperationManager.h"
+#import "MBProgressHUD.h"
 
 
 
@@ -512,6 +513,7 @@
             
             [self saveQQLoginState:(NSMutableDictionary *)userData OAuth:(TencentOAuth*)qqOAuth];
             HPHomeViewController *homeViewController = [[HPHomeViewController alloc] init];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.navigationController pushViewController:homeViewController animated:NO];
         }
         
@@ -586,6 +588,7 @@
     if(isOAuthOK)
     {
         //waiting view
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
     else
     {

@@ -102,7 +102,7 @@
     [self addSubview:self.seekoutTypeImageView];
     
     self.seekoutAuthorFaceImageView = [[UIImageView alloc] init];
-    [self.seekoutAuthorFaceImageView setImageWithURL:self.seekoutData.author.userFaceURL];
+    [self.seekoutAuthorFaceImageView setImageWithURL:self.seekoutData.author.userFaceURL  placeholderImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
     [self.seekoutAuthorFaceImageView resetSize:CGSizeMake(78,78)];
     
     //make the face image to be circle

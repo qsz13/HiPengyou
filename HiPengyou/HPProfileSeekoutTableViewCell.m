@@ -53,6 +53,7 @@
     if (self) {
         self.seekout = seekout;
         self.frame = frame;
+        
         [self initCommentNumView];
         [self initSeekoutContentLabel];
         [self initTimeLabel];
@@ -64,12 +65,12 @@
 - (void)initCommentNumView
 {
     self.commentNumView = [[UIView alloc] init];
-    [self.commentNumView setFrame:CGRectMake(0, 0, 60, [self getHeight])];
+    [self.commentNumView setFrame:CGRectMake(0, 0, 60, self.frame.size.height)];
     [self.commentNumView setBackgroundColor:[UIColor colorWithRed:48.0f / 255.0f
                                                             green:188.0f / 255.0f
                                                              blue:235.0f / 255.0f
                                                             alpha:1]];
-    
+    NSLog(@"!!%f",[self getHeight]);
     UILabel *commentNum = [[UILabel alloc]init];
 
     
@@ -111,7 +112,16 @@
 {
     self.timeLabel = [[UILabel alloc]init];
     
-    
+    [self.timeLabel setBackgroundColor:[UIColor clearColor]];
+    [self.timeLabel resetSize:CGSizeMake([self getWidth] - 60,[self getHeight])];
+    [self.timeLabel setText:self.seekout.time];
+    [self.timeLabel setNumberOfLines:0];
+    [self.timeLabel setTextColor:[UIColor colorWithRed:144.0f/255.0f green:150.0f/255.0f blue:157.0f/255.0f alpha:1]];
+    [self.timeLabel setFont:[UIFont fontWithName:@"Helvetica" size:10]];
+    [self.timeLabel sizeToFit];
+    [self.timeLabel resetOrigin:CGPointMake([self getWidth]-[self.timeLabel getWidth] , [self.seekoutContentLabel getHeight]+10)];
+    [self.contentView addSubview:self.timeLabel];
+
     
 }
 

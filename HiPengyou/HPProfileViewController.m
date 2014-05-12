@@ -82,7 +82,7 @@
 
 - (void)reloadData
 {
-    [self.faceImageView setImageWithURL:self.user.userFaceURL];
+    [self.faceImageView setImageWithURL:self.user.userFaceURL  placeholderImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
     if(self.faceImageView.image == nil)
     {
         [self.faceImageView setImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
@@ -175,7 +175,7 @@
     
     //init face image view
     self.faceImageView = [[UIImageView alloc]init];
-    [self.faceImageView setImageWithURL:self.user.userFaceURL];
+    [self.faceImageView setImageWithURL:self.user.userFaceURL  placeholderImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
     if(self.faceImageView.image == nil)
     {
         [self.faceImageView setImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
@@ -248,12 +248,12 @@
     self.seekoutListTableView = [[UITableView alloc]init];
     self.seekoutListTableView.delegate = self;
     self.seekoutListTableView.dataSource = self;
-    [self.seekoutListTableView setFrame:CGRectMake(0, [self.personalInfoView getOriginY]+[self.personalInfoView getHeight] + 5, [self.view getWidth], [self.view getHeight] - ([self.faceImageView getCenterY] + [self.faceImageView getHeight]) - 30)];
+    [self.seekoutListTableView setFrame:CGRectMake(0, [self.personalInfoView getOriginY]+[self.personalInfoView getHeight] + 5, [self.view getWidth], [self.view getHeight] - ([self.faceImageView getCenterY] + [self.faceImageView getHeight]) - 100)];
     self.seekoutListTableView.tableFooterView = [[UIView alloc]init];
     if ([self.seekoutListTableView respondsToSelector:@selector(setSeparatorInset:)]) {
         [self.seekoutListTableView setSeparatorInset:UIEdgeInsetsZero];
     }
-    
+
     
     [self.view addSubview:self.seekoutListTableView];
     
@@ -300,7 +300,34 @@
 {
     
     HPSeekout *seekout = [self.seekoutArray objectAtIndex:indexPath.row];
+    
+    UIFont   *font    = [UIFont fontWithName:@"Helvetica" size:17];
+    NSString *text    = seekout.content;
+    
+    
+    CGSize boundingSize = CGSizeMake([self.view getWidth] - 60, CGFLOAT_MAX);
+    CGSize size;
+    
+    if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
+        size = [text boundingRectWithSize:boundingSize
+                                  options:NSStringDrawingUsesLineFragmentOrigin
+                               attributes:@{ NSFontAttributeName : font }
+                                  context:nil].size;
+    } else {
+        size = [text sizeWithFont:font
+                constrainedToSize:boundingSize
+                    lineBreakMode:NSLineBreakByWordWrapping];
+    }
+    if(size.height < 50)
+    {
+        size.height = 50;
+    }
+    else
+    {
+        size.height += 30;
+    }
 
+    
     
     HPProfileSeekoutTableViewCell *cell = [[HPProfileSeekoutTableViewCell alloc]
                                            initWithStyle:UITableViewCellStyleDefault
@@ -308,7 +335,7 @@
                                            frame:CGRectMake(0,
                                                             0,
                                                             [self.view getWidth],
-                                                            50)
+                                                            size.height)
                                            data:seekout];
 
     return cell;
@@ -335,7 +362,7 @@
     NSString *text    = seekout.content;
 
     
-    CGSize boundingSize = CGSizeMake([self.view getWidth], CGFLOAT_MAX);
+    CGSize boundingSize = CGSizeMake([self.view getWidth] - 60, CGFLOAT_MAX);
     CGSize size;
     
     if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
@@ -355,7 +382,7 @@
     }
     else
     {
-        return size.height + 10;
+        return size.height + 30;
     }
     
 
@@ -408,6 +435,7 @@
                 
                 [self.seekoutArray addObject: seekout];
                 [self.seekoutListTableView reloadData];
+
             }
             
         }

@@ -62,7 +62,7 @@
     // 2.格式化日期
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     if ([cmp1 day] == [cmp2 day]) { // 今天
-        formatter.dateFormat = @"今天 HH:mm";
+        formatter.dateFormat = @"Today HH:mm";
     } else if ([cmp1 year] == [cmp2 year]) { // 今年
         formatter.dateFormat = @"MM-dd HH:mm";
     } else {
@@ -71,7 +71,7 @@
     NSString *time = [formatter stringFromDate:_lastUpdateTime];
     
     // 3.显示日期
-    _lastUpdateTimeLabel.text = [NSString stringWithFormat:@"最后更新：%@", time];
+    _lastUpdateTimeLabel.text = [NSString stringWithFormat:@"Last Update：%@", time];
 }
 
 #pragma mark 设置状态

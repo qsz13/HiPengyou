@@ -92,7 +92,7 @@
 {
     self.faceImageView = [[UIImageView alloc]init];
    
-    [self.faceImageView setImageWithURL:self.comment.author.userFaceURL];
+    [self.faceImageView setImageWithURL:self.comment.author.userFaceURL  placeholderImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
     [self.faceImageView resetSize:CGSizeMake(40, 40)];
     [self.faceImageView setCenter:CGPointMake([self getWidth]/10, [self getHeight]/2)];
     [self.faceImageView.layer setMasksToBounds:YES];

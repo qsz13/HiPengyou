@@ -11,6 +11,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "HPAPIURL.h"
 #import "UIView+Resize.h"
+#import "MBProgressHUD.h"
 
 @interface HPProfileSettingViewController ()
 
@@ -40,6 +41,7 @@
     [self initImagePicker];
     [self initFaceUploadImageView];
     [self initButton];
+
 }
 
 #pragma mark - Data Init
@@ -112,7 +114,7 @@
                                                                  alpha:1]];
 
     NSURL *faceImageURL = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%d.png",FACE_IMAGE_URL,self.userID]];
-    [self.faceUploadImageView setImageWithURL:faceImageURL];
+    [self.faceUploadImageView setImageWithURL:faceImageURL placeholderImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
     if(self.faceUploadImageView.image == nil)
     {
         [self.faceUploadImageView setImage:[UIImage imageNamed:@"HPDefaultFaceImage"]];
@@ -182,6 +184,7 @@
 - (void)didClickUploadButton
 {
     NSLog(@"upload");
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self uploadImageRequest];
 }
 
@@ -229,12 +232,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     
+ 
+    
     [manager POST:[NSString stringWithFormat:@"%@sid=%@",UPLOAD_FACE_URL,self.sid] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:UIImagePNGRepresentation(image) name:@"file" fileName:[NSString stringWithFormat:@"%d.png",self.userID] mimeType:@"image/png"];
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSLog(@"Success: %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSLog(@"Error: %@", error);
         NSLog(@"%@",operation.responseString);
     }];
