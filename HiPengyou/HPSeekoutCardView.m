@@ -69,7 +69,6 @@
     [self addSubview:self.seekoutAuthorNameLabel];
 
     self.seekoutTimeLabel = [[UILabel alloc] init];
-    NSLog(@"%@",self.seekoutData.time);
     [self.seekoutTimeLabel setText:self.seekoutData.time];
     
     [self.seekoutTimeLabel resetSize:CGSizeMake(200, 30)];
@@ -81,7 +80,7 @@
     [self.seekoutTimeLabel sizeToFit];
     [self.seekoutTimeLabel setCenter:CGPointMake([self getWidth]/2, [self.seekoutAuthorNameLabel getCenterY] + 33/2)];
     
-    [self addSubview:self.seekoutTimeLabel];
+//    [self addSubview:self.seekoutTimeLabel];
 }
 
 - (void)initImageView

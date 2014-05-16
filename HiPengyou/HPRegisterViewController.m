@@ -8,6 +8,7 @@
 
 #import "HPRegisterViewController.h"
 #import "HPFaceUploadViewController.h"
+#import "HPHomeViewController.h"
 #import "UIView+Resize.h"
 #import "HPAPIURL.h"
 #import "NSString+Contains.h"
@@ -221,9 +222,10 @@
                                                          };
                 [self registerInfo:registerData];
 
-                
-                HPFaceUploadViewController *faceUploadViewController = [[HPFaceUploadViewController alloc] init];
-                [self.navigationController pushViewController:faceUploadViewController animated:YES];
+                [self.navigationController pushViewController:[[HPHomeViewController alloc]init] animated:YES];
+
+//                HPFaceUploadViewController *faceUploadViewController = [[HPFaceUploadViewController alloc] init];
+//                [self.navigationController pushViewController:faceUploadViewController animated:YES];
             }
             
             //reigister failed
@@ -244,7 +246,7 @@
             //connection failed
         else if (connectionError != nil)
         {
-            self.registerAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.registerAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [self.registerAlertView show];
             
         }
@@ -252,7 +254,7 @@
         else
         {
             NSLog(@"%@",data);
-            self.registerAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.registerAlertView = [[UIAlertView alloc]  initWithTitle:@"Sorry.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [self.registerAlertView show];
         }
             

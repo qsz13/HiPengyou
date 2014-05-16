@@ -248,6 +248,7 @@
     }
     if([self.blurredBackgroundImageView isDescendantOfView:self.view])
     {
+        
         [self.blurredBackgroundImageView removeFromSuperview];
     }
 }
@@ -262,6 +263,7 @@
     
     backgroundImage = [backgroundImage applyLightEffect];
     self.blurredBackgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
+    [self.blurredBackgroundImageView setUserInteractionEnabled:YES];
     [self.view addSubview:self.blurredBackgroundImageView];
     
 }
@@ -296,7 +298,7 @@
     NSString *seekoutContentText = self.seekoutContentTextView.text;
     if([seekoutContentText length] <= 0)
     {
-        self.postFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"pleas say somthing before you say somethig" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.postFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Sorry.." message:@"pleas say somthing before you say somethig" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.postFailedAlertView show];
     }
 
@@ -354,7 +356,7 @@
         //connection failed
         else if (connectionError != nil)
         {
-            self.postFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.postFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [self.postFailedAlertView show];
             
         }
@@ -362,7 +364,7 @@
         else
         {
             NSLog(@"%@",data);
-            self.postFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.postFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Sorry.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [self.postFailedAlertView show];
         }
         

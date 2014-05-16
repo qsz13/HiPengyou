@@ -267,14 +267,14 @@
         //connection failed
         else if (connectionError != nil)
         {
-            self.likeFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.likeFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [self.likeFailedAlertView show];
 
         }
         //unknow error
         else
         {
-            self.likeFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.likeFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Sorry.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [self.likeFailedAlertView show];
         }
         

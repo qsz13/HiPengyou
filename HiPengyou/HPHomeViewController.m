@@ -19,6 +19,8 @@
 #import "HPHomeSeekoutTableViewCell.h"
 #import "HPSeekoutTableView.h"
 #import "HPSeekoutDetailViewController.h"
+#import "AFHTTPRequestOperationManager.h"
+#import "MBProgressHUD.h"
 
 @interface HPHomeViewController ()
 
@@ -33,12 +35,13 @@
 @property (strong, nonatomic) HPSeekoutTableView *seekoutTableView;
 @property (strong, nonatomic) UIAlertView *connectionFaiedAlertView;
 @property (strong, nonatomic) NSMutableArray *seekoutArray;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property HPSeekoutType seekoutType;
 @property NSInteger pageID;
 @property NSInteger scrollIndex;
 @property NSInteger slideWay;
 @property (strong, nonatomic) UIView *CategoriesView;
-
+@property BOOL isLoadingMoreData;
 @end
 
 
@@ -62,7 +65,7 @@
     self.sid = [userDefaults objectForKey:@"sid"];
     
     self.seekoutType = all;
-    self.pageID = 0;
+    self.pageID = 1;
 }
 
 
@@ -208,6 +211,20 @@
     
 
     
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.seekoutTableView;
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.tintColor = [UIColor grayColor];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    [self.refreshControl addTarget:self action:@selector(requestForNewSeekout) forControlEvents:UIControlEventValueChanged];
+    
+    tableViewController.refreshControl = self.refreshControl;
+    
+    
+    
+    
+    
     // Add to Subview
     [self.view addSubview:self.seekoutTableView];
 }
@@ -306,79 +323,151 @@
 #pragma mark - Network Request
 - (void)requestForNewSeekout
 {
-    self.slideWay = 0;
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
-    
-    self.pageID++;
-
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
-    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        
+    self.pageID = 0;
+    self.seekoutArray = [[NSMutableArray alloc]init];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    
 
-        //connection successed
-        if([data length] > 0 && connectionError == nil)
+    NSDictionary *params = @{@"sid": self.sid,
+                             @"typeId": [NSNumber numberWithInteger:self.seekoutType],
+                             @"pageId": [NSNumber numberWithInteger:self.pageID],
+                             @"peopleseekoutId": @0,
+                             @"tipseekoutId": @0,
+                             @"eventseekoutId": @0,
+                             @"city": @"shanghai",
+                             @"slideway":@0,
+                             };
+    
+    [manager POST:SEEKOUT_LIST_URL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+
+        if([responseObject[@"code"] isEqual:@"10000"])
         {
-            NSError *e = nil;
-            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
 
-            //request success
-            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+            NSDictionary *resultDict = [responseObject objectForKey:@"result"];
+            NSArray *seekoutList = [resultDict objectForKey:@"Seekout.list"];
+            for (NSDictionary *s in seekoutList)
             {
-                NSDictionary *resultDict = [dataDict objectForKey:@"result"];
-                NSArray *seekoutList = [resultDict objectForKey:@"Seekout.list"];
-                for (NSDictionary *s in seekoutList)
-                {
-                    HPSeekout *seekout = [[HPSeekout alloc]init];
-                    [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
-                    [seekout setContent:[s objectForKey:@"content"]];
-                    
-                    HPUser *user = [[HPUser alloc]init];
-                    [user setUserID:[[s objectForKey:@"authorfaceid"]integerValue ]];
-                    [user setUsername:[s objectForKey:@"author"]];
-                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
-                    [user setUserFaceURL:faceURL];
-                    [seekout setAuthor:user];
-                    
-                    [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
-                    [seekout setState:[s objectForKey:@"seekoutstatu"]];
-                    [seekout setType:[[s objectForKey:@"type"] integerValue]];
-                    
-                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [s objectForKey:@"uptime"]] doubleValue]];
-                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-                    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-                    [seekout setTime:[dateFormatter stringFromDate:date]];
-                    
-                    [self.seekoutArray insertObject:seekout atIndex:0];
-                    [self.seekoutTableView reloadData];
-                }
+                HPSeekout *seekout = [[HPSeekout alloc]init];
+                [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
+                [seekout setContent:[s objectForKey:@"content"]];
                 
+                HPUser *user = [[HPUser alloc]init];
+                [user setUserID:[[s objectForKey:@"authorfaceid"]integerValue ]];
+                [user setUsername:[s objectForKey:@"author"]];
+                NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
+                [user setUserFaceURL:faceURL];
+                [seekout setAuthor:user];
+                
+                [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
+                [seekout setState:[s objectForKey:@"seekoutstatu"]];
+                [seekout setType:[[s objectForKey:@"type"] integerValue]];
+                
+                NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [s objectForKey:@"uptime"]] doubleValue]];
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+                [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+                [seekout setTime:[dateFormatter stringFromDate:date]];
+                
+                [self.seekoutArray insertObject:seekout atIndex:0];
+                [self.seekoutTableView reloadData];
             }
-            //login failed
-            else if([[dataDict objectForKey:@"code"] isEqualToString:@"10001"])
-            {
-                //please login first
-            }
         }
-        //connection failed
-        else if (connectionError != nil)
-        {
-            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.connectionFaiedAlertView show];
-            
-        }
-        //unknow error
-        else
-        {
-            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.connectionFaiedAlertView show];
-        }
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+
         
-        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+        self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     }];
+    
+    [self.refreshControl endRefreshing];
+    
+    
+    
+    
+    
+ 
+//    self.slideWay = 0;
+//    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
+//    
+//    self.pageID++;
+//
+//    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+//    
+//
+//    
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//        
+//
+//        //connection successed
+//        if([data length] > 0 && connectionError == nil)
+//        {
+//            NSError *e = nil;
+//            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+//
+//            //request success
+//            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+//            {
+//                NSDictionary *resultDict = [dataDict objectForKey:@"result"];
+//                NSArray *seekoutList = [resultDict objectForKey:@"Seekout.list"];
+//                for (NSDictionary *s in seekoutList)
+//                {
+//                    HPSeekout *seekout = [[HPSeekout alloc]init];
+//                    [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
+//                    [seekout setContent:[s objectForKey:@"content"]];
+//                    
+//                    HPUser *user = [[HPUser alloc]init];
+//                    [user setUserID:[[s objectForKey:@"authorfaceid"]integerValue ]];
+//                    [user setUsername:[s objectForKey:@"author"]];
+//                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
+//                    [user setUserFaceURL:faceURL];
+//                    [seekout setAuthor:user];
+//                    
+//                    [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
+//                    [seekout setState:[s objectForKey:@"seekoutstatu"]];
+//                    [seekout setType:[[s objectForKey:@"type"] integerValue]];
+//                    
+//                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [s objectForKey:@"uptime"]] doubleValue]];
+//                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//                    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+//                    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+//                    [seekout setTime:[dateFormatter stringFromDate:date]];
+//                    
+//                    [self.seekoutArray insertObject:seekout atIndex:0];
+//                    [self.seekoutTableView reloadData];
+//                }
+//                
+//            }
+//            //login failed
+//            else if([[dataDict objectForKey:@"code"] isEqualToString:@"10001"])
+//            {
+//                //please login first
+//            }
+//        }
+//        //connection failed
+//        else if (connectionError != nil)
+//        {
+//            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//            [self.connectionFaiedAlertView show];
+//            
+//        }
+//        //unknow error
+//        else
+//        {
+//            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//            [self.connectionFaiedAlertView show];
+//        }
+//        
+
+//    }];
     
     //callback
 }
@@ -386,100 +475,152 @@
 
 - (void)requestForOldSeekout
 {
-    self.slideWay = 1;
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    HPSeekout *seekout = [self.seekoutArray lastObject];
+    NSNumber *lastID = [NSNumber numberWithInteger:seekout.seekoutID];
+    NSDictionary *params = @{@"sid": self.sid,
+                             @"typeId": [NSNumber numberWithInteger:self.seekoutType],
+                             @"pageId": [NSNumber numberWithInteger:self.pageID + 1],
+                             @"peopleseekoutId": lastID,
+                             @"tipseekoutId": lastID,
+                             @"eventseekoutId": lastID,
+                             @"city": @"shanghai",
+                             @"slideway":@1,
+                             };
     
-    self.pageID++;
-    NSLog(@"%d",self.pageID);
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
-    
-    
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+    [manager POST:SEEKOUT_LIST_URL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
         
-        
-        //connection successed
-        if([data length] > 0 && connectionError == nil)
+        if([responseObject[@"code"] isEqual:@"10000"])
         {
-            NSError *e = nil;
-            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-
-            //request success
-            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
-            {
-                NSDictionary *resultDict = [dataDict objectForKey:@"result"];
-                NSArray *seekoutList = [resultDict objectForKey:@"Seekout.list"];
-                for (NSDictionary *s in seekoutList)
-                {
-                    HPSeekout *seekout = [[HPSeekout alloc]init];
-                    [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
-                    [seekout setContent:[s objectForKey:@"content"]];
-                    
-                    HPUser *user = [[HPUser alloc]init];
-                    [user setUserID:[[s objectForKey:@"authorfaceid"]integerValue ]];
-                    [user setUsername:[s objectForKey:@"author"]];
-                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
-                    [user setUserFaceURL:faceURL];
-                    [seekout setAuthor:user];
-                    
-                    [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
-                    [seekout setState:[s objectForKey:@"seekoutstatu"]];
-                    [seekout setType:[[s objectForKey:@"type"] integerValue]];
-                    
-                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [s objectForKey:@"uptime"]] doubleValue]];
-                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-                    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-                    [seekout setTime:[dateFormatter stringFromDate:date]];
-                    
-
-
-                    [self.seekoutArray addObject: seekout];
-
-                    [self.seekoutTableView reloadData];
-
-                }
-                
-                
-
-                
-            }
-            //login failed
-            else if([[dataDict objectForKey:@"code"] isEqualToString:@"10001"])
-            {
-                //please login first
-            }
-        }
-        //connection failed
-        else if (connectionError != nil)
-        {
-            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.connectionFaiedAlertView show];
             
-        }
-        //unknow error
-        else
-        {
-            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [self.connectionFaiedAlertView show];
+            NSDictionary *resultDict = [responseObject objectForKey:@"result"];
+            NSArray *seekoutList = [resultDict objectForKey:@"Seekout.list"];
+            for (NSDictionary *s in seekoutList)
+            {
+                HPSeekout *seekout = [[HPSeekout alloc]init];
+                [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
+                [seekout setContent:[s objectForKey:@"content"]];
+                
+                HPUser *user = [[HPUser alloc]init];
+                [user setUserID:[[s objectForKey:@"authorfaceid"]integerValue ]];
+                [user setUsername:[s objectForKey:@"author"]];
+                NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
+                [user setUserFaceURL:faceURL];
+                [seekout setAuthor:user];
+                
+                [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
+                [seekout setState:[s objectForKey:@"seekoutstatu"]];
+                [seekout setType:[[s objectForKey:@"type"] integerValue]];
+                
+                NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [s objectForKey:@"uptime"]] doubleValue]];
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+                [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+                [seekout setTime:[dateFormatter stringFromDate:date]];
+                
+                [self.seekoutArray insertObject:seekout atIndex:0];
+                [self.seekoutTableView reloadData];
+            }
+            self.pageID++;
+            NSLog(@"%d",self.pageID);
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
         }
         
         
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     }];
     
+    
+    
+    
+//    self.slideWay = 1;
+//    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@sid=%@&typeId=%d&pageId=%d&peopleseekoutId=0&tipseekoutId=0&eventseekoutId=0&city=shanghai&slideway=%d",SEEKOUT_LIST_URL, self.sid, self.seekoutType, self.pageID,self.slideWay]];
+//    
+//    self.pageID++;
+//    NSLog(@"page id %d",self.pageID);
+//    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+//    
+//    
+//    
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//        
+//        
+//        //connection successed
+//        if([data length] > 0 && connectionError == nil)
+//        {
+//            NSError *e = nil;
+//            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+//
+//            //request success
+//            if([[dataDict objectForKey:@"code"] isEqualToString:@"10000"])
+//            {
+//                NSDictionary *resultDict = [dataDict objectForKey:@"result"];
+//                NSArray *seekoutList = [resultDict objectForKey:@"Seekout.list"];
+//                for (NSDictionary *s in seekoutList)
+//                {
+//                    HPSeekout *seekout = [[HPSeekout alloc]init];
+//                    [seekout setSeekoutID:[[s objectForKey:@"id"] integerValue]];
+//                    [seekout setContent:[s objectForKey:@"content"]];
+//                    
+//                    HPUser *user = [[HPUser alloc]init];
+//                    [user setUserID:[[s objectForKey:@"authorfaceid"]integerValue ]];
+//                    [user setUsername:[s objectForKey:@"author"]];
+//                    NSURL* faceURL = [[NSURL alloc] initWithString:[s objectForKey:@"face"]];
+//                    [user setUserFaceURL:faceURL];
+//                    [seekout setAuthor:user];
+//                    
+//                    [seekout setCommentNumber:[[s objectForKey:@"comment"] integerValue]];
+//                    [seekout setState:[s objectForKey:@"seekoutstatu"]];
+//                    [seekout setType:[[s objectForKey:@"type"] integerValue]];
+//                    
+//                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[NSString stringWithFormat:@"%@", [s objectForKey:@"uptime"]] doubleValue]];
+//                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//                    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+//                    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+//                    [seekout setTime:[dateFormatter stringFromDate:date]];
+//                    
+//
+//
+//                    [self.seekoutArray addObject: seekout];
+//
+//                    [self.seekoutTableView reloadData];
+//
+//                }
+//                
+//                
+//
+//                
+//            }
+//            //login failed
+//            else if([[dataDict objectForKey:@"code"] isEqualToString:@"10001"])
+//            {
+//                //please login first
+//            }
+//        }
+//        //connection failed
+//        else if (connectionError != nil)
+//        {
+//            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//            [self.connectionFaiedAlertView show];
+//            
+//        }
+//        //unknow error
+//        else
+//        {
+//            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//            [self.connectionFaiedAlertView show];
+//        }
+//        
+//    }];
+//    
     //callback
 }
 
 
-- (UIImage *)requestForFace:(NSURL*)faceURL
-{
-
-    
-    NSData * data = [NSData dataWithContentsOfURL:faceURL];
-    UIImage * result = [UIImage imageWithData:data];
-    
-    return result;
-}
 
 
 #pragma mark - UITableView DataSource
@@ -514,52 +655,73 @@
     return cell;
 }
 
-// TODO
-#pragma mark - HPRefreshBaseView Delegate
-- (void)refreshViewBeginRefreshing:(HPRefreshBaseView *)refreshView
-{
-    NSLog(@"%@----开始进入刷新状态", refreshView.class);
-    
-    // 1.添加假数据
-    [self requestForNewSeekout];
-    
-    // 2.2秒后刷新表格UI
-    [self performSelector:@selector(doneWithView:) withObject:refreshView afterDelay:0.0];
-}
 
-- (void)refreshViewEndRefreshing:(HPRefreshBaseView *)refreshView
-{
-    NSLog(@"%@----刷新完毕", refreshView.class);
-}
 
-- (void)refreshView:(HPRefreshBaseView *)refreshView stateChange:(HPRefreshState)state
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    switch (state) {
-        case HPRefreshStateNormal:
-            NSLog(@"%@----切换到：普通状态", refreshView.class);
-            break;
+    if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height)
+    {
+        if (!self.isLoadingMoreData)
+        {
+            self.isLoadingMoreData = YES;
             
-        case HPRefreshStatePulling:
-            NSLog(@"%@----切换到：松开即可刷新的状态", refreshView.class);
-            break;
-            
-        case HPRefreshStateRefreshing:
-            NSLog(@"%@----切换到：正在刷新状态", refreshView.class);
-            break;
-        default:
-            break;
+            [self requestForOldSeekout];
+        }
+    }
+    else
+    {
+        self.isLoadingMoreData = NO;
+
     }
 }
 
-- (void)doneWithView:(HPRefreshBaseView *)refreshView
-{
-    NSLog(@"%f, %f", self.seekoutTableView.contentOffset.x, self.seekoutTableView.contentOffset.y);
-    
-    // 刷新表格
-    [self.seekoutTableView reloadData];
-    
-    // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-    [refreshView endRefreshing];
-}
+//
+//// TODO
+//#pragma mark - HPRefreshBaseView Delegate
+//- (void)refreshViewBeginRefreshing:(HPRefreshBaseView *)refreshView
+//{
+//    NSLog(@"%@----开始进入刷新状态", refreshView.class);
+//    
+//    // 1.添加假数据
+//    [self requestForNewSeekout];
+//    
+//    // 2.2秒后刷新表格UI
+//    [self performSelector:@selector(doneWithView:) withObject:refreshView afterDelay:0.0];
+//}
+//
+//- (void)refreshViewEndRefreshing:(HPRefreshBaseView *)refreshView
+//{
+//    NSLog(@"%@----刷新完毕", refreshView.class);
+//}
+//
+//- (void)refreshView:(HPRefreshBaseView *)refreshView stateChange:(HPRefreshState)state
+//{
+//    switch (state) {
+//        case HPRefreshStateNormal:
+//            NSLog(@"%@----切换到：普通状态", refreshView.class);
+//            break;
+//            
+//        case HPRefreshStatePulling:
+//            NSLog(@"%@----切换到：松开即可刷新的状态", refreshView.class);
+//            break;
+//            
+//        case HPRefreshStateRefreshing:
+//            NSLog(@"%@----切换到：正在刷新状态", refreshView.class);
+//            break;
+//        default:
+//            break;
+//    }
+//}
+//
+//- (void)doneWithView:(HPRefreshBaseView *)refreshView
+//{
+//    NSLog(@"%f, %f", self.seekoutTableView.contentOffset.x, self.seekoutTableView.contentOffset.y);
+//    
+//    // 刷新表格
+//    [self.seekoutTableView reloadData];
+//    
+//    // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+//    [refreshView endRefreshing];
+//}
 
 @end

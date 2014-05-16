@@ -335,7 +335,7 @@
     
     if(replyContent.length <= 0)
     {
-        self.replyAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"reply content cannot be empty" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.replyAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"reply content cannot be empty" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.replyAlertView show];
         
     }
@@ -374,14 +374,14 @@
 //                //login failed
 //                else if([[dataDict objectForKey:@"code"] isEqualToString:@"10009"])
 //                {
-//                    self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"Seekout not exist" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//                    self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"Seekout not exist" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 //                    [self.connectionFaiedAlertView show];
 //                }
             }
             //connection failed
             else if (connectionError != nil)
             {
-                self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [self.connectionFaiedAlertView show];
                 
             }
@@ -389,7 +389,7 @@
             else
             {
                 NSLog(@"%@",data);
-                self.connectionFaiedAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                self.connectionFaiedAlertView = [[UIAlertView alloc]  initWithTitle:@"Sorry.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [self.connectionFaiedAlertView show];
             }
             
@@ -463,14 +463,14 @@
         //connection failed
         else if (connectionError != nil)
         {
-            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [self.connectionFaiedAlertView show];
             
         }
         //unknow error
         else
         {
-            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [self.connectionFaiedAlertView show];
         }
         

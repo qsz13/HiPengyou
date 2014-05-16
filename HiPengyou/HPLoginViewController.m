@@ -399,18 +399,18 @@
     
     if([username isEqualToString:@""])
     {
-        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"please fill in you username." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"please fill in you username." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.loginFailedAlertView show];
     }
     else if([password isEqualToString:@""])
     {
-        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"please fill in you password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"please fill in you password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.loginFailedAlertView show];
 
     }
     else if([password isEqualToString:@""] && [password isEqualToString:@""])
     {
-        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"please fill in you username and password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"please fill in you username and password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.loginFailedAlertView show];
 
     }
@@ -450,14 +450,14 @@
                 //login failed
                 else if([[dataDict objectForKey:@"code"] isEqualToString:@"14011"])
                 {
-                    self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"seems like your username/password is incorrect." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"seems like your username/password is incorrect." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [self.loginFailedAlertView show];
                 }
             }
             //connection failed
             else if (connectionError != nil)
             {
-                self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [self.loginFailedAlertView show];
                 
             }
@@ -465,7 +465,7 @@
             else
             {
                 NSLog(@"%@",data);
-                self.loginFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                self.loginFailedAlertView = [[UIAlertView alloc]  initWithTitle:@"Sorry.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [self.loginFailedAlertView show];
             }
             
@@ -520,6 +520,7 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+//        TODO
     }];
 }
 
@@ -592,7 +593,7 @@
     }
     else
     {
-        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"authorization expired." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"authorization expired." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.loginFailedAlertView show];
     }
 
@@ -612,7 +613,7 @@
     }
     else
     {
-        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"authorization failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"authorization failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.loginFailedAlertView show];
     }
 }
@@ -622,12 +623,12 @@
 {
     if(cancelled == YES)
     {
-        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"login failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"login failed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.loginFailedAlertView show];
     }
     else
     {
-        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"login cancelled." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"login cancelled." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.loginFailedAlertView show];
     }
     
@@ -636,7 +637,7 @@
 //qq network error
 - (void)tencentDidNotNetWork
 {
-    self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    self.loginFailedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"connection error." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [self.loginFailedAlertView show];
 }
 

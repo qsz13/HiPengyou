@@ -410,7 +410,9 @@
     [manager GET:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if([responseObject[@"code"] isEqual:@"10000"])
         {
+
             NSDictionary *resultDict = [responseObject objectForKey:@"result"];
+                        NSLog(@"%@",resultDict);
             NSArray *seekoutList = [resultDict objectForKey:@"Seekout.list"];
             for (NSDictionary *s in seekoutList)
             {
@@ -445,7 +447,8 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        NSLog(@"%@",error);
+        self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"connection failed..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.connectionFaiedAlertView show];
         
     }];
@@ -486,7 +489,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Oops.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.connectionFaiedAlertView = [[UIAlertView alloc]initWithTitle:@"Sorry.." message:@"something wrong..." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.connectionFaiedAlertView show];
 
     }];
